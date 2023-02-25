@@ -22,6 +22,7 @@ class LogInPage extends StatelessWidget {
                   fontSize: 40.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
+                  fontFamily: 'GoogleSans'
                 ),
               ),
               const SizedBox(height: 15.0),
@@ -31,6 +32,7 @@ class LogInPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14.0,
                   color: Colors.white,
+                  fontFamily: 'Proxima'
                 ),
               ),
               const SizedBox(height: 16.0),
