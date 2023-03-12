@@ -11,6 +11,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
+  flutter_svg: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -21,17 +22,22 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+  assets:
+    - assets/Images&SVG/
+    - assets/Icones/
+
 
   fonts:
     - family: GoogleSans
       fonts:
-        - asset: assets/GoogleSans-Bold.ttf
-        - asset: assets/GoogleSans-BoldItalic.ttf
-        - asset: assets/GoogleSans-Italic.ttf
-        - asset: assets/GoogleSans-Medium.ttf
-        - asset: assets/GoogleSans-MediumItalic.ttf
-        - asset: assets/GoogleSans-Regular.ttf
+        - asset: assets/Police/GoogleSans-Bold.ttf
+        - asset: assets/Police/GoogleSans-BoldItalic.ttf
+        - asset: assets/Police/GoogleSans-Italic.ttf
+        - asset: assets/Police/GoogleSans-Medium.ttf
+        - asset: assets/Police/GoogleSans-MediumItalic.ttf
+        - asset: assets/Police/GoogleSans-Regular.ttf
 
     - family: Proxima
       fonts:
-        - asset: assets/Proxima Nova Font.otf
+        - asset: assets/Police/Proxima Nova Font.otf
+
