@@ -6,7 +6,8 @@ import '../FireClass.dart';
 import '../validator.dart';
 
 class RegisterPage extends StatelessWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+  RegisterPage({Key? key}) : super(key: key);
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +15,10 @@ class RegisterPage extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    final _formKey = GlobalKey<FormState>();
-
-    final TextEditingController _nameTextController = TextEditingController();
-    final TextEditingController _emailTextController = TextEditingController();
-    final TextEditingController _passwordController = TextEditingController();
-    final TextEditingController _confirmPasswordController = TextEditingController();
-
-    bool _passwordsMatch = true;
+    final TextEditingController nameTextController = TextEditingController();
+    final TextEditingController emailTextController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final TextEditingController confirmPasswordController = TextEditingController();
 
     return Scaffold(
       backgroundColor: const Color(0xFF1A2025),
@@ -68,155 +65,150 @@ class RegisterPage extends StatelessWidget {
                   SizedBox(height: screenHeight * 0.04),
 
                   //Nom d'utilisateur
-                  TextFormField(
-                    controller: _nameTextController,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'ProximaNova-Regular',
-                      fontSize: 18,
-                    ),
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(vertical: 20),
-                        hintText: 'Nom d\'utilisateur',
-                        filled: true,
-                        fillColor:Color(0xFF1e262c),
-                        hintStyle: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'ProximaNova-Regular',
-                          fontSize: 18,
-                        )
-                    ),
-                    validator: (value) => Validator.validateName(name: value),
-
-                  ),
-
-                  SizedBox(height: screenHeight * 0.015),
-                  //Mail
-                  TextFormField(
-                    controller: _emailTextController,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'ProximaNova-Regular',
-                      fontSize: 18,
-                    ),
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(vertical: 20),
-                        hintText: 'E-Mail',
-                        filled: true,
-                        fillColor:Color(0xFF1e262c),
-                        hintStyle: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'ProximaNova-Regular',
-                          fontSize: 18,
-                        )
-                    ),
-                    validator: (value) => Validator.validateEmail(email: value),
-                  ),
-
-                  SizedBox(height: screenHeight * 0.015),
-                  //Mot de passe
-                  TextFormField(
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'ProximaNova-Regular',
-                      fontSize: 18,
-                    ),
-                    controller: _passwordController,
-                    textAlign: TextAlign.center,
-                    decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(vertical: 20),
-                        hintText: 'Mot de passe',
-                        filled: true,
-                        fillColor:Color(0xFF1e262c),
-                        hintStyle: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'ProximaNova-Regular',
-                          fontSize: 18,
-                        )
-                    ),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Veuillez entrer un mot de passe';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  const SizedBox(height:10),
-                  //Confirmer mot de passe
-                  TextFormField(
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'ProximaNova-Regular',
-                      fontSize: 18,
-                    ),
-                    textAlign: TextAlign.center,
-                    controller: _confirmPasswordController,
-                    decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(vertical: 20),
-                        hintText: 'Vérification du mot de passe',
-                        filled: true,
-                        errorText: _passwordsMatch ? null : "Mot de passe différent",
-                        fillColor: const Color(0xFF1e262c),
-                        hintStyle: const TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'ProximaNova-Regular',
-                          fontSize: 18,
-                        ),
-                        suffixIcon: _passwordsMatch ? null : SvgPicture.asset('assets/Icones/warning.svg'),
-                        suffixIconConstraints: const BoxConstraints(
-                          maxHeight: 50,
-                          maxWidth: 50,
-                        )
-                    ),
-                    obscureText: true,
-                    onChanged: (value) {
-                      //setState(() {
-                      //  _passwordsMatch = value == _passwordController.text;
-                      //});
-                    },
-                    validator: (value) => Validator.validatePassword(password: value),
-                  ),
-
-                  SizedBox(height: screenHeight * 0.15),
-                  //S'inscrire
-                  SizedBox(
-                    width: double.infinity,
-                    height: 60,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateColor.resolveWith(
-                              (states) => const Color(0xFF636AF6),
-                        ),
-                      ),
-                      onPressed: () async {
-                          User? user = await RegisterAuthentification.registerUsingEmailPassword(
-                            name: _nameTextController.text,
-                            email: _emailTextController.text,
-                            password: _passwordController.text);
-                          if (user != null) {
-                            Navigator.of(context)
-                                .pushReplacement(
-                              MaterialPageRoute(builder: (context) => LoginPage()),
-                            );
-                          }
-
-                      },
-                      child: const Text('S\'inscrire',
-                        style: TextStyle(
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: nameTextController,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'ProximaNova-Regular',
                             fontSize: 18,
-                            fontFamily: 'ProximaNova-Regular'
-                        ),),
+                          ),
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(vertical: 20),
+                              hintText: 'Nom d\'utilisateur',
+                              filled: true,
+                              fillColor:Color(0xFF1e262c),
+                              hintStyle: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'ProximaNova-Regular',
+                                fontSize: 18,
+                              )
+                          ),
+                          validator: (value) => Validator.validateName(name: value),
+                        ),
+                        SizedBox(height: screenHeight * 0.015),
+                        //Mail
+                        TextFormField(
+                          controller: emailTextController,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'ProximaNova-Regular',
+                            fontSize: 18,
+                          ),
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(vertical: 20),
+                              hintText: 'E-Mail',
+                              filled: true,
+                              fillColor:Color(0xFF1e262c),
+                              hintStyle: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'ProximaNova-Regular',
+                                fontSize: 18,
+                              )
+                          ),
+                          validator: (value) => Validator.validateEmail(email: value),
+                        ),
+
+                        SizedBox(height: screenHeight * 0.015),
+                        //Mot de passe
+                        TextFormField(
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'ProximaNova-Regular',
+                            fontSize: 18,
+                          ),
+                          controller: passwordController,
+                          textAlign: TextAlign.center,
+                          decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(vertical: 20),
+                              hintText: 'Mot de passe',
+                              filled: true,
+                              fillColor:Color(0xFF1e262c),
+                              hintStyle: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'ProximaNova-Regular',
+                                fontSize: 18,
+                              )
+                          ),
+                          obscureText: true,
+                          validator: (value) => Validator.validatePassword(password: value),
+                        ),
+
+                        const SizedBox(height:10),
+                        //Confirmer mot de passe
+                        TextFormField(
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'ProximaNova-Regular',
+                            fontSize: 18,
+                          ),
+                          textAlign: TextAlign.center,
+                          controller: confirmPasswordController,
+                          decoration: const InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(vertical: 20),
+                              hintText: 'Vérification du mot de passe',
+                              filled: true,
+                              fillColor: Color(0xFF1e262c),
+                              hintStyle: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'ProximaNova-Regular',
+                                fontSize: 18,
+                              ),
+                              suffixIconConstraints: BoxConstraints(
+                                maxHeight: 50,
+                                maxWidth: 50,
+                              )
+                          ),
+                          obscureText: true,
+                          validator: (value) => Validator.validatePassword(password: value),
+                        ),
+
+                        SizedBox(height: screenHeight * 0.15),
+                        //S'inscrire
+                        SizedBox(
+                          width: double.infinity,
+                          height: 60,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateColor.resolveWith(
+                                    (states) => const Color(0xFF636AF6),
+                              ),
+                            ),
+                            onPressed: () async {
+                              if(passwordController.text == confirmPasswordController.text && _formKey.currentState!.validate()){
+                                User? user = await RegisterAuthentification.registerUsingEmailPassword(
+                                    name: nameTextController.text,
+                                    email: emailTextController.text,
+                                    password: passwordController.text);
+                                if (user != null) {
+                                  Navigator.of(context)
+                                      .pushReplacement(
+                                    MaterialPageRoute(builder: (context) => LoginPage()),
+                                  );
+                                }
+                              }
+                            },
+                            child: const Text('S\'inscrire',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: 'ProximaNova-Regular'
+                              ),),
+                          ),
+                        ),
+                        SizedBox(height: screenHeight * 0.015),
+                      ],
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.015),
                 ],
-              )),
+              )
+              ),
             ],
           ),
         ),
