@@ -1,6 +1,9 @@
+import 'package:eceee/Pages/LoginPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import '../Widgets/passwordCheck.dart';
+import '../FireClass.dart';
+import '../validator.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -11,13 +14,17 @@ class RegisterPage extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    TextEditingController _passwordController = TextEditingController();
-    TextEditingController _confirmPasswordController = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
+
+    final TextEditingController _nameTextController = TextEditingController();
+    final TextEditingController _emailTextController = TextEditingController();
+    final TextEditingController _passwordController = TextEditingController();
+    final TextEditingController _confirmPasswordController = TextEditingController();
 
     bool _passwordsMatch = true;
 
     return Scaffold(
-      backgroundColor: Color(0xFF1A2025),
+      backgroundColor: const Color(0xFF1A2025),
       body: Stack(
         children: <Widget>[
           SvgPicture.asset('assets/Images&SVG/Bg Pattern.svg',
@@ -32,7 +39,8 @@ class RegisterPage extends StatelessWidget {
               Flexible(child: ListView(
                 children: [
                   SizedBox(height: screenHeight * 0.05),
-                  Text(
+
+                  const Text(
                     'Inscription',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -41,11 +49,12 @@ class RegisterPage extends StatelessWidget {
                         fontFamily: 'GoogleSans-Bold'
                     ),
                   ),
+
                   SizedBox(height: screenHeight * 0.02),
 
                   SizedBox(
                     width: screenWidth * 0.5,
-                    child: Text(
+                    child: const Text(
                       'Veuillez vous connecter ou créer un nouveau compte pour utiliser l\'application.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -57,16 +66,18 @@ class RegisterPage extends StatelessWidget {
                   ),
 
                   SizedBox(height: screenHeight * 0.04),
+
                   //Nom d'utilisateur
                   TextFormField(
-                    style: TextStyle(
+                    controller: _nameTextController,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontFamily: 'ProximaNova-Regular',
                       fontSize: 18,
                     ),
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         contentPadding: EdgeInsets.symmetric(vertical: 20),
                         hintText: 'Nom d\'utilisateur',
                         filled: true,
@@ -77,24 +88,22 @@ class RegisterPage extends StatelessWidget {
                           fontSize: 18,
                         )
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Veuillez entrer votre nom d\'utilistaeur';
-                      }
-                      return null;
-                    },
+                    validator: (value) => Validator.validateName(name: value),
+
                   ),
+
                   SizedBox(height: screenHeight * 0.015),
                   //Mail
                   TextFormField(
-                    style: TextStyle(
+                    controller: _emailTextController,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontFamily: 'ProximaNova-Regular',
                       fontSize: 18,
                     ),
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         contentPadding: EdgeInsets.symmetric(vertical: 20),
                         hintText: 'E-Mail',
                         filled: true,
@@ -105,18 +114,74 @@ class RegisterPage extends StatelessWidget {
                           fontSize: 18,
                         )
                     ),
+                    validator: (value) => Validator.validateEmail(email: value),
+                  ),
+
+                  SizedBox(height: screenHeight * 0.015),
+                  //Mot de passe
+                  TextFormField(
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'ProximaNova-Regular',
+                      fontSize: 18,
+                    ),
+                    controller: _passwordController,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(vertical: 20),
+                        hintText: 'Mot de passe',
+                        filled: true,
+                        fillColor:Color(0xFF1e262c),
+                        hintStyle: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'ProximaNova-Regular',
+                          fontSize: 18,
+                        )
+                    ),
+                    obscureText: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Veuillez entrer votre adresse e-mail';
+                        return 'Veuillez entrer un mot de passe';
                       }
                       return null;
                     },
                   ),
-                  SizedBox(height: screenHeight * 0.015),
-                  //Mot de passe
-                  PasswordFields(),
 
-
+                  const SizedBox(height:10),
+                  //Confirmer mot de passe
+                  TextFormField(
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'ProximaNova-Regular',
+                      fontSize: 18,
+                    ),
+                    textAlign: TextAlign.center,
+                    controller: _confirmPasswordController,
+                    decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(vertical: 20),
+                        hintText: 'Vérification du mot de passe',
+                        filled: true,
+                        errorText: _passwordsMatch ? null : "Mot de passe différent",
+                        fillColor: const Color(0xFF1e262c),
+                        hintStyle: const TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'ProximaNova-Regular',
+                          fontSize: 18,
+                        ),
+                        suffixIcon: _passwordsMatch ? null : SvgPicture.asset('assets/Icones/warning.svg'),
+                        suffixIconConstraints: const BoxConstraints(
+                          maxHeight: 50,
+                          maxWidth: 50,
+                        )
+                    ),
+                    obscureText: true,
+                    onChanged: (value) {
+                      //setState(() {
+                      //  _passwordsMatch = value == _passwordController.text;
+                      //});
+                    },
+                    validator: (value) => Validator.validatePassword(password: value),
+                  ),
 
                   SizedBox(height: screenHeight * 0.15),
                   //S'inscrire
@@ -126,29 +191,36 @@ class RegisterPage extends StatelessWidget {
                     child: ElevatedButton(
                       style: ButtonStyle(
                         backgroundColor: MaterialStateColor.resolveWith(
-                              (states) => Color(0xFF636AF6),
+                              (states) => const Color(0xFF636AF6),
                         ),
                       ),
-                      onPressed: () {
-                        //if (_formKey.currentState!.validate()) {
-                        // Process login request here
-                        //}
+                      onPressed: () async {
+                          User? user = await RegisterAuthentification.registerUsingEmailPassword(
+                            name: _nameTextController.text,
+                            email: _emailTextController.text,
+                            password: _passwordController.text);
+                          if (user != null) {
+                            Navigator.of(context)
+                                .pushReplacement(
+                              MaterialPageRoute(builder: (context) => LoginPage()),
+                            );
+                          }
+
                       },
-                      child: Text('S\'inscrire',
+                      child: const Text('S\'inscrire',
                         style: TextStyle(
                             fontSize: 18,
                             fontFamily: 'ProximaNova-Regular'
                         ),),
                     ),
                   ),
-
                   SizedBox(height: screenHeight * 0.015),
                 ],
               )),
             ],
           ),
         ),
-    ]
+      ]
       ),
     );
   }
