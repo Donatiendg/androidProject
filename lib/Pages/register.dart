@@ -24,10 +24,10 @@ class RegisterPage extends StatelessWidget {
       backgroundColor: const Color(0xFF1A2025),
       body: Stack(
         children: <Widget>[
-          SvgPicture.asset('assets/Images&SVG/Bg Pattern.svg',
-          width: 1080,
-          height: 1920,
-          fit: BoxFit.fill),
+          Positioned.fill(
+            child: SvgPicture.asset('assets/Images&SVG/Bg Pattern.svg',
+            ),
+          ),
           Container(
           margin:EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
           child: Column(
