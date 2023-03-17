@@ -1,7 +1,15 @@
+import 'package:eceee/Pages/LoginPage.dart';
+import 'package:eceee/validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'FireClass.dart';
+import 'Pages/register.dart';
+
 class ForgottenPage extends StatelessWidget {
-  const ForgottenPage({Key? key}) : super(key: key);
+  ForgottenPage({Key? key}) : super(key: key);
+
+  TextEditingController emailTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +53,7 @@ class ForgottenPage extends StatelessWidget {
               ),
               const SizedBox(height: 16.0),
               TextFormField(
+                controller: emailTextController,
                 textAlign: TextAlign.center,
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
@@ -55,19 +64,16 @@ class ForgottenPage extends StatelessWidget {
                       color: Colors.white,
                     )
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Veuillez entrer votre adresse e-mail';
-                  }
-                  return null;
-                },
+                validator: (value) =>
+                    Validator.validateEmail(email: value),
               ),
               const SizedBox(height: 50.0),
               ElevatedButton(
-                onPressed: () {
-                  //if (_formKey.currentState!.validate()) {
-                  // Process login request here
-                  //}
+                onPressed: () async {
+                  final auth = FirebaseAuth.instance;
+                  await auth.sendPasswordResetEmail(email: emailTextController.text);
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => LoginPage()));
                 },
                 child: const Text('Renvoyer mon mot de passe'),
               ),

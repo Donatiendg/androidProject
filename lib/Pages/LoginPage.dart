@@ -1,4 +1,5 @@
 import 'package:eceee/Pages/register.dart';
+import 'package:eceee/forgotten.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -207,7 +208,12 @@ class LoginPage extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.only(bottom: screenHeight * 0.015),
-                    child: const Text(
+                    child: GestureDetector(
+                    onTap: () {
+                        Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => ForgottenPage()));
+                      },
+                      child: const Text(
                         'Mot de passe oublié',
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -219,6 +225,7 @@ class LoginPage extends StatelessWidget {
                         ),
                       ),
                     ),
+                  ),
                 ],
               ),
             ),
