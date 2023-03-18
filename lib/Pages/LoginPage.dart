@@ -1,12 +1,8 @@
-import 'package:eceee/Pages/register.dart';
-import 'package:eceee/forgotten.dart';
-
-import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../FireClass.dart';
+import '../Bloc.dart';
 import '../validator.dart';
 
 
@@ -137,20 +133,9 @@ class LoginPage extends StatelessWidget {
                                         (states) => const Color(0xFF636AF6),
                                   ),
                                 ),
-                                onPressed: () async {
+                                onPressed: () {
                                   if (_formKey.currentState!.validate()) {
-                                    User? user = await RegisterAuthentification
-                                        .signInUsingEmailPassword(
-                                        email: emailTextController.text,
-                                        password: passwordTextController.text
-                                    );
-                                    if (user != null) {
-                                      Navigator.of(context)
-                                          .pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) => RegisterPage()),
-                                      );
-                                    }
+                                    BlocProvider.of<UserBloc>(context).add(ConnectionUserEvent(emailTextController.text, passwordTextController.text));
                                   }
                                 },
                                 child: const Text('Se connecter',
@@ -189,11 +174,7 @@ class LoginPage extends StatelessWidget {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => RegisterPage()),
-                            );
+                            BlocProvider.of<UserBloc>(context).add(RegisterPageEvent());
                           },
                           child: const Text('Créer un nouveau compte',
                               style: TextStyle(
@@ -210,8 +191,7 @@ class LoginPage extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: screenHeight * 0.015),
                     child: GestureDetector(
                     onTap: () {
-                        Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => ForgottenPage()));
+                      BlocProvider.of<UserBloc>(context).add(ForgottenPageEvent());
                       },
                       child: const Text(
                         'Mot de passe oublié',

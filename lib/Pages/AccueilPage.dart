@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'package:eceee/Pages/register.dart';
 import 'package:eceee/Widgets/CustomAppBar.dart';
 import 'package:eceee/Widgets/searchBar.dart';
