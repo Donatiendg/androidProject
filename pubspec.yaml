@@ -19,6 +19,7 @@ dependencies:
   flutter_svg: ^1.1.6
   http: ^0.13.3
   flutter_bloc: ^8.1.2
+  cloud_firestore: ^4.4.5
 
 dev_dependencies:
   flutter_test:

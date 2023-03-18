@@ -1,5 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -51,6 +51,8 @@ enum Interface{
 class UserBloc extends Bloc<UserEvent,UserState> {
 
   Interface userState = Interface.connectionPage;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
 
   UserBloc() : super(UserState(Interface.connectionPage)) {
     on<ConnectionUserEvent>(_connectionUser);
@@ -64,16 +66,12 @@ class UserBloc extends Bloc<UserEvent,UserState> {
 
   Future<void> _connectionUser(event, emit) async {
     try {
-      User? user = await RegisterAuthentification.signInUsingEmailPassword(
+      await auth.signInWithEmailAndPassword(
         email: event.mail,
         password: event.password,
       );
-      if (user != null) {
-        userState = Interface.homePage;
-        emit(UserState(userState));
-      } else {
-        print("L'authentification a échoué. Veuillez vérifier vos identifiants.");
-      }
+      userState = Interface.homePage;
+      emit(UserState(userState));
     } catch (e) {
       print("Une erreur est survenue lors de l'authentification. Veuillez réessayer plus tard.");
     }
@@ -81,27 +79,24 @@ class UserBloc extends Bloc<UserEvent,UserState> {
 
   Future<void> _registerUser(event, emit) async {
     try {
-      User? user = await RegisterAuthentification.registerUsingEmailPassword(
-          name: event.name,
-          email: event.mail,
-          password: event.password);
-      if (user != null) {
-        DatabaseReference ref = FirebaseDatabase.instance.ref("users");
-
-        await ref.update({
-          "ID": user.uid,
-          "123/age": 19,
-          "123/address/line1": "1 Mountain View",
-        });
-      }
+      final UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+        email: event.mail,
+        password: event.password,
+      );
+      await db.collection("users").doc(userCredential.user?.uid).set({
+        "ID": userCredential.user?.email,
+        "wishlist": [],
+        "likes": [],
+      });
+      userState = Interface.connectionPage;
+      emit(UserState(userState));
     } catch (e) {
-      print("Une erreur est survenue lors de l'enregistrement. Veuillez réessayer plus tard.");
+      print("Une erreur est survenue lors de l'enregistrement. Veuillez réessayer plus tard : $e");
     }
-    userState = Interface.connectionPage;
-    emit(UserState(userState));
   }
 
   Future<void> _deconectionUser(event, emit) async {
+    auth.signOut();
     userState = Interface.connectionPage;
     emit(UserState(userState));
   }
