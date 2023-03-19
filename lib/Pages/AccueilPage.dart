@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'package:eceee/Pages/register.dart';
 import 'package:eceee/Widgets/CustomAppBar.dart';
 import 'package:eceee/Widgets/searchBar.dart';
@@ -6,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
+import '../Widgets/gameCard.dart';
 
 
 Future<int> fetchMostPlayedGames() async {
@@ -149,6 +150,14 @@ class AccueilPage extends StatelessWidget {
                     ]
                           ),
                         )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+                    child: Column(
+                      children: [
+                        GameCard(gameName: 'God of War', editorName: 'SantaMonica', backgroundImage: 'https://s3.gaming-cdn.com/images/products/7325/616x353/god-of-war-pc-jeu-steam-cover.jpg?v=1668157899', price: 10, gameImage: 'https://static-de.gamestop.de/images/products/256191/3max.jpg',)
                       ],
                     ),
                   )
