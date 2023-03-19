@@ -1,8 +1,8 @@
-import 'package:eceee/Pages/LoginPage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import '../FireClass.dart';
+
+import '../Bloc.dart';
 import '../validator.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -91,6 +91,7 @@ class RegisterPage extends StatelessWidget {
                           ),
                           validator: (value) => Validator.validateName(name: value),
                         ),
+
                         SizedBox(height: screenHeight * 0.015),
                         //Mail
                         TextFormField(
@@ -183,16 +184,7 @@ class RegisterPage extends StatelessWidget {
                             ),
                             onPressed: () async {
                               if(passwordController.text == confirmPasswordController.text && _formKey.currentState!.validate()){
-                                User? user = await RegisterAuthentification.registerUsingEmailPassword(
-                                    name: nameTextController.text,
-                                    email: emailTextController.text,
-                                    password: passwordController.text);
-                                if (user != null) {
-                                  Navigator.of(context)
-                                      .pushReplacement(
-                                    MaterialPageRoute(builder: (context) => LoginPage()),
-                                  );
-                                }
+                                BlocProvider.of<UserBloc>(context).add(RegisterUserEvent(nameTextController.text, emailTextController.text, passwordController.text));
                               }
                             },
                             child: const Text('S\'inscrire',

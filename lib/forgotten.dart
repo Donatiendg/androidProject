@@ -1,10 +1,9 @@
-import 'package:eceee/Pages/LoginPage.dart';
 import 'package:eceee/validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
-import 'FireClass.dart';
-import 'Pages/register.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'Bloc.dart';
 
 class ForgottenPage extends StatelessWidget {
   ForgottenPage({Key? key}) : super(key: key);
@@ -70,16 +69,11 @@ class ForgottenPage extends StatelessWidget {
               const SizedBox(height: 50.0),
               ElevatedButton(
                 onPressed: () async {
-                  final auth = FirebaseAuth.instance;
-                  await auth.sendPasswordResetEmail(email: emailTextController.text);
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => LoginPage()));
+                  BlocProvider.of<UserBloc>(context).add(ForgottenUserEvent(emailTextController.text));
                 },
                 child: const Text('Renvoyer mon mot de passe'),
               ),
-
               const Expanded(child: Spacer()),
-
             ],
           ),
         ),
