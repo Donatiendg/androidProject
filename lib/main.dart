@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
                 builder: (context) => LoginPage(),
               ),
             );
+
             // Accueil
           } else if(state.userState == Interface.registerPage){
             // Connexion

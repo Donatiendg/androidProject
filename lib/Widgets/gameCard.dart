@@ -48,6 +48,7 @@ class _GameCardState extends State<GameCard> {
                     padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                     child: Image.network(widget.gameImage, width: 110),
                   ),
+
                   Container(
                     child: Expanded(
                       child: Column(
