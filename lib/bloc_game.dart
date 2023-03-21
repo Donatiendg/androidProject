@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'backend.dart';
+import 'game_class.dart';
 
 abstract class GameEvent{}
 

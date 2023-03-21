@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc_user.dart';
+import '../game_class.dart';
 
 class GameCard extends StatefulWidget {
-  final String gameName;
-  final String editorName;
-  final String backgroundImage;
-  final String price;
-  final String gameImage;
+  final Game game;
 
   const GameCard({super.key,
-    required this.gameName,
-    required this.editorName,
-    required this.backgroundImage,
-    required this.price,
-    required this.gameImage,
+    required this.game,
   });
 
   @override
@@ -31,7 +27,7 @@ class _GameCardState extends State<GameCard> {
               child: ColorFiltered(
                 colorFilter: ColorFilter.mode(
                     Colors.black.withOpacity(0.3), BlendMode.dstATop),
-                child: Image.network(widget.backgroundImage, fit: BoxFit.cover,),
+                child: Image.network(widget.game.backgroundImage, fit: BoxFit.cover,),
               ),
             ),
           ),
@@ -45,15 +41,15 @@ class _GameCardState extends State<GameCard> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                    child: Image.network(widget.gameImage, width: 110),
+                    child: Image.network(widget.game.frontImage, width: 110),
                   ),
 
                   Expanded(
                     child: Column(
                       children: [
-                        Text(widget.gameName),
-                        Text(widget.editorName),
-                        Text("Prix :${widget.price}")
+                        Text(widget.game.name),
+                        Text(widget.game.editor),
+                        Text("Prix :${widget.game.price}")
                       ],
                     ),
                   ),
@@ -71,7 +67,9 @@ class _GameCardState extends State<GameCard> {
                                   (states) => const Color(0xFF636AF6),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            BlocProvider.of<UserBloc>(context).add(GameDetailsPageEvent(widget.game));
+                          },
                           child: const Padding(
                             padding: EdgeInsets.symmetric(vertical: 10),
                             child: Center(

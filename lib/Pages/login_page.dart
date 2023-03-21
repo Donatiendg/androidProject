@@ -144,7 +144,8 @@ class LoginPage extends StatelessWidget {
                                   style: TextStyle(
                                       fontSize: 18,
                                       fontFamily: 'ProximaNova-Regular'
-                                  ),),
+                                  ),
+                                ),
                               ),
                             ),
                           ],

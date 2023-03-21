@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'Pages/game_details.dart';
 import 'bloc_user.dart';
 import 'Pages/login_page.dart';
 import 'forgotten.dart';
@@ -55,9 +56,17 @@ class MyApp extends StatelessWidget {
             );
           }else if(state.userState == Interface.homePage){
             // Connexion
+            BlocProvider.of<UserBloc>(context).add(FetchGamesEvent());
             _navigatorKey.currentState!.pushReplacement(
               MaterialPageRoute(
                 builder: (context) => const AccueilPage(),
+              ),
+            );
+          }else if(state.userState == Interface.gameDetails){
+            // Connexion
+            _navigatorKey.currentState!.push(
+              MaterialPageRoute(
+                builder: (context) => GameDetails(),
               ),
             );
           }
@@ -69,7 +78,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: const AccueilPage(),
+          home: LoginPage(),
         ),
       ),
     );

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_svg/svg.dart';
 
-import '../backend.dart';
+import '../game_class.dart';
 import '../Widgets/game_card.dart';
 import '../bloc_user.dart';
 
@@ -132,7 +132,7 @@ class AccueilPage extends StatelessWidget {
                             itemBuilder: (context, index) {
                               final game = games[index];
                               return(
-                                  GameCard(gameName: game.name, editorName: 'SantaMonica', backgroundImage: game.imgUrl, price: game.price, gameImage: 'https://static-de.gamestop.de/images/products/256191/3max.jpg',)
+                                  GameCard(game: game)
                               );
                             }
                         );
