@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../Bloc.dart';
+import '../bloc_user.dart';
 import '../validator.dart';
 
 
@@ -10,11 +10,12 @@ class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController emailTextController = TextEditingController();
-  TextEditingController passwordTextController = TextEditingController();
+  final TextEditingController emailTextController = TextEditingController();
+  final TextEditingController passwordTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+
     double screenHeight = MediaQuery
         .of(context)
         .size
@@ -23,6 +24,7 @@ class LoginPage extends StatelessWidget {
         .of(context)
         .size
         .width;
+    BlocProvider.of<UserBloc>(context).add(FetchGamesEvent());
 
     return Scaffold(
       backgroundColor: const Color(0xFF1A2025),

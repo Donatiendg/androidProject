@@ -1,13 +1,15 @@
+import 'package:eceee/Pages/accueil_page.dart';
 import 'package:eceee/Pages/register.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'Bloc.dart';
-import 'Pages/LoginPage.dart';
-import 'firebase_options.dart';
+import 'bloc_user.dart';
+import 'Pages/login_page.dart';
 import 'forgotten.dart';
+
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // initialize app binding
@@ -55,7 +57,7 @@ class MyApp extends StatelessWidget {
             // Connexion
             _navigatorKey.currentState!.pushReplacement(
               MaterialPageRoute(
-                builder: (context) => RegisterPage(),
+                builder: (context) => const AccueilPage(),
               ),
             );
           }
@@ -63,10 +65,11 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           navigatorKey: _navigatorKey,
           title: 'Flutter Demo',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: LoginPage(),
+          home: const AccueilPage(),
         ),
       ),
     );

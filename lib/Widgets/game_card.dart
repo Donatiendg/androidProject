@@ -4,10 +4,10 @@ class GameCard extends StatefulWidget {
   final String gameName;
   final String editorName;
   final String backgroundImage;
-  final double price;
+  final String price;
   final String gameImage;
 
-  GameCard({
+  const GameCard({super.key,
     required this.gameName,
     required this.editorName,
     required this.backgroundImage,
@@ -22,8 +22,7 @@ class GameCard extends StatefulWidget {
 class _GameCardState extends State<GameCard> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100,
+    return SizedBox(
       child: Stack(
         children: [
           Positioned.fill(
@@ -32,7 +31,7 @@ class _GameCardState extends State<GameCard> {
               child: ColorFiltered(
                 colorFilter: ColorFilter.mode(
                     Colors.black.withOpacity(0.3), BlendMode.dstATop),
-                child: Image.network(widget.backgroundImage, fit: BoxFit.fill,),
+                child: Image.network(widget.backgroundImage, fit: BoxFit.cover,),
               ),
             ),
           ),
@@ -49,19 +48,17 @@ class _GameCardState extends State<GameCard> {
                     child: Image.network(widget.gameImage, width: 110),
                   ),
 
-                  Container(
-                    child: Expanded(
-                      child: Column(
-                        children: [
-                          Text(widget.gameName),
-                          Text(widget.editorName),
-                          Text("Prix :" + widget.price.toString())
-                        ],
-                      ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(widget.gameName),
+                        Text(widget.editorName),
+                        Text("Prix :${widget.price}")
+                      ],
                     ),
                   ),
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
                       color: Color(0xFF636AF6),
                     ),
@@ -75,8 +72,8 @@ class _GameCardState extends State<GameCard> {
                             ),
                           ),
                           onPressed: () {},
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
                             child: Center(
                               child: Text(
                                 'En savoir\nplus',

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../Bloc.dart';
+import '../bloc_user.dart';
 import '../validator.dart';
 
 class RegisterPage extends StatelessWidget {
