@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../bloc_user.dart';
+import '../Blocs/bloc_user.dart';
 import '../validator.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -184,7 +184,7 @@ class RegisterPage extends StatelessWidget {
                             ),
                             onPressed: () async {
                               if(passwordController.text == confirmPasswordController.text && _formKey.currentState!.validate()){
-                                BlocProvider.of<UserBloc>(context).add(RegisterUserEvent(nameTextController.text, emailTextController.text, passwordController.text));
+                                //BlocProvider.of<UserBloc>(context).add(RegisterUserEvent(nameTextController.text, emailTextController.text, passwordController.text));
                               }
                             },
                             child: const Text('S\'inscrire',

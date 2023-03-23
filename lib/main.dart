@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'Pages/game_details.dart';
-import 'bloc_user.dart';
+import 'Blocs/bloc_user.dart';
 import 'Pages/login_page.dart';
 import 'forgotten.dart';
 
@@ -30,43 +30,41 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<UserBloc>(
       create: (_) => UserBloc(),
-      child: BlocListener<UserBloc, UserState>(
-        listener: (BuildContext context, UserState state) {
-          if (state.userState == Interface.connectionPage) {
-            _navigatorKey.currentState!.pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => LoginPage(),
-              ),
-            );
-
-            // Accueil
-          } else if(state.userState == Interface.registerPage){
+      child: BlocListener<UserBloc, StateUser>(
+        listener: (BuildContext context, StateUser state) {
+          if(state is UserState){
+            if (state.userState == Interface.connectionPage) {
+              _navigatorKey.currentState!.pushReplacement(
+                MaterialPageRoute(builder: (context) => LoginPage()),
+              );
+              // Accueil
+            } else if(state.userState == Interface.registerPage){
+              // Connexion
+              _navigatorKey.currentState!.push(
+                MaterialPageRoute(
+                  builder: (context) => RegisterPage(),
+                ),
+              );
+            }else if(state.userState == Interface.forgottenPage){
+              // Connexion
+              _navigatorKey.currentState!.push(
+                MaterialPageRoute(
+                  builder: (context) => ForgottenPage(),
+                ),
+              );
+            }else if(state.userState == Interface.homePage){
+              // Connexion
+              _navigatorKey.currentState!.pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const AccueilPage(),
+                ),
+              );
+            }
+          }else if(state is UserGameState){
             // Connexion
             _navigatorKey.currentState!.push(
               MaterialPageRoute(
-                builder: (context) => RegisterPage(),
-              ),
-            );
-          }else if(state.userState == Interface.forgottenPage){
-            // Connexion
-            _navigatorKey.currentState!.push(
-              MaterialPageRoute(
-                builder: (context) => ForgottenPage(),
-              ),
-            );
-          }else if(state.userState == Interface.homePage){
-            // Connexion
-            BlocProvider.of<UserBloc>(context).add(FetchGamesEvent());
-            _navigatorKey.currentState!.pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const AccueilPage(),
-              ),
-            );
-          }else if(state.userState == Interface.gameDetails){
-            // Connexion
-            _navigatorKey.currentState!.push(
-              MaterialPageRoute(
-                builder: (context) => GameDetails(),
+                builder: (context) => GameDetails(game: state.game!),
               ),
             );
           }

@@ -3,7 +3,7 @@ import 'package:eceee/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc_user.dart';
+import 'Blocs/bloc_user.dart';
 
 class ForgottenPage extends StatelessWidget {
   ForgottenPage({Key? key}) : super(key: key);
@@ -69,7 +69,7 @@ class ForgottenPage extends StatelessWidget {
               const SizedBox(height: 50.0),
               ElevatedButton(
                 onPressed: () async {
-                  BlocProvider.of<UserBloc>(context).add(ForgottenUserEvent(emailTextController.text));
+                  //BlocProvider.of<UserBloc>(context).add(ForgottenUserEvent(emailTextController.text));
                 },
                 child: const Text('Renvoyer mon mot de passe'),
               ),

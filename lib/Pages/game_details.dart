@@ -1,65 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc_user.dart';
+import '../Blocs/bloc_game_details.dart';
+import '../Blocs/bloc_login.dart';
+import '../Blocs/bloc_user.dart';
 import '../game_class.dart';
 
+class GameDetails extends StatefulWidget {
+  final Game game;
 
-class GameDetails extends StatelessWidget{
+  const GameDetails({super.key,
+    required this.game,
+  });
 
-  bool liked = false;
+  @override
+  _GameDetailsState createState() => _GameDetailsState();
+}
 
-  GameDetails({super.key});
+class _GameDetailsState extends State<GameDetails>{
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Object>(
-      future:  BlocProvider.of<UserBloc>(context).getGameDetails(),
-      builder: (context, snapshot) {
-        if(snapshot.hasData){
-          Game game = snapshot.data as Game;
-          return Scaffold(
-              appBar: AppBar(
-                title: Text(game.name),
-              ),
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        liked ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
-                        size: 50,
-                      ),
-                      onPressed: () {
-                        if(liked){
-                          BlocProvider.of<UserBloc>(context).add(GameLikedEvent(game));
-                        }else{
-                          BlocProvider.of<UserBloc>(context).add(GameDislikedEvent(game));
-                        }
-                        if(liked) {
-                          liked = false;
-                        } else {
-                          liked = true;
-                        }
-                        print("liked: $liked");
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      child: const Text('Wish'),
-                      onPressed: () {
-                        print("liked: $liked");
-                      },
-                    ),
-                  ],
-                ),
-              ),
+    return BlocProvider<GameBlocDetails>(
+      create: (_) => GameBlocDetails(widget.game, BlocProvider.of<UserBloc>(context).user!),
+        child: BlocListener<GameBlocDetails, GameDetailsState>(
+        listener: (BuildContext context, GameDetailsState state) {
+          if(state is GameLoading){
+
+          }else if (state is Error){
+            ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Une erreur est survenue'),
+            ),
           );
-        } else{
+        }
+    }, child: BlocBuilder<GameBlocDetails, GameDetailsState>(
+      builder: (context, snapshot) {
+        if(snapshot is Data){
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(snapshot.game.name),
+            ),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      snapshot.game.liked! ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
+                      size: 50,
+                    ),
+                    onPressed: () {
+                      if(!snapshot.game.liked!){
+                        BlocProvider.of<GameBlocDetails>(context).add(GameLikedEvent());
+                      }else{
+                        BlocProvider.of<GameBlocDetails>(context).add(GameDislikedEvent());
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    child: const Text('Wish'),
+                    onPressed: () {
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        }else{
           return const Center(child: CircularProgressIndicator());
         }
       }
+      ),
+      )
     );
   }
 }
