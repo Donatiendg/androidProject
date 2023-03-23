@@ -60,49 +60,46 @@ class TrueUserBloc extends Bloc<TrueUserEvent, TrueUserState> {
 
   Future<void> _connectionUser(event, emit) async {
     emit(Loading());
-
-    final userCredential = await auth.signInWithEmailAndPassword(
-      email: event.mail,
-      password: event.password,
-    );
-
-    if(userCredential.runtimeType == UserCredential){
+    try{
+      final userCredential = await auth.signInWithEmailAndPassword(
+        email: event.mail,
+        password: event.password,
+      );
       user = userCredential.user;
       emit(Success(user));
-    }else{
-      emit(Error("Erreur d'authentication"));
+    } on FirebaseAuthException catch (e) {
+      emit(Error(e.code));
     }
   }
 
   Future<void> _registerUser(event, emit) async {
     emit(Loading());
-
-    final userCredential = await auth.createUserWithEmailAndPassword(
-      email: event.mail,
-      password: event.password,
-    );
-    await db.collection("users").doc(userCredential.user?.uid).set({
-      "ID": userCredential.user?.email,
-      "wishlist": [],
-      "likes": [],
-    });
-
-    if(userCredential.runtimeType == UserCredential){
+    try{
+      final userCredential = await auth.createUserWithEmailAndPassword(
+        email: event.mail,
+        password: event.password,
+      );
+      await db.collection("users").doc(userCredential.user?.uid).set({
+        "ID": userCredential.user?.email,
+        "wishlist": [],
+        "likes": [],
+      });
       user = userCredential.user;
       emit(Success(user));
-    }else{
-      emit(Error("Erreur d'authentication"));
+    } on FirebaseAuthException catch (e) {
+      emit(Error(e.code));
     }
   }
 
   Future<void> _forgottenUser(event, emit) async {
-    try {
+    emit(Loading());
+    try{
       final auth = FirebaseAuth.instance;
       await auth.sendPasswordResetEmail(email: event.mail);
-    } catch (e) {
-      throw Exception("Une erreur est survenue lors de l'envoie du mail. Veuillez réessayer plus tard.");
+      emit(Success(user));
+    } on FirebaseAuthException catch (e) {
+      emit(Error(e.code));
     }
-    //emit(UserPage(, null));
   }
 
   Future<void> _deconectionUser(event, emit) async {

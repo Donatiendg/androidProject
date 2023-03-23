@@ -33,10 +33,7 @@ class LoginPage extends StatelessWidget {
           BlocProvider.of<UserBloc>(context).add(HomePageEvent(state.user));
         }else if (state is Error){
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Une erreur est survenue'),
-            ),
-          );
+            SnackBar(content: Text(state.error)));
         }
       }, child: BlocBuilder<TrueUserBloc, TrueUserState>(
         builder: (context, snapshot) {

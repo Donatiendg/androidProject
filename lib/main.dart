@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Pages/game_details.dart';
 import 'Blocs/bloc_user.dart';
 import 'Pages/login_page.dart';
-import 'forgotten.dart';
+import 'Pages/forgotten.dart';
 
 import 'firebase_options.dart';
 

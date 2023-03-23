@@ -7,6 +7,8 @@ import '../game_class.dart';
 
 abstract class UserEvent{}
 
+class LogInPageEvent extends UserEvent{}
+
 class RegisterPageEvent extends UserEvent{}
 
 class ForgottenPageEvent extends UserEvent{}
@@ -49,10 +51,16 @@ class UserBloc extends Bloc<UserEvent,StateUser> {
   User? user;
 
   UserBloc() : super(UserState(Interface.connectionPage, null)) {
+    on<LogInPageEvent>(_logInPage);
     on<RegisterPageEvent>(_registerPage);
     on<ForgottenPageEvent>(_forgottenPage);
     on<HomePageEvent>(_homePage);
     on<GameDetailsPageEvent>(_gameDetailsPage);
+  }
+
+  Future<void> _logInPage(event, emit) async {
+    userState = Interface.connectionPage;
+    emit(UserState(userState, null));
   }
 
   Future<void> _registerPage(event, emit) async {
