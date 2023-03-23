@@ -10,9 +10,8 @@ import '../Blocs/bloc_game.dart';
 
 class AccueilPage extends StatelessWidget {
   const AccueilPage({Key? key}) : super(key: key);
+
   @override
-
-
   Widget build(BuildContext context) {
 
     double screenHeight = MediaQuery.of(context).size.height;
@@ -29,7 +28,7 @@ class AccueilPage extends StatelessWidget {
           if(snapshot is GameData){
             return Scaffold(
               backgroundColor: const Color(0xFF1A2025),
-              appBar: CustomAppBar(title: 'Accueil', leadingIconPath: '', firstActionIconPath: 'assets/Icones/like.svg', secondActionIconPath: '', appBarId: 1, liked: false, whished: false, ),
+              appBar: const CustomAppBar(title: 'Accueil', appBarId: 1, liked: false, whished: false),
               body: Stack(
                 children: <Widget> [
                   SvgPicture.asset('assets/Images&SVG/Bg Pattern.svg',

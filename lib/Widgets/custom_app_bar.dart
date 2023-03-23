@@ -1,25 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../Blocs/bloc_user.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  final String leadingIconPath;
-  final String firstActionIconPath;
-  final String secondActionIconPath;
   final int appBarId;
   final bool liked;
   final bool whished;
 
-  CustomAppBar({
+  const CustomAppBar({super.key,
     required this.title,
-    required this.leadingIconPath,
-    required this.firstActionIconPath,
-    required this.secondActionIconPath,
     required this.appBarId,
     required this.liked,
     required this.whished,
-
   });
 
   @override
@@ -27,31 +22,35 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     if (appBarId == 1){
       return AppBar(
         title: Text(title,
-          style: TextStyle(
+          style: const TextStyle(
               fontSize: 22,
               fontFamily: 'GoogleSans-Bold'
           ),),
-        backgroundColor: Color(0xFF1A2025),
+        backgroundColor: const Color(0xFF1A2025),
         elevation: 6,
         actions: [
           IconButton(
             icon: SvgPicture.asset('assets/Icones/like.svg'),
-            onPressed: null,
+            onPressed: () {
+              BlocProvider.of<UserBloc>(context).add(LikePageEvent());
+            },
           ),
           IconButton(
             icon: SvgPicture.asset('assets/Icones/whishlist.svg'),
-            onPressed: null,
+            onPressed: () {
+              BlocProvider.of<UserBloc>(context).add(WishPageEvent());
+            },
           ),
         ],
       );
     }else if (appBarId == 2){
       return AppBar(
         title: Text(title,
-        style: TextStyle(
+        style: const TextStyle(
           fontSize: 22,
           fontFamily: 'GoogleSans-Bold'
         ),),
-        backgroundColor: Color(0xFF1A2025),
+        backgroundColor: const Color(0xFF1A2025),
         elevation: 10,
         leading: IconButton(
           icon: SvgPicture.asset('assets/Icones/close.svg'),
@@ -61,11 +60,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     }else if (appBarId == 3){
       return AppBar(
         title: Text(title,
-          style: TextStyle(
+          style: const TextStyle(
               fontSize: 22,
               fontFamily: 'GoogleSans-Bold'
           ),),
-        backgroundColor: Color(0xFF1A2025),
+        backgroundColor: const Color(0xFF1A2025),
         elevation: 10,
         leading: IconButton(
           icon: SvgPicture.asset('assets/Icones/back.svg') ,
@@ -74,11 +73,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         actions: [
           IconButton(
             icon: liked ? SvgPicture.asset('assets/Icones/like_full.svg') : SvgPicture.asset('assets/Icones/like.svg'),
-            onPressed: null,
+            onPressed: () {
+            },
           ),
           IconButton(
             icon: whished ? SvgPicture.asset('assets/Icones/whishlist_full.svg') : SvgPicture.asset('assets/Icones/whishlist.svg'),
-            onPressed: null,
+            onPressed: () {
+            },
           ),
         ],
       );
@@ -89,5 +90,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

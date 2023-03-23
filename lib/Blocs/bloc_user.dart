@@ -18,6 +18,10 @@ class HomePageEvent extends UserEvent{
   HomePageEvent(this.user);
 }
 
+class LikePageEvent extends UserEvent{}
+
+class WishPageEvent extends UserEvent{}
+
 class GameDetailsPageEvent extends UserEvent{
   final Game game;
   GameDetailsPageEvent(this.game);
@@ -43,6 +47,8 @@ enum Interface{
   forgottenPage,
   homePage,
   gameDetails,
+  likePage,
+  wishPage,
 }
 
 class UserBloc extends Bloc<UserEvent,StateUser> {
@@ -56,6 +62,8 @@ class UserBloc extends Bloc<UserEvent,StateUser> {
     on<ForgottenPageEvent>(_forgottenPage);
     on<HomePageEvent>(_homePage);
     on<GameDetailsPageEvent>(_gameDetailsPage);
+    on<LikePageEvent>(_likePage);
+    on<WishPageEvent>(_wishPage);
   }
 
   Future<void> _logInPage(event, emit) async {
@@ -82,5 +90,15 @@ class UserBloc extends Bloc<UserEvent,StateUser> {
   Future<void> _gameDetailsPage(event, emit) async {
     userState = Interface.gameDetails;
     emit(UserGameState(userState, event.game));
+  }
+
+  Future<void> _likePage(event, emit) async {
+    userState = Interface.likePage;
+    emit(UserState(userState, null));
+  }
+
+  Future<void> _wishPage(event, emit) async {
+    userState = Interface.wishPage;
+    emit(UserState(userState, null));
   }
 }

@@ -28,7 +28,7 @@ class GameLiked extends GameDetailsState{}
 
 class GameDisliked extends GameDetailsState{}
 
-class Success extends GameDetailsState{}
+class SuccessUpdate extends GameDetailsState{}
 
 class GameBlocDetails extends Bloc<GameDetailsEvent, GameDetailsState> {
 
@@ -85,6 +85,7 @@ class GameBlocDetails extends Bloc<GameDetailsEvent, GameDetailsState> {
       "likes": likes,
     });
     _game.liked = true;
+    emit(SuccessUpdate());
     emit(Data(_game));
   }
 
@@ -96,6 +97,7 @@ class GameBlocDetails extends Bloc<GameDetailsEvent, GameDetailsState> {
       "likes": likes,
     });
     _game.liked = false;
+    emit(SuccessUpdate());
     emit(Data(_game));
   }
 }

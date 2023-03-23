@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../Blocs/bloc_game_details.dart';
+import '../Blocs/bloc_like_wish.dart';
 import '../Blocs/bloc_login.dart';
 import '../Blocs/bloc_user.dart';
 import '../game_class.dart';
@@ -25,8 +26,7 @@ class _GameDetailsState extends State<GameDetails>{
       create: (_) => GameBlocDetails(widget.game, BlocProvider.of<UserBloc>(context).user!),
         child: BlocListener<GameBlocDetails, GameDetailsState>(
         listener: (BuildContext context, GameDetailsState state) {
-          if(state is GameLoading){
-
+          if(state is SuccessUpdate){
           }else if (state is Error){
             ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(

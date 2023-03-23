@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'Pages/game_details.dart';
 import 'Blocs/bloc_user.dart';
+import 'Pages/iLikedThese.dart';
+import 'Pages/iWishedThese.dart';
 import 'Pages/login_page.dart';
 import 'Pages/forgotten.dart';
 
@@ -57,6 +59,20 @@ class MyApp extends StatelessWidget {
               _navigatorKey.currentState!.pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => const AccueilPage(),
+                ),
+              );
+            }else if(state.userState == Interface.likePage){
+              // Connexion
+              _navigatorKey.currentState!.push(
+                MaterialPageRoute(
+                  builder: (context) => const ILiked(),
+                ),
+              );
+            }else if(state.userState == Interface.wishPage){
+              // Connexion
+              _navigatorKey.currentState!.push(
+                MaterialPageRoute(
+                  builder: (context) => const IWished(),
                 ),
               );
             }
