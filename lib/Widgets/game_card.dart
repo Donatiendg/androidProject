@@ -61,41 +61,41 @@ class _GameCardState extends State<GameCard> {
                             ],
                           ),
                         ),
-                        Container(
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
-                            color: Color(0xFF636AF6),
-                          ),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Expanded(
-                              child: ElevatedButton(
-                                style: ButtonStyle(
-                                  backgroundColor: MaterialStateColor.resolveWith(
-                                        (states) => const Color(0xFF636AF6),
+                          Container(
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
+                              color: Color(0xFF636AF6),
+                            ),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Expanded(
+                                child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateColor.resolveWith(
+                                          (states) => const Color(0xFF636AF6),
+                                    ),
                                   ),
-                                ),
-                                onPressed: () {
-                                  BlocProvider.of<UserBloc>(context).add(GameDetailsPageEvent(widget.game));
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 10),
-                                  child: Center(
-                                    child: Text(
-                                      'En savoir\nplus',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontFamily: 'ProximaNova-Regular',
-                                        overflow: TextOverflow.visible,
+                                  onPressed: () {
+                                    BlocProvider.of<UserBloc>(context).add(GameDetailsPageEvent(widget.game));
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    child: Center(
+                                      child: Text(
+                                        'En savoir\nplus',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'ProximaNova-Regular',
+                                          overflow: TextOverflow.visible,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        )
+                          )
                       ],
                     ),
                   ),

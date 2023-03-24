@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'Pages/InfoGamePage.dart';
 import 'Pages/game_details.dart';
 import 'Blocs/bloc_user.dart';
 import 'Pages/iLikedThese.dart';

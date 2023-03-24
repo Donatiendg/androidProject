@@ -10,8 +10,9 @@ import '../Blocs/bloc_game.dart';
 
 class AccueilPage extends StatelessWidget {
   const AccueilPage({Key? key}) : super(key: key);
-
   @override
+
+
   Widget build(BuildContext context) {
 
     double screenHeight = MediaQuery.of(context).size.height;
