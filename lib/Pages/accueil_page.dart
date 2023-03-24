@@ -156,7 +156,16 @@ class AccueilPage extends StatelessWidget {
               ),
             );
           }else{
-            return Expanded(child: Container(child: const Center(child: CircularProgressIndicator(color: Color(0xFF636AF6),)), color:Color(0xFF1A2025),));
+            return Expanded(
+                child: Container(
+                  color:const Color(0xFF1A2025),
+                  child: const Center(
+                      child: CircularProgressIndicator(
+                        color: Color(0xFF636AF6),
+                      )
+                  ),
+                )
+            );
           }
           }
         ),

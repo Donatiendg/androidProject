@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
 
 
@@ -96,154 +97,168 @@ class _GameDetailsState extends State<GameDetails>{
                     height: 1920,
                     fit: BoxFit.fill),
                 SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Stack(
-                        children: [
-                          Container(
-                            color: Colors.black,
-                            width: double.infinity,
-                            height: 300,
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 20),
-                              child: PageView.builder(
-                                controller: _controller,
-                                itemCount: snapshot.game.screenImage.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Image.network(snapshot.game.screenImage[index]);
-                                },
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 230, left: 20, right: 20, bottom: 10),
-                            child: Stack(
-                              children: [
-                                SizedBox(
-                                  height: 130,
-                                  width: double.infinity,
-                                  child: Expanded(
-                                    child: Image.network(
-                                        snapshot.game.backgroundImage, fit: BoxFit.fill),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 130,
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                                        child: Container(
-                                          color: Colors.red,
-                                          width: 80,
-                                          height: 100,
-                                          child: Image.network(
-                                              snapshot.game.frontImage),
-                                        ),
-                                      ),
-                                      Expanded(
-                                          child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(snapshot.game.name, style: const TextStyle(color: Colors.white),),
-                                                Text(snapshot.game.editor, style: const TextStyle(color: Colors.white),)
-                                              ],
-                                            ),
-                                          ))
-                                    ],
-                                  ),
-                                )
-
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-                        child: Row(
+                  child: Expanded(
+                    child: Column(
+                      children: [
+                        Stack(
                           children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _bouton1Pressed = true;
-                                    _bouton2Pressed = false;
-                                  });
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: _bouton1Pressed ? const Color(0xFF636AF6) : MaterialStateColor.resolveWith(
-                                        (states) => Colors.transparent,
-                                  ),
-                                  elevation: 0,
-                                  side: const BorderSide(
-                                      color: Color(0xFF636AF6), width: 2),
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)), // Modifier le radius ici
-                                  ),
-                                  animationDuration: const Duration(milliseconds: 0),
-                                ),
-
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 12),
-                                  child: Text('DESCRIPTION'),
+                            Container(
+                              color: Colors.black,
+                              width: double.infinity,
+                              height: 300,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 20),
+                                child: PageView.builder(
+                                  controller: _controller,
+                                  itemCount: snapshot.game.screenImage.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return Image.network(snapshot.game.screenImage[index]);
+                                  },
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _bouton1Pressed = false;
-                                    _bouton2Pressed = true;
-                                  });
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: _bouton2Pressed ? const Color(0xFF636AF6) :MaterialStateColor.resolveWith(
-                                        (states) => Colors.transparent,
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 230, left: 20, right: 20, bottom: 10),
+                              child: Stack(
+                                children: [
+                                  SizedBox(
+                                    height: 130,
+                                    width: double.infinity,
+                                    child: Expanded(
+                                      child: Image.network(
+                                          snapshot.game.backgroundImage, fit: BoxFit.fill),
+                                    ),
                                   ),
+                                  SizedBox(
+                                    height: 130,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                                          child: Container(
+                                            color: Colors.red,
+                                            width: 80,
+                                            height: 100,
+                                            child: Image.network(
+                                                snapshot.game.frontImage),
+                                          ),
+                                        ),
+                                        Expanded(
+                                            child: Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text(snapshot.game.name, style: const TextStyle(color: Colors.white),),
+                                                  Text(snapshot.game.editor, style: const TextStyle(color: Colors.white),)
+                                                ],
+                                              ),
+                                            ))
+                                      ],
+                                    ),
+                                  )
 
-                                  elevation: 0,
-                                  side: const BorderSide(
-                                      color: Color(0xFF636AF6), width: 2),
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)), // Modifier le radius ici
-                                  ),
-                                  animationDuration: const Duration(milliseconds: 0),
-                                ),
-                                child: const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 12),
-                                  child: Text('AVIS'),
-                                ),
+                                ],
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      const SizedBox(height: 15,),
-                      if (_bouton1Pressed)(
-                          Container(
-                              margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-                              child: Text(snapshot.game.desc, style: const TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'ProximaNova-Regular'),)
-                          )
-                      )else
-                          ListView.builder(
-                            itemCount: snapshot.game.comments.length,
-                            itemBuilder: (context, index) {
-                              final comment = snapshot.game.comments[index]!;
-                              return (
-                                  ReviewBox(userName: 'visiteur',
-                                      userComment: comment.review,
-                                      userGrade: comment.stars)
-                              );
-                            }
+                        const SizedBox(height: 15),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _bouton1Pressed = true;
+                                      _bouton2Pressed = false;
+                                    });
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: _bouton1Pressed ? const Color(0xFF636AF6) : MaterialStateColor.resolveWith(
+                                          (states) => Colors.transparent,
+                                    ),
+                                    elevation: 0,
+                                    side: const BorderSide(
+                                        color: Color(0xFF636AF6), width: 2),
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)), // Modifier le radius ici
+                                    ),
+                                    animationDuration: const Duration(milliseconds: 0),
+                                  ),
+
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 12),
+                                    child: Text('DESCRIPTION'),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _bouton1Pressed = false;
+                                      _bouton2Pressed = true;
+                                    });
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: _bouton2Pressed ? const Color(0xFF636AF6) :MaterialStateColor.resolveWith(
+                                          (states) => Colors.transparent,
+                                    ),
+
+                                    elevation: 0,
+                                    side: const BorderSide(
+                                        color: Color(0xFF636AF6), width: 2),
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)), // Modifier le radius ici
+                                    ),
+                                    animationDuration: const Duration(milliseconds: 0),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 12),
+                                    child: Text('AVIS'),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                    ],
+                        ),
+                        const SizedBox(height: 15,),
+                        if (_bouton1Pressed)(
+                            Container(
+                                margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+                                child: Html(
+                                  data: snapshot.game.desc,
+                                  style: {
+                                    "body": Style(
+                                      fontSize: FontSize(15),
+                                      fontFamily: "ProximaNova-Regular",
+                                      color: Colors.white,
+                                    )
+                                  }
+                                )
+                            )
+                        )else
+                            SizedBox(
+                              height: 200,
+                              child: ListView.builder(
+                                  itemCount: snapshot.game.comments.length,
+                                  itemBuilder: (context, index) {
+                                    final comment = snapshot.game.comments[index]!;
+                                    return (
+                                        ReviewBox(userName: 'visiteur',
+                                            userComment: comment.review,
+                                            userGrade: comment.stars)
+                                    );
+                                  }
+                              ),
+                            ),
+                      ],
+                    ),
                   ),
                 ),
               ],

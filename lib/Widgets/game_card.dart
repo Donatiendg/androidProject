@@ -67,7 +67,7 @@ class _GameCardState extends State<GameCard> {
                                       color: Colors.white
                                   ),
                                 ),
-                                Text("Prix :${widget.game.price}",
+                                Text("Prix : ${widget.game.price}",
                                   textAlign: TextAlign.left,
                                   style: const TextStyle(
                                     color: Colors.white
