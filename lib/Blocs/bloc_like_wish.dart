@@ -36,7 +36,7 @@ class GameListBloc extends Bloc<GameListEvent, GameListState> {
   GameListBloc(this.user, this.isLike) : super(LoadingList()){
     on<LoadGames>(_initListGames);
     on<OnListen>(_listenBDD);
-    add(LoadGames());
+    add(OnListen());
   }
 
   Future<void> _initListGames(event, emit) async {
