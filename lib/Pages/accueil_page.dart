@@ -46,101 +46,106 @@ class AccueilPage extends StatelessWidget {
                           child: SearchBarWidget(controller: searchTextController,),
                         ),
 
-                        Container(
-                          height: screenHeight * 0.28,
-                          decoration: const BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                    color: Colors.transparent,
-                                  )
-                              )
-                          ),
-                          child: Stack(
-                            children: [
-                              Image.network(snapshot.gameState![0].backgroundImage),
-                              Container(
-                                margin: const EdgeInsets.only(left: 15, right: 15, bottom: 20, top: 10),
-                                child: Column(
-                                    children: [
-                                      Expanded(child: Container()),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-                                          Expanded(
-                                            flex:3,
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(snapshot.gameState![0].name,
-                                                  style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 23,
-                                                      fontFamily: 'ProximaNova-Bold'
-                                                  ),),
-                                                Text(snapshot.gameState![0].editor,
-                                                  style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 23,
-                                                      fontFamily: 'ProximaNova-Bold'
-                                                  ),),
-                                                const SizedBox(height: 10,),
-                                                Text(snapshot.gameState![0].shortDesc,
-                                                  style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 14,
-                                                      fontFamily: 'ProximaNova-Bold'
-                                                  ),),
-                                                const SizedBox(height: 18),
-                                                ElevatedButton(
-                                                  style: ButtonStyle(
-                                                    backgroundColor: MaterialStateColor.resolveWith(
-                                                          (states) => const Color(0xFF636AF6),
-                                                    ),
-                                                  ),
-                                                  onPressed: ()  {
-                                                    BlocProvider.of<UserBloc>(context).add(GameDetailsPageEvent(snapshot.gameState![0]));
-                                                  },
-                                                  child: const Padding(
-                                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                                    child: Text('En savoir plus',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontFamily: 'ProximaNova-Regular'
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          Expanded(
-                                            flex: 2,
-                                            child: Align(
-                                              alignment: Alignment.bottomRight,
-                                              child: Image.network(snapshot.gameState![0].frontImage,
-                                                width: 130,),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ]
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
 
                         Container(
-                            height: screenHeight * 0.5,
-                            width: screenWidth*0.9,
-                            margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+                            height: screenHeight * 0.8,
                             child: ListView.builder(
                                 itemCount: games.length,
                                 itemBuilder: (context, index) {
                                   final game = games[index];
-                                  return (
-                                      GameCard(game: game)
-                                  );
+                                  if (index == 0){
+                                    return Container(
+                                      height: screenHeight * 0.28,
+                                      decoration: const BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                color: Colors.black54,
+                                              )
+                                          )
+                                      ),
+                                      child: Stack(
+                                        children: [
+                                          Expanded(child: Image.network(snapshot.gameState![0].backgroundImage, fit: BoxFit.fill,)),
+                                          Container(
+                                            margin: const EdgeInsets.only(left: 15, right: 15, bottom: 20, top: 10),
+                                            child: Column(
+                                                children: [
+                                                  Expanded(child: Container()),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            Text(snapshot.gameState![0].name,
+                                                              style: const TextStyle(
+                                                                  color: Colors.white,
+                                                                  fontSize: 23,
+                                                                  fontFamily: 'ProximaNova-Bold'
+                                                              ),),
+                                                            Text(snapshot.gameState![0].editor,
+                                                              style: const TextStyle(
+                                                                  color: Colors.white,
+                                                                  fontSize: 23,
+                                                                  fontFamily: 'ProximaNova-Bold'
+                                                              ),),
+                                                            const SizedBox(height: 10,),
+                                                              Container(
+                                                                height: 50,
+                                                                child: Text(snapshot.gameState![0].shortDesc.substring(0,100) + "...",
+                                                                  style: const TextStyle(
+                                                                      color: Colors.white,
+                                                                      fontSize: 14,
+                                                                      fontFamily: 'ProximaNova-Bold'
+                                                                  ),),
+                                                              ),
+                                                            Row(
+                                                              children: [
+                                                                ElevatedButton(
+                                                                  style: ButtonStyle(
+                                                                    backgroundColor: MaterialStateColor.resolveWith(
+                                                                          (states) => const Color(0xFF636AF6),
+                                                                    ),
+                                                                  ),
+                                                                  onPressed: ()  {
+                                                                    BlocProvider.of<UserBloc>(context).add(GameDetailsPageEvent(snapshot.gameState![0]));
+                                                                  },
+                                                                  child: const Padding(
+                                                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                                                    child: Text('En savoir plus',
+                                                                      style: TextStyle(
+                                                                          fontSize: 18,
+                                                                          fontFamily: 'ProximaNova-Regular'
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Expanded(child: Container()),
+                                                                Align(
+                                                                  alignment: Alignment.bottomRight,
+                                                                  child: Image.network(snapshot.gameState![0].frontImage,
+                                                                    width: 130,),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ]
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  }else {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                                      child: (GameCard(game: game)),
+                                    );
+                                  }
                                 }
                             )
                         )
@@ -150,7 +155,7 @@ class AccueilPage extends StatelessWidget {
               ),
             );
           }else{
-            return const Center(child: CircularProgressIndicator());
+            return Expanded(child: Container(child: const Center(child: CircularProgressIndicator(color: Color(0xFF636AF6),)), color:Color(0xFF1A2025),));
           }
           }
         ),

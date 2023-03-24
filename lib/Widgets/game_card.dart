@@ -26,94 +26,99 @@ class _GameCardState extends State<GameCard> {
           if (snapshot is Loading) {
             const Center(child: CircularProgressIndicator());
           }
-            return SizedBox(
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(widget.game.backgroundImage, fit: BoxFit.cover),
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: SizedBox(
+                height: 80,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(widget.game.backgroundImage, fit: BoxFit.cover),
+                    ),
                   ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50)
-                  ),
-                  child: Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                          child: Image.network(widget.game.frontImage, width: 110),
-                        ),
-
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Text(widget.game.name,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    color: Colors.white
-                                ),
-                              ),
-                              Text(widget.game.editor,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    color: Colors.white
-                                ),
-                              ),
-                              Text("Prix :${widget.game.price}",
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  color: Colors.white
-                                ),
-                              )
-                            ],
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50)
+                    ),
+                    child: Expanded(
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                            child: Image.network(widget.game.frontImage, width: 110),
                           ),
-                        ),
-                          Container(
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
-                              color: Color(0xFF636AF6),
-                            ),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Expanded(
-                                child: ElevatedButton(
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateColor.resolveWith(
-                                          (states) => const Color(0xFF636AF6),
-                                    ),
+
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(widget.game.name,
+                                  textAlign: TextAlign.left,
+                                  style: const TextStyle(
+                                      color: Colors.white
                                   ),
-                                  onPressed: () {
-                                    BlocProvider.of<UserBloc>(context).add(GameDetailsPageEvent(widget.game));
-                                  },
-                                  child: const Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 10),
-                                    child: Center(
-                                      child: Text(
-                                        'En savoir\nplus',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          fontFamily: 'ProximaNova-Regular',
-                                          overflow: TextOverflow.visible,
+                                ),
+                                Text(widget.game.editor,
+                                  textAlign: TextAlign.left,
+                                  style: const TextStyle(
+                                      color: Colors.white
+                                  ),
+                                ),
+                                Text("Prix :${widget.game.price}",
+                                  textAlign: TextAlign.left,
+                                  style: const TextStyle(
+                                    color: Colors.white
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                            Container(
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
+                                color: Color(0xFF636AF6),
+                              ),
+                              child: Align(
+                                alignment: Alignment.center,
+                                child: Expanded(
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateColor.resolveWith(
+                                            (states) => const Color(0xFF636AF6),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      BlocProvider.of<UserBloc>(context).add(GameDetailsPageEvent(widget.game));
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(vertical: 10),
+                                      child: Center(
+                                        child: Text(
+                                          'En savoir\nplus',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontFamily: 'ProximaNova-Regular',
+                                            overflow: TextOverflow.visible,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          )
-                      ],
+                            )
+                        ],
+                      ),
                     ),
-                  ),
-                )
-              ],
-            )
-          );
+                  )
+                ],
+              )
+          ),
+            );
         }
       ),
     );
