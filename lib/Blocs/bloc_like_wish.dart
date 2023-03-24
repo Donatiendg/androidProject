@@ -33,9 +33,6 @@ class GameListBloc extends Bloc<GameListEvent, GameListState> {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   final databaseReference = FirebaseDatabase.instance.reference();
 
-  List<int> likes = [];
-  List<int> wishlist = [];
-
   GameListBloc(this.user, this.isLike) : super(LoadingList()){
     on<LoadGames>(_initListGames);
     on<OnListen>(_listenBDD);
@@ -54,42 +51,38 @@ class GameListBloc extends Bloc<GameListEvent, GameListState> {
           String jsonData = json.encode(data);
           Map<String, dynamic> userData = json.decode(jsonData);
 
-          List<int> like = [];
-          List<int> wish = [];
-
-          if(userData["likes"] != null){
-            userData["likes"].forEach((doc) {
-              int entier = doc;
-              like.add(entier);
-            });
-          }
-          likes = like;
-          if(userData["wishlist"] != null){
-            userData["wishlist"].forEach((doc) {
-              int entier = doc;
-              wish.add(entier);
-            });
-          }
-          wishlist = wish;
-
           if(isLike){
+            List<int> like = [];
+            if(userData["likes"] != null){
+              userData["likes"].forEach((doc) {
+                int entier = doc;
+                like.add(entier);
+              });
+            }
             for (var element in games.docs) {
               final el = element.data();
-              if(likes.contains(el["id"])){
+              if(like.contains(el["id"])){
                 game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
                     el["price"], el["shortDesc"], el["desc"], el["imgUrl"], el["imgUrl"]));
               }
             }
           }else{
+            List<int> wish = [];
+
+            if(userData["wishlist"] != null){
+              userData["wishlist"].forEach((doc) {
+                int entier = doc;
+                wish.add(entier);
+              });
+            }
             for (var element in games.docs) {
               final el = element.data();
-              if(wishlist.contains(el["id"])){
+              if(wish.contains(el["id"])){
                 game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
                     el["price"], el["shortDesc"], el["desc"], el["imgUrl"], el["imgUrl"]));
               }
             }
           }
-
           emit(GameListData(game));
         }
       }

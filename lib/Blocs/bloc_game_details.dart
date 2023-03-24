@@ -19,6 +19,10 @@ class GameLikedEvent extends GameDetailsEvent{}
 
 class GameDislikedEvent extends GameDetailsEvent{}
 
+class GameWishedEvent extends GameDetailsEvent{}
+
+class GameUnWishedEvent extends GameDetailsEvent{}
+
 abstract class GameDetailsState{}
 
 class Data extends GameDetailsState{
@@ -54,6 +58,8 @@ class GameBlocDetails extends Bloc<GameDetailsEvent, GameDetailsState> {
     on<GameInitEvent>(_gameInit);
     on<GameLikedEvent>(_gameLiked);
     on<GameDislikedEvent>(_gameDisliked);
+    on<GameWishedEvent>(_gameWished);
+    on<GameUnWishedEvent>(_gameUnWished);
     add(GameInitEvent());
   }
 
@@ -83,7 +89,8 @@ class GameBlocDetails extends Bloc<GameDetailsEvent, GameDetailsState> {
                 }
 
                 bool like = likes.contains(_game.id);
-                bool wish = likes.contains(_game.id);
+                bool wish = wishlist.contains(_game.id);
+
                 _game = Game(_game.id, _game.rank, _game.name, _game.editor, _game.price,
                     _game.shortDesc, _game.desc, _game.backgroundImage, _game.frontImage,
                     liked: like, wish: wish);
@@ -123,6 +130,33 @@ class GameBlocDetails extends Bloc<GameDetailsEvent, GameDetailsState> {
     });
 
     _game.liked = false;
+    emit(SuccessUpdate());
+    emit(Data(_game));
+  }
+
+  Future<void> _gameWished(event, emit) async {
+    wishlist.add(_game.id);
+
+    await databaseReference.child('users').child(user.uid).set({
+      "ID": user.email,
+      "wishlist": wishlist,
+      "likes": likes,
+    });
+    _game.wish = true;
+    emit(SuccessUpdate());
+    emit(Data(_game));
+  }
+
+  Future<void> _gameUnWished(event, emit) async {
+    wishlist.remove(_game.id);
+
+    await databaseReference.child('users').child(user.uid).set({
+      "ID": user.email,
+      "wishlist": wishlist,
+      "likes": likes,
+    });
+
+    _game.wish = false;
     emit(SuccessUpdate());
     emit(Data(_game));
   }

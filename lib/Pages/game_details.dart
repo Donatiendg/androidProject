@@ -4,9 +4,7 @@ import 'package:flutter_svg/svg.dart';
 
 
 import '../Blocs/bloc_game_details.dart';
-import '../Blocs/bloc_login.dart';
 import '../Blocs/bloc_user.dart';
-import '../Widgets/custom_app_bar.dart';
 import '../game_class.dart';
 
 
@@ -51,11 +49,42 @@ class _GameDetailsState extends State<GameDetails>{
       builder: (context, snapshot) {
         if(snapshot is Data){
           return Scaffold(
-            appBar: CustomAppBar(
-              title: 'Détail du jeu',
-              appBarId: 3,
-              liked: false,
-              whished: false,
+            appBar: AppBar(
+              title: const Text("Détail du jeu",
+                style: TextStyle(
+                    fontSize: 22,
+                    fontFamily: 'GoogleSans-Bold'
+                ),),
+              backgroundColor: const Color(0xFF1A2025),
+              elevation: 10,
+              leading: IconButton(
+                icon: SvgPicture.asset('assets/Icones/back.svg') ,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              actions: [
+                IconButton(
+                  icon: snapshot.game.liked! ? SvgPicture.asset('assets/Icones/like_full.svg') : SvgPicture.asset('assets/Icones/like.svg'),
+                  onPressed: () {
+                    if(!snapshot.game.liked!){
+                      BlocProvider.of<GameBlocDetails>(context).add(GameLikedEvent());
+                    }else{
+                      BlocProvider.of<GameBlocDetails>(context).add(GameDislikedEvent());
+                    }
+                  },
+                ),
+                IconButton(
+                  icon: snapshot.game.wish! ? SvgPicture.asset('assets/Icones/whishlist_full.svg') : SvgPicture.asset('assets/Icones/whishlist.svg'),
+                  onPressed: () {
+                    if(!snapshot.game.wish!){
+                      BlocProvider.of<GameBlocDetails>(context).add(GameWishedEvent());
+                    }else{
+                      BlocProvider.of<GameBlocDetails>(context).add(GameUnWishedEvent());
+                    }
+                  },
+                ),
+              ],
             ),
             backgroundColor: const Color(0xFF1A2025),
             body: Stack(
@@ -64,145 +93,143 @@ class _GameDetailsState extends State<GameDetails>{
                     width: 1080,
                     height: 1920,
                     fit: BoxFit.fill),
-                Container(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Stack(
+                SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Container(
+                            color: Colors.black,
+                            width: double.infinity,
+                            height: 300,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: Image.network(snapshot.game.frontImage),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 230, left: 20, right: 20, bottom: 10),
+                            child: Stack(
+                              children: [
+                                SizedBox(
+                                  height: 130,
+                                  width: double.infinity,
+                                  child: Expanded(
+                                    child: Image.network(
+                                        snapshot.game.backgroundImage, fit: BoxFit.fill),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 130,
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                                        child: Container(
+                                          color: Colors.red,
+                                          width: 80,
+                                          height: 100,
+                                          child: Image.network(
+                                              snapshot.game.frontImage),
+                                        ),
+                                      ),
+                                      Expanded(
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(snapshot.game.name, style: const TextStyle(color: Colors.white),),
+                                                Text(snapshot.game.editor, style: const TextStyle(color: Colors.white),)
+                                              ],
+                                            ),
+                                          ))
+                                    ],
+                                  ),
+                                )
+
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 15),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+                        child: Row(
                           children: [
-                            Container(
-                              color: Colors.black,
-                              width: double.infinity,
-                              height: 300,
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Image.network(snapshot.game.frontImage),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _bouton1Pressed = true;
+                                    _bouton2Pressed = false;
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: _bouton1Pressed ? const Color(0xFF636AF6) : MaterialStateColor.resolveWith(
+                                        (states) => Colors.transparent,
+                                  ),
+                                  elevation: 0,
+                                  side: const BorderSide(
+                                      color: Color(0xFF636AF6), width: 2),
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)), // Modifier le radius ici
+                                  ),
+                                  animationDuration: const Duration(milliseconds: 0),
+                                ),
+
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 12),
+                                  child: Text('DESCRIPTION'),
+                                ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 230, left: 20, right: 20, bottom: 10),
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    height: 130,
-                                    width: double.infinity,
-                                    child: Expanded(
-                                      child: Image.network(
-                                          snapshot.game.backgroundImage, fit: BoxFit.fill),
-                                    ),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _bouton1Pressed = false;
+                                    _bouton2Pressed = true;
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: _bouton2Pressed ? const Color(0xFF636AF6) :MaterialStateColor.resolveWith(
+                                        (states) => Colors.transparent,
                                   ),
-                                  Container(
-                                    height: 130,
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                                          child: Container(
-                                            color: Colors.red,
-                                            width: 80,
-                                            height: 100,
-                                            child: Image.network(
-                                                snapshot.game.frontImage),
-                                          ),
-                                        ),
-                                        Expanded(
-                                            child: Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Text(snapshot.game.name, style: TextStyle(color: Colors.white),),
-                                                  Text(snapshot.game.editor, style: TextStyle(color: Colors.white),)
-                                                ],
-                                              ),
-                                            ))
-                                      ],
-                                    ),
-                                  )
 
-                                ],
+                                  elevation: 0,
+                                  side: const BorderSide(
+                                      color: Color(0xFF636AF6), width: 2),
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)), // Modifier le radius ici
+                                  ),
+                                  animationDuration: const Duration(milliseconds: 0),
+                                ),
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 12),
+                                  child: Text('AVIS'),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 15),
-                        Container(
-                          margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _bouton1Pressed = true;
-                                      _bouton2Pressed = false;
-                                    });
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: _bouton1Pressed ? Color(0xFF636AF6) : MaterialStateColor.resolveWith(
-                                          (states) => Colors.transparent,
-                                    ),
-                                    elevation: 0,
-                                    side: BorderSide(
-                                        color: Color(0xFF636AF6), width: 2),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)), // Modifier le radius ici
-                                    ),
-                                    animationDuration: Duration(milliseconds: 0),
-                                  ),
-
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 12),
-                                    child: Text('DESCRIPTION'),
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _bouton1Pressed = false;
-                                      _bouton2Pressed = true;
-                                    });
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: _bouton2Pressed ? Color(0xFF636AF6) :MaterialStateColor.resolveWith(
-                                          (states) => Colors.transparent,
-                                    ),
-
-                                    elevation: 0,
-                                    side: BorderSide(
-                                        color: Color(0xFF636AF6), width: 2),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)), // Modifier le radius ici
-                                    ),
-                                    animationDuration: Duration(milliseconds: 0),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 12),
-                                    child: Text('AVIS'),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 15,),
-                        if (_bouton1Pressed)(
-                            Container(
-                                margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-                                child: Text(snapshot.game.desc, style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'ProximaNova-Regular'),)
-                            )
-                        )else(
-                            Container(
+                      ),
+                      const SizedBox(height: 15,),
+                      if (_bouton1Pressed)(
+                          Container(
                               margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-                              child: Text("AVIS", style: TextStyle(color: Colors.white, fontSize: 40),),
-                            )
-                        )
-                      ],
-                    ),
+                              child: Text(snapshot.game.desc, style: const TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'ProximaNova-Regular'),)
+                          )
+                      )else(
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
+                            child: const Text("AVIS", style: TextStyle(color: Colors.white, fontSize: 40),),
+                          )
+                      )
+                    ],
                   ),
                 ),
               ],

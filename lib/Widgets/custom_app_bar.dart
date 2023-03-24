@@ -72,12 +72,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         leading: IconButton(
           icon: SvgPicture.asset('assets/Icones/back.svg') ,
           onPressed: () {
+            Navigator.of(context).pop();
           },
         ),
         actions: [
           IconButton(
             icon: liked ? SvgPicture.asset('assets/Icones/like_full.svg') : SvgPicture.asset('assets/Icones/like.svg'),
             onPressed: () {
+
             },
           ),
           IconButton(
