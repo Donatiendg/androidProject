@@ -13,6 +13,7 @@ import 'Pages/iWishedThese.dart';
 import 'Pages/login_page.dart';
 import 'Pages/forgotten.dart';
 
+import 'Widgets/GamePresentation.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
