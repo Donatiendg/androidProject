@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,9 +39,9 @@ class Success extends TrueUserState{
   Success(this.user);
 }
 
-class Error extends TrueUserState{
+class ErrorState extends TrueUserState{
   final String error;
-  Error(this.error);
+  ErrorState(this.error);
 }
 
 class SuccessLogOut extends TrueUserState{}
@@ -68,7 +69,7 @@ class TrueUserBloc extends Bloc<TrueUserEvent, TrueUserState> {
       user = userCredential.user;
       emit(Success(user));
     } on FirebaseAuthException catch (e) {
-      emit(Error(e.code));
+      emit(ErrorState(e.code));
     }
   }
 
@@ -79,7 +80,8 @@ class TrueUserBloc extends Bloc<TrueUserEvent, TrueUserState> {
         email: event.mail,
         password: event.password,
       );
-      await db.collection("users").doc(userCredential.user?.uid).set({
+      final databaseReference = FirebaseDatabase.instance.reference();
+      await databaseReference.child('users').child(userCredential.user!.uid).set({
         "ID": userCredential.user?.email,
         "wishlist": [],
         "likes": [],
@@ -87,7 +89,7 @@ class TrueUserBloc extends Bloc<TrueUserEvent, TrueUserState> {
       user = userCredential.user;
       emit(Success(user));
     } on FirebaseAuthException catch (e) {
-      emit(Error(e.code));
+      emit(ErrorState(e.code));
     }
   }
 
@@ -98,7 +100,7 @@ class TrueUserBloc extends Bloc<TrueUserEvent, TrueUserState> {
       await auth.sendPasswordResetEmail(email: event.mail);
       emit(Success(user));
     } on FirebaseAuthException catch (e) {
-      emit(Error(e.code));
+      emit(ErrorState(e.code));
     }
   }
 

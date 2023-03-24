@@ -1,5 +1,9 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,11 +34,17 @@ class GameDisliked extends GameDetailsState{}
 
 class SuccessUpdate extends GameDetailsState{}
 
+class DetailsError extends GameDetailsState{
+  final String error;
+  DetailsError(this.error);
+}
+
 class GameBlocDetails extends Bloc<GameDetailsEvent, GameDetailsState> {
 
   Game _game;
   final User user;
   final FirebaseFirestore db = FirebaseFirestore.instance;
+  final databaseReference = FirebaseDatabase.instance.reference();
 
   List<int> likes = [];
   List<int> wishlist = [];
@@ -53,33 +63,47 @@ class GameBlocDetails extends Bloc<GameDetailsEvent, GameDetailsState> {
 
   Future<void> _gameInit(event, emit) async {
     emit(GameLoading());
-    final snapshot =  db.collection("users").doc(user.uid);
-    await snapshot.get().then((DocumentSnapshot doc){
-      final data = doc.data() as Map<String, dynamic>;
-      data["likes"].forEach((doc) {
-        int entier = doc;
-        likes.add(entier);
-      });
-      data["wishlist"].forEach((doc) {
-        int entier = doc;
-        wishlist.add(entier);
-      });
+    await databaseReference.child('users').child(user.uid).once().then(
+            (value) {
+              if(value.snapshot.value != null){
+                final data = value.snapshot.value as Map<dynamic, dynamic>;
+                String jsonData = json.encode(data);
+                Map<String, dynamic> userData = json.decode(jsonData);
+                if(userData["likes"] != null){
+                  userData["likes"].forEach((doc) {
+                  int entier = doc;
+                  likes.add(entier);
+                  });
+                }
+                if(userData["wishlist"] != null){
+                  userData["wishlist"].forEach((doc) {
+                    int entier = doc;
+                    wishlist.add(entier);
+                  });
+                }
 
-      bool like = likes.contains(_game.id);
-      bool wish = likes.contains(_game.id);
-      _game = Game(_game.id, _game.rank, _game.name, _game.editor, _game.price,
-          _game.shortDesc, _game.desc, _game.backgroundImage, _game.frontImage,
-          liked: like, wish: wish);
+                bool like = likes.contains(_game.id);
+                bool wish = likes.contains(_game.id);
+                _game = Game(_game.id, _game.rank, _game.name, _game.editor, _game.price,
+                    _game.shortDesc, _game.desc, _game.backgroundImage, _game.frontImage,
+                    liked: like, wish: wish);
 
-      emit(Data(_game));
-    },
-      onError: (e) => emit(Error()),
-    );
+                emit(Data(_game));
+              }else{
+                _game = Game(_game.id, _game.rank, _game.name, _game.editor, _game.price,
+                    _game.shortDesc, _game.desc, _game.backgroundImage, _game.frontImage,
+                    liked: false, wish: false);
+
+                emit(Data(_game));
+              }
+        }
+    ).catchError((e) => print(e.toString()));//emit(DetailsError(e.toString())));
   }
 
   Future<void> _gameLiked(event, emit) async {
     likes.add(_game.id);
-    await db.collection("users").doc(user.uid).set({
+
+    await databaseReference.child('users').child(user.uid).set({
       "ID": user.email,
       "wishlist": wishlist,
       "likes": likes,
@@ -91,11 +115,13 @@ class GameBlocDetails extends Bloc<GameDetailsEvent, GameDetailsState> {
 
   Future<void> _gameDisliked(event, emit) async {
     likes.remove(_game.id);
-    await db.collection("users").doc(user.uid).set({
+
+    await databaseReference.child('users').child(user.uid).set({
       "ID": user.email,
       "wishlist": wishlist,
       "likes": likes,
     });
+
     _game.liked = false;
     emit(SuccessUpdate());
     emit(Data(_game));

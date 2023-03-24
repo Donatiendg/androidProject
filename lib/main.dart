@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
               // Connexion
               _navigatorKey.currentState!.push(
                 MaterialPageRoute(
-                  builder: (context) => const ILiked(),
+                  builder: (context) => ILiked(),
                 ),
               );
             }else if(state.userState == Interface.wishPage){

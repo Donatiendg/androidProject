@@ -46,15 +46,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     }else if (appBarId == 2){
       return AppBar(
         title: Text(title,
-        style: const TextStyle(
-          fontSize: 22,
-          fontFamily: 'GoogleSans-Bold'
-        ),),
+          style: const TextStyle(
+            fontSize: 22,
+            fontFamily: 'GoogleSans-Bold'
+          )
+        ),
         backgroundColor: const Color(0xFF1A2025),
         elevation: 10,
         leading: IconButton(
           icon: SvgPicture.asset('assets/Icones/close.svg'),
-          onPressed: null,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
       );
     }else if (appBarId == 3){
@@ -68,7 +71,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         elevation: 10,
         leading: IconButton(
           icon: SvgPicture.asset('assets/Icones/back.svg') ,
-          onPressed: null,
+          onPressed: () {
+          },
         ),
         actions: [
           IconButton(
@@ -86,7 +90,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     }else{
       return AppBar();
     }
-
   }
 
   @override

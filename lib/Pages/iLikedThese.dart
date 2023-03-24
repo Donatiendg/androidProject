@@ -7,8 +7,12 @@ import 'package:flutter_svg/svg.dart';
 import '../Blocs/bloc_user.dart';
 import '../Blocs/bloc_like_wish.dart';
 
-class ILiked extends StatelessWidget {
-  const ILiked({Key? key}) : super(key: key);
+class ILiked extends StatefulWidget {
+  @override
+  _ILiked createState() => _ILiked();
+}
+
+class _ILiked extends State<ILiked> with RouteAware{
 
   @override
   Widget build(BuildContext context) {

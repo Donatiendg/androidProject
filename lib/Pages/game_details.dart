@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../Blocs/bloc_game_details.dart';
-import '../Blocs/bloc_like_wish.dart';
 import '../Blocs/bloc_login.dart';
 import '../Blocs/bloc_user.dart';
 import '../game_class.dart';
@@ -27,10 +26,11 @@ class _GameDetailsState extends State<GameDetails>{
         child: BlocListener<GameBlocDetails, GameDetailsState>(
         listener: (BuildContext context, GameDetailsState state) {
           if(state is SuccessUpdate){
-          }else if (state is Error){
+
+          }else if (state is DetailsError){
             ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Une erreur est survenue'),
+            SnackBar(
+              content: Text(state.error),
             ),
           );
         }

@@ -50,6 +50,7 @@ class DefaultFirebaseOptions {
     projectId: 'fir-project-1e663',
     authDomain: 'fir-project-1e663.firebaseapp.com',
     storageBucket: 'fir-project-1e663.appspot.com',
+    databaseURL: "https://fir-project-1e663-default-rtdb.europe-west1.firebasedatabase.app"
   );
 
   static const FirebaseOptions android = FirebaseOptions(
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '441098010455',
     projectId: 'fir-project-1e663',
     storageBucket: 'fir-project-1e663.appspot.com',
+    databaseURL: "https://fir-project-1e663-default-rtdb.europe-west1.firebasedatabase.app"
   );
 
   static const FirebaseOptions ios = FirebaseOptions(

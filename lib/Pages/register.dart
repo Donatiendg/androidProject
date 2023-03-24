@@ -27,7 +27,7 @@ class RegisterPage extends StatelessWidget {
         listener: (BuildContext context, TrueUserState state) {
           if(state is Success){
             BlocProvider.of<UserBloc>(context).add(HomePageEvent(state.user));
-          }else if (state is Error){
+          }else if (state is ErrorState){
             ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.error),
