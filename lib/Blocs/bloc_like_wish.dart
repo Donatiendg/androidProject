@@ -36,7 +36,7 @@ class GameListBloc extends Bloc<GameListEvent, GameListState> {
   GameListBloc(this.user, this.isLike) : super(LoadingList()){
     on<LoadGames>(_initListGames);
     on<OnListen>(_listenBDD);
-    add(OnListen());
+    add(LoadGames());
   }
 
   Future<void> _initListGames(event, emit) async {
@@ -61,9 +61,15 @@ class GameListBloc extends Bloc<GameListEvent, GameListState> {
             }
             for (var element in games.docs) {
               final el = element.data();
+              List<String> screenshots = [];
+              if(el["imgScreen"] != null){
+                for(final screenshot in el["imgScreen"]){
+                  screenshots.add(screenshot);
+                }
+              }
               if(like.contains(el["id"])){
                 game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
-                    el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], el["imgScreen"]));
+                    el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots));
               }
             }
           }else{
@@ -77,9 +83,15 @@ class GameListBloc extends Bloc<GameListEvent, GameListState> {
             }
             for (var element in games.docs) {
               final el = element.data();
+              List<String> screenshots = [];
+              if(el["imgScreen"] != null){
+                for(final screenshot in el["imgScreen"]){
+                  screenshots.add(screenshot);
+                }
+              }
               if(wish.contains(el["id"])){
                 game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
-                    el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], el["imgScreen"]));
+                    el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots));
               }
             }
           }

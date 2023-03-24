@@ -22,6 +22,8 @@ class GameData extends GameState{
   GameData(this.gameState);
 }
 
+class RefreshData extends GameState{}
+
 class Loading extends GameState{}
 
 class GameBloc extends Bloc<GameEvent, GameState> {
@@ -59,7 +61,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           "desc": theGame.desc,
           "imgBack": theGame.backgroundImage,
           "imgHeader": theGame.frontImage,
-          "imgScreen": theGame.ScreenImage,
+          "imgScreen": theGame.screenImage,
         });
       }
     } else {
@@ -80,8 +82,14 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         final gameDesc = gameData['data']['detailed_description'];
         final gameBackground = gameData['data']['background'];
         final gameHeaders = gameData['data']['header_image'];
-        final gameScreenShot = gameData['data']['screenshots'][0]['path_full'];
         final gameEditor = gameData['data']['publishers'][0];
+
+        final screenShots = gameData['data']['screenshots'];
+        final List<String> gameScreenShot = [];
+
+        for(final screenshot in screenShots){
+          gameScreenShot.add(screenshot['path_full']);
+        }
 
         final Game game = Game(gameId, gamerank, gameName, gameEditor, gamePrice, gameShortDesc,
             gameDesc, gameBackground, gameHeaders, gameScreenShot);
@@ -91,7 +99,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         throw Exception('Failed to fetch a game data from API');
       }
     }catch(e){
-      throw Exception('Failed to fetch a game data from API $e');
+      throw Exception(e);
     }
   }
 
@@ -103,12 +111,23 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
     for (var element in games.docs) {
       final el = element.data();
+      List<String> screenshots = [];
+      if(el["imgScreen"] != null){
+        for(final screenshot in el["imgScreen"]){
+          screenshots.add(screenshot);
+        }
+      }
       game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
-          el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], el["imgScreen"]));
+          el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots));
     }
 
     game.sort((a,b) => a.rank.compareTo(b.rank));
 
-    emit(GameData(game));
+    if(game.isEmpty){
+      emit(Loading());
+      add(LoadGames());
+    }else{
+      emit(GameData(game));
+    }
   }
 }

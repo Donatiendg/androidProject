@@ -21,6 +21,7 @@ class GameDetails extends StatefulWidget {
 }
 
 class _GameDetailsState extends State<GameDetails>{
+  final PageController _controller = PageController(initialPage: 0);
 
   bool _bouton1Pressed = true;
   bool _bouton2Pressed = false;
@@ -104,7 +105,13 @@ class _GameDetailsState extends State<GameDetails>{
                             height: 300,
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 20),
-                              child: Image.network(snapshot.game.ScreenImage),
+                              child: PageView.builder(
+                                controller: _controller,
+                                itemCount: snapshot.game.screenImage.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Image.network(snapshot.game.screenImage[index]);
+                                },
+                              ),
                             ),
                           ),
                           Padding(
