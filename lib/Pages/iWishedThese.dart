@@ -32,13 +32,8 @@ class IWished extends StatelessWidget {
                       child: ListView.builder(
                           itemCount: snapshot.gameState?.length,
                           itemBuilder: (context, index) {
-                            final game = snapshot.gameState?[index];
-                            if(game != null) {
-                              return (
-                                  GameCard(game: game)
-                              );
-                            }
-                            return null;
+                            final game = snapshot.gameState![index];
+                              return (GameCard(game: game));
                           }
                       )
                   )

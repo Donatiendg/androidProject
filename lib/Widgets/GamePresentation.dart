@@ -31,7 +31,7 @@ class _TestState extends State<Test> {
         child: Column(
           children: [
             SizedBox(height: 200,),
-            Review_box(userName: 'Pablo', userComment: 'Sah le jeu est nul', userGrade: 4,)
+            ReviewBox(userName: 'Pablo', userComment: 'Sah le jeu est nul', userGrade: 4,)
 
           ],
         ),

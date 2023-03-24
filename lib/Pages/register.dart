@@ -36,6 +36,7 @@ class RegisterPage extends StatelessWidget {
         }, child: BlocBuilder<TrueUserBloc, TrueUserState>(
         builder: (context, snapshot) {
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             backgroundColor: const Color(0xFF1A2025),
             body: Stack(
               children: <Widget>[

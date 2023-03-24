@@ -29,6 +29,7 @@ class Loading extends GameState{}
 class GameBloc extends Bloc<GameEvent, GameState> {
   static const String steamChartsBaseUrl = 'https://api.steampowered.com/ISteamChartsService/GetMostPlayedGames/v1/';
   static const String steamStoreBaseUrl = 'https://store.steampowered.com/api/appdetails?appids=';
+  static const String steamStoreComments = 'https://store.steampowered.com/appreviews/';
 
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -91,10 +92,32 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           gameScreenShot.add(screenshot['path_full']);
         }
 
+        List<Commentaires?> comments = await fetchComments(gameId);
+
         final Game game = Game(gameId, gamerank, gameName, gameEditor, gamePrice, gameShortDesc,
-            gameDesc, gameBackground, gameHeaders, gameScreenShot);
+            gameDesc, gameBackground, gameHeaders, gameScreenShot, comments);
 
         return game;
+      } else {
+        throw Exception('Failed to fetch a game data from API');
+      }
+    }catch(e){
+      throw Exception(e);
+    }
+  }
+
+  Future<List<Commentaires?>> fetchComments(int gameId) async {
+    try{
+      final response = await http.get(Uri.parse('$steamStoreComments$gameId?json=1'));
+      if (response.statusCode == 200) {
+        final List<Commentaires?> comments = [];
+
+        final data = jsonDecode(response.body) as Map<String, dynamic>;
+
+        for(final comment in data['reviews']){
+          comments.add(Commentaires(comment['review'], comment['voted_up'] == true ? 5 : 0));
+        }
+        return comments;
       } else {
         throw Exception('Failed to fetch a game data from API');
       }
@@ -117,8 +140,10 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           screenshots.add(screenshot);
         }
       }
+      List<Commentaires?> comments = await fetchComments(el["id"]);
+
       game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
-          el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots));
+          el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots, comments));
     }
 
     game.sort((a,b) => a.rank.compareTo(b.rank));

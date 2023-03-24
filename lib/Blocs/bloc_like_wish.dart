@@ -67,9 +67,17 @@ class GameListBloc extends Bloc<GameListEvent, GameListState> {
                   screenshots.add(screenshot);
                 }
               }
+              List<Commentaires?> comments = [];
+              if(el["comments"] != null){
+                for(final comment in el["comments"]){
+                  final String review = comment['review'];
+                  final int stars = comment['stars'];
+                  comments.add(Commentaires(review, stars));
+                }
+              }
               if(like.contains(el["id"])){
                 game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
-                    el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots));
+                    el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots, comments));
               }
             }
           }else{
@@ -89,9 +97,17 @@ class GameListBloc extends Bloc<GameListEvent, GameListState> {
                   screenshots.add(screenshot);
                 }
               }
+              List<Commentaires?> comments = [];
+              if(el["comments"] != null){
+                for(final comment in el["comments"]){
+                  final String review = comment['review'];
+                  final int stars = comment['stars'];
+                  comments.add(Commentaires(review, stars));
+                }
+              }
               if(wish.contains(el["id"])){
                 game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
-                    el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots));
+                    el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots, comments));
               }
             }
           }

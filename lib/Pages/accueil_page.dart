@@ -31,6 +31,7 @@ class AccueilPage extends StatelessWidget {
             final games = snapshot.gameState!.toList();
             games.removeAt(0);
             return Scaffold(
+              resizeToAvoidBottomInset: false,
               backgroundColor: const Color(0xFF1A2025),
               appBar: const CustomAppBar(title: 'Accueil', appBarId: 1, liked: false, whished: false),
               body: Stack(

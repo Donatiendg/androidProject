@@ -1,38 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../Blocs/bloc_game_card.dart';
-import '../Blocs/bloc_user.dart';
-import '../game_class.dart';
-
-class Review_box extends StatefulWidget {
+class ReviewBox extends StatefulWidget {
   final String userName;
   final int userGrade;
   final String userComment;
 
-  const Review_box({super.key,
+  const ReviewBox({super.key,
     required this.userName,
     required this.userComment,
     required this.userGrade
   });
 
   @override
-  _Review_boxState createState() => _Review_boxState();
+  _ReviewBoxState createState() => _ReviewBoxState();
 }
 
-class _Review_boxState extends State<Review_box> {
+class _ReviewBoxState extends State<ReviewBox> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Color(0xFF1E262C), borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(color: const Color(0xFF1E262C), borderRadius: BorderRadius.circular(10)),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             Row(
               children: [
-                Text(widget.userName, style: TextStyle(color: Colors.white, fontSize: 15, fontFamily: '', decoration: TextDecoration.underline),),
+                Text(widget.userName, style: const TextStyle(color: Colors.white, fontSize: 15, fontFamily: '', decoration: TextDecoration.underline),),
                 Expanded(child: Container()),
                 for (int j = 5; j - widget.userGrade > 0; j--)
                   SvgPicture.asset(
@@ -48,11 +43,12 @@ class _Review_boxState extends State<Review_box> {
                   ),
               ],
             ),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             Align(
                 alignment: Alignment.topLeft,
-                  child: Text(widget.userComment, style: TextStyle(color: Colors.white),)),
-
+                  child: Text(widget.userComment, style: const TextStyle(color: Colors.white),
+                  )
+            ),
           ],
         ),
       ),

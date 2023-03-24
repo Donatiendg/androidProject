@@ -93,13 +93,13 @@ class GameBlocDetails extends Bloc<GameDetailsEvent, GameDetailsState> {
 
                 _game = Game(_game.id, _game.rank, _game.name, _game.editor, _game.price,
                     _game.shortDesc, _game.desc, _game.backgroundImage, _game.frontImage,
-                    _game.screenImage, liked: like, wish: wish);
+                    _game.screenImage, _game.comments, liked: like, wish: wish);
 
                 emit(Data(_game));
               }else{
                 _game = Game(_game.id, _game.rank, _game.name, _game.editor, _game.price,
                     _game.shortDesc, _game.desc, _game.backgroundImage, _game.frontImage,
-                    _game.screenImage, liked: false, wish: false);
+                    _game.screenImage, _game.comments, liked: false, wish: false);
 
                 emit(Data(_game));
               }

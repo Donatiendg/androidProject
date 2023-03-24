@@ -4,9 +4,7 @@ import 'package:flutter_svg/svg.dart';
 
 
 import '../Blocs/bloc_game_details.dart';
-import '../Blocs/bloc_login.dart';
 import '../Blocs/bloc_user.dart';
-import '../Widgets/custom_app_bar.dart';
 import '../Widgets/review_box.dart';
 import '../game_class.dart';
 
@@ -233,12 +231,18 @@ class _GameDetailsState extends State<GameDetails>{
                               margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                               child: Text(snapshot.game.desc, style: const TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'ProximaNova-Regular'),)
                           )
-                      )else(
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-                            child: const Review_box(userName: 'Donachien', userComment: 'Je suis trop nul à LOL je comprend pas', userGrade: 2,),
-                          )
-                      )
+                      )else
+                          ListView.builder(
+                            itemCount: snapshot.game.comments.length,
+                            itemBuilder: (context, index) {
+                              final comment = snapshot.game.comments[index]!;
+                              return (
+                                  ReviewBox(userName: 'visiteur',
+                                      userComment: comment.review,
+                                      userGrade: comment.stars)
+                              );
+                            }
+                          ),
                     ],
                   ),
                 ),
