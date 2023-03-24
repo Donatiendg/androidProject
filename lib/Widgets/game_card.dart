@@ -32,11 +32,7 @@ class _GameCardState extends State<GameCard> {
                 Positioned.fill(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: ColorFiltered(
-                      colorFilter: ColorFilter.mode(
-                          Colors.black.withOpacity(0.3), BlendMode.dstATop),
-                      child: Image.network(widget.game.backgroundImage, fit: BoxFit.cover,),
-                    ),
+                    child: Image.network(widget.game.backgroundImage, fit: BoxFit.cover),
                   ),
                 ),
                 Container(
@@ -55,9 +51,24 @@ class _GameCardState extends State<GameCard> {
                         Expanded(
                           child: Column(
                             children: [
-                              Text(widget.game.name),
-                              Text(widget.game.editor),
-                              Text("Prix :${widget.game.price}")
+                              Text(widget.game.name,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    color: Colors.white
+                                ),
+                              ),
+                              Text(widget.game.editor,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    color: Colors.white
+                                ),
+                              ),
+                              Text("Prix :${widget.game.price}",
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: Colors.white
+                                ),
+                              )
                             ],
                           ),
                         ),

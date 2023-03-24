@@ -63,7 +63,7 @@ class GameListBloc extends Bloc<GameListEvent, GameListState> {
               final el = element.data();
               if(like.contains(el["id"])){
                 game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
-                    el["price"], el["shortDesc"], el["desc"], el["imgUrl"], el["imgUrl"]));
+                    el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], el["imgScreen"]));
               }
             }
           }else{
@@ -79,7 +79,7 @@ class GameListBloc extends Bloc<GameListEvent, GameListState> {
               final el = element.data();
               if(wish.contains(el["id"])){
                 game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
-                    el["price"], el["shortDesc"], el["desc"], el["imgUrl"], el["imgUrl"]));
+                    el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], el["imgScreen"]));
               }
             }
           }

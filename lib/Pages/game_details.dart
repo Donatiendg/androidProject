@@ -104,7 +104,7 @@ class _GameDetailsState extends State<GameDetails>{
                             height: 300,
                             child: Padding(
                               padding: const EdgeInsets.only(bottom: 20),
-                              child: Image.network(snapshot.game.frontImage),
+                              child: Image.network(snapshot.game.ScreenImage),
                             ),
                           ),
                           Padding(

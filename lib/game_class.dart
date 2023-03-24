@@ -5,13 +5,14 @@ class Game {
   final String desc;
   final String backgroundImage;
   final String frontImage;
+  final String ScreenImage;
   final String editor;
   final int id;
   final int rank;
   bool ?liked;
   bool ?wish;
 
-  Game(this.id, this.rank, this.name, this.editor, this.price, this.shortDesc, this.desc, this.backgroundImage, this.frontImage, {this.liked, this.wish});
+  Game(this.id, this.rank, this.name, this.editor, this.price, this.shortDesc, this.desc, this.backgroundImage, this.frontImage, this.ScreenImage, {this.liked, this.wish});
 
 
   @override

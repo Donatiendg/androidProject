@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_svg/svg.dart';
 
+import '../Blocs/bloc_user.dart';
 import '../Widgets/game_card.dart';
 import '../Blocs/bloc_game.dart';
 
@@ -27,6 +28,8 @@ class AccueilPage extends StatelessWidget {
       }, child: BlocBuilder<GameBloc, GameState>(
           builder: (context, snapshot) {
           if(snapshot is GameData){
+            final games = snapshot.gameState!.toList();
+            games.removeAt(0);
             return Scaffold(
               backgroundColor: const Color(0xFF1A2025),
               appBar: const CustomAppBar(title: 'Accueil', appBarId: 1, liked: false, whished: false),
@@ -54,7 +57,7 @@ class AccueilPage extends StatelessWidget {
                           ),
                           child: Stack(
                             children: [
-                              Image.network('https://cdn.dlcompare.com/game_tetiere/upload/gameimage/file/95a1-god_of_war_4.jpeg'),
+                              Image.network(snapshot.gameState![0].backgroundImage),
                               Container(
                                 margin: const EdgeInsets.only(left: 15, right: 15, bottom: 20, top: 10),
                                 child: Column(
@@ -68,21 +71,21 @@ class AccueilPage extends StatelessWidget {
                                             child: Column(
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                const Text('God of War',
-                                                  style: TextStyle(
+                                                Text(snapshot.gameState![0].name,
+                                                  style: const TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 23,
                                                       fontFamily: 'ProximaNova-Bold'
                                                   ),),
-                                                const Text('Ultimate Edition',
-                                                  style: TextStyle(
+                                                Text(snapshot.gameState![0].editor,
+                                                  style: const TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 23,
                                                       fontFamily: 'ProximaNova-Bold'
                                                   ),),
                                                 const SizedBox(height: 10,),
-                                                const Text('Description...............................................',
-                                                  style: TextStyle(
+                                                Text(snapshot.gameState![0].shortDesc,
+                                                  style: const TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 14,
                                                       fontFamily: 'ProximaNova-Bold'
@@ -94,14 +97,17 @@ class AccueilPage extends StatelessWidget {
                                                           (states) => const Color(0xFF636AF6),
                                                     ),
                                                   ),
-                                                  onPressed: ()  {},
+                                                  onPressed: ()  {
+                                                    BlocProvider.of<UserBloc>(context).add(GameDetailsPageEvent(snapshot.gameState![0]));
+                                                  },
                                                   child: const Padding(
                                                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                                     child: Text('En savoir plus',
                                                       style: TextStyle(
                                                           fontSize: 18,
                                                           fontFamily: 'ProximaNova-Regular'
-                                                      ),),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -111,7 +117,7 @@ class AccueilPage extends StatelessWidget {
                                             flex: 2,
                                             child: Align(
                                               alignment: Alignment.bottomRight,
-                                              child: Image.network('https://static-de.gamestop.de/images/products/256191/3max.jpg',
+                                              child: Image.network(snapshot.gameState![0].frontImage,
                                                 width: 130,),
                                             ),
                                           ),
@@ -123,20 +129,18 @@ class AccueilPage extends StatelessWidget {
                             ],
                           ),
                         ),
+
                         Container(
                             height: screenHeight * 0.5,
                             width: screenWidth*0.9,
                             margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
                             child: ListView.builder(
-                                itemCount: snapshot.gameState?.length,
+                                itemCount: games.length,
                                 itemBuilder: (context, index) {
-                                  final game = snapshot.gameState?[index];
-                                  if(game != null) {
-                                    return (
-                                        GameCard(game: game)
-                                    );
-                                  }
-                                  return null;
+                                  final game = games[index];
+                                  return (
+                                      GameCard(game: game)
+                                  );
                                 }
                             )
                         )

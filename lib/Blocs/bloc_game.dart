@@ -40,14 +40,13 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   Future<void> _fetchGames(event, emit) async {
     final response = await http.get(Uri.parse(steamChartsBaseUrl));
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
 
+      final data = jsonDecode(response.body);
       final gamesList = data['response']['ranks'];
 
       for (final game in gamesList) {
         final gameId = game['appid'] as int;
         final gameRank = game['rank'] as int;
-
 
       Game theGame = await fetchGameDetails(gameId, gameRank);
         await db.collection("games").doc(gameRank.toString()).set({
@@ -58,7 +57,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           "price": theGame.price,
           "shortDesc": theGame.shortDesc,
           "desc": theGame.desc,
-          "imgUrl": theGame.backgroundImage
+          "imgBack": theGame.backgroundImage,
+          "imgHeader": theGame.frontImage,
+          "imgScreen": theGame.ScreenImage,
         });
       }
     } else {
@@ -77,10 +78,13 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         final gamePrice = gameData['data']['price_overview'] != null ? gameData['data']['price_overview']['final_formatted'] as String : 'Free to play';
         final gameShortDesc = gameData['data']['short_description'];
         final gameDesc = gameData['data']['detailed_description'];
-        final gameImgUrl = gameData['data']['background'];
+        final gameBackground = gameData['data']['background'];
+        final gameHeaders = gameData['data']['header_image'];
+        final gameScreenShot = gameData['data']['screenshots'][0]['path_full'];
         final gameEditor = gameData['data']['publishers'][0];
 
-        final Game game = Game(gameId, gamerank, gameName, gameEditor, gamePrice, gameShortDesc, gameDesc, gameImgUrl, gameImgUrl);
+        final Game game = Game(gameId, gamerank, gameName, gameEditor, gamePrice, gameShortDesc,
+            gameDesc, gameBackground, gameHeaders, gameScreenShot);
 
         return game;
       } else {
@@ -100,8 +104,10 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     for (var element in games.docs) {
       final el = element.data();
       game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
-          el["price"], el["shortDesc"], el["desc"], el["imgUrl"], el["imgUrl"]));
+          el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], el["imgScreen"]));
     }
+
+    game.sort((a,b) => a.rank.compareTo(b.rank));
 
     emit(GameData(game));
   }
