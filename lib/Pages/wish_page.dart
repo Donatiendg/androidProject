@@ -22,36 +22,34 @@ class IWished extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot is GameListData) {
               return Scaffold(
-                  backgroundColor: const Color(0xFF1A2025),
-                  appBar: const CustomAppBar(
-                      title: 'Mes likes', appBarId: 2, liked: false, whished: false),
-                  body:Container(
-                      height: screenHeight * 0.5,
-                      width: screenWidth*0.9,
-                      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
-                      child: ListView.builder(
-                          itemCount: snapshot.gameState?.length,
-                          itemBuilder: (context, index) {
-                            final game = snapshot.gameState![index];
-                              return (GameCard(game: game));
-                          }
-                      )
-                  )
+                backgroundColor: const Color(0xFF1A2025),
+                appBar: const CustomAppBar(title: 'Ma liste de souhaits', appBarId: 2, liked: false, whished: false),
+                body: Container(
+                    width: screenWidth*0.9,
+                    margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+                    child: ListView.builder(
+                        itemCount: snapshot.gameState?.length,
+                        itemBuilder: (context, index) {
+                          final game = snapshot.gameState![index];
+                          return (GameCard(game: game));
+                        }
+                    )
+                )
               );
             }else if(snapshot is LoadingList){
               return const Center(child: CircularProgressIndicator());
             } else{
               return Scaffold(
-            backgroundColor: const Color(0xFF1A2025),
-            appBar: const CustomAppBar(title: 'Ma liste de souhaits', appBarId: 2, liked: false, whished: false),
-            body: Stack(
-              children: <Widget> [
-                SvgPicture.asset('assets/Images&SVG/Bg Pattern.svg',
-                    width: 1080,
-                    height: 1920,
-                    fit: BoxFit.fill),
-
-                Container(
+                backgroundColor: const Color(0xFF1A2025),
+                appBar: const CustomAppBar(title: 'Ma liste de souhaits', appBarId: 2, liked: false, whished: false),
+                body: Stack(
+                  children: <Widget> [
+                    SvgPicture.asset('assets/Images&SVG/Bg Pattern.svg',
+                        width: 1080,
+                        height: 1920,
+                        fit: BoxFit.fill),
+    
+                    Container(
                   margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -98,9 +96,9 @@ class IWished extends StatelessWidget {
                     ],
                   ),
                 ),
-              ]
-            ),
-          );
+                  ]
+                ),
+              );
             }
           }
         )

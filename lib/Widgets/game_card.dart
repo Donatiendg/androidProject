@@ -30,7 +30,7 @@ class _GameCardState extends State<GameCard> {
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: SizedBox(
                 height: 80,
-              child: Stack(
+                child: Stack(
                 children: [
                   Positioned.fill(
                     child: ClipRRect(
@@ -117,7 +117,7 @@ class _GameCardState extends State<GameCard> {
                   )
                 ],
               )
-          ),
+              ),
             );
         }
       ),

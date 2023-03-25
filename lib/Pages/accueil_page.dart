@@ -33,7 +33,30 @@ class AccueilPage extends StatelessWidget {
             return Scaffold(
               resizeToAvoidBottomInset: false,
               backgroundColor: const Color(0xFF1A2025),
-              appBar: const CustomAppBar(title: 'Accueil', appBarId: 1, liked: false, whished: false),
+              appBar: AppBar(
+                title: const Text("Accueil",
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontFamily: 'GoogleSans-Bold'
+                  ),
+                ),
+                backgroundColor: const Color(0xFF1A2025),
+                elevation: 6,
+                actions: [
+                  IconButton(
+                    icon: SvgPicture.asset('assets/Icones/like.svg'),
+                    onPressed: () {
+                      BlocProvider.of<UserBloc>(context).add(LikePageEvent());
+                    },
+                  ),
+                  IconButton(
+                    icon: SvgPicture.asset('assets/Icones/whishlist.svg'),
+                    onPressed: () {
+                      BlocProvider.of<UserBloc>(context).add(WishPageEvent());
+                    },
+                  ),
+                ],
+              ),
               body: Stack(
                 children: <Widget> [
                   SvgPicture.asset('assets/Images&SVG/Bg Pattern.svg',
@@ -47,8 +70,7 @@ class AccueilPage extends StatelessWidget {
                           child: SearchBarWidget(controller: searchTextController,),
                         ),
 
-
-                        Container(
+                        SizedBox(
                             height: screenHeight * 0.8,
                             child: ListView.builder(
                                 itemCount: games.length,

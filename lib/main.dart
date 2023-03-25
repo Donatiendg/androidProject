@@ -1,19 +1,19 @@
 import 'package:eceee/Pages/accueil_page.dart';
-import 'package:eceee/Pages/register.dart';
+import 'package:eceee/Pages/register_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'Pages/InfoGamePage.dart';
-import 'Pages/game_details.dart';
+import 'Pages/info_game_page.dart';
+import 'Pages/game_details_page.dart';
 import 'Blocs/bloc_user.dart';
-import 'Pages/iLikedThese.dart';
-import 'Pages/iWishedThese.dart';
+import 'Pages/like_page.dart';
+import 'Pages/wish_page.dart';
 import 'Pages/login_page.dart';
-import 'Pages/forgotten.dart';
+import 'Pages/forgotten_page.dart';
 
-import 'Widgets/GamePresentation.dart';
+import 'Widgets/game_presentation.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
