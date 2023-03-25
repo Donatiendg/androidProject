@@ -52,7 +52,19 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         final gameRank = game['rank'] as int;
 
       Game theGame = await fetchGameDetails(gameId, gameRank);
-        await db.collection("games").doc(gameRank.toString()).set({
+
+      List<Map<String, dynamic>> commentData = [];
+
+      for (var comment in theGame.comments) {
+        if(comment != null) {
+          commentData.add({
+            'review': comment.review,
+            'stars': comment.stars,
+          });
+        }
+      }
+
+      await db.collection("games").doc(gameRank.toString()).set({
           "id": gameId,
           "rank": gameRank,
           "name": theGame.name,
@@ -63,6 +75,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           "imgBack": theGame.backgroundImage,
           "imgHeader": theGame.frontImage,
           "imgScreen": theGame.screenImage,
+          "comments": commentData,
         });
       }
     } else {
@@ -140,8 +153,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           screenshots.add(screenshot);
         }
       }
-      List<Commentaires?> comments = await fetchComments(el["id"]);
-
+      List<Commentaires> comments = [];
+      if(el["comments"] != null){
+        for(final comment in el["comments"]){
+          comments.add(Commentaires(comment["review"], comment["stars"]));
+        }
+      }
       game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
           el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots, comments));
     }
