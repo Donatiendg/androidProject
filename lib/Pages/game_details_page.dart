@@ -157,7 +157,6 @@ class _GameDetailsState extends State<GameDetails>{
                                       ],
                                     ),
                                   )
-
                                 ],
                               ),
                             ),
@@ -241,8 +240,9 @@ class _GameDetailsState extends State<GameDetails>{
                                 )
                             )
                         )else
-                            SizedBox(
-                              height: 200,
+                          Container(
+                            height: screenHeight * 0.5,
+                            margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
                               child: ListView.builder(
                                   itemCount: snapshot.game.comments.length,
                                   itemBuilder: (context, index) {
@@ -261,37 +261,7 @@ class _GameDetailsState extends State<GameDetails>{
                 ),
               ],
             ),
-          );/*Scaffold(
-            appBar: AppBar(
-              title: Text(snapshot.game.name),
-            ),
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      snapshot.game.liked! ? Icons.thumb_up_alt : Icons.thumb_up_alt_outlined,
-                      size: 50,
-                    ),
-                    onPressed: () {
-                      if(!snapshot.game.liked!){
-                        BlocProvider.of<GameBlocDetails>(context).add(GameLikedEvent());
-                      }else{
-                        BlocProvider.of<GameBlocDetails>(context).add(GameDislikedEvent());
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    child: const Text('Wish'),
-                    onPressed: () {
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );*/
+          );
         }else{
           return const Center(child: CircularProgressIndicator());
         }

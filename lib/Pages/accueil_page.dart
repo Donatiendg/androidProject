@@ -1,4 +1,3 @@
-import 'package:eceee/Widgets/custom_app_bar.dart';
 import 'package:eceee/Widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,10 +21,7 @@ class AccueilPage extends StatelessWidget {
 
     return BlocProvider<GameBloc>(
       create: (_) => GameBloc(),
-      child: BlocListener<GameBloc, GameState>(
-        listener: (BuildContext context, GameState state) {
-
-      }, child: BlocBuilder<GameBloc, GameState>(
+      child: BlocBuilder<GameBloc, GameState>(
           builder: (context, snapshot) {
           if(snapshot is GameData){
             final games = snapshot.gameState!.toList();
@@ -114,9 +110,9 @@ class AccueilPage extends StatelessWidget {
                                                                   fontFamily: 'ProximaNova-Bold'
                                                               ),),
                                                             const SizedBox(height: 10,),
-                                                              Container(
+                                                              SizedBox(
                                                                 height: 50,
-                                                                child: Text(snapshot.gameState![0].shortDesc.substring(0,100) + "...",
+                                                                child: Text("${snapshot.gameState![0].shortDesc.substring(0,100)}...",
                                                                   style: const TextStyle(
                                                                       color: Colors.white,
                                                                       fontSize: 14,
@@ -190,8 +186,7 @@ class AccueilPage extends StatelessWidget {
             );
           }
           }
-        ),
-      )
+          ),
     );
   }
 }
