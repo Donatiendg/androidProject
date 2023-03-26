@@ -9,9 +9,11 @@ class GameCardEvent{
 
 abstract class GameCardState{}
 
+class GameCardLoading extends GameCardState{}
+
 class Loading extends GameCardState{}
 
 class GameBlocCard extends Bloc<GameCardEvent, GameCardState> {
 
-  GameBlocCard() : super(Loading());
+  GameBlocCard() : super(GameCardLoading());
 }

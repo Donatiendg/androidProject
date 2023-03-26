@@ -161,18 +161,21 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
     for (var element in games.docs) {
       final el = element.data();
+
       List<String> screenshots = [];
       if(el["imgScreen"] != null){
         for(final screenshot in el["imgScreen"]){
           screenshots.add(screenshot);
         }
       }
+
       List<Commentaires> comments = [];
       if(el["comments"] != null){
         for(final comment in el["comments"]){
           comments.add(Commentaires(comment["review"], comment["stars"]));
         }
       }
+
       _game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
           el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots, comments));
     }

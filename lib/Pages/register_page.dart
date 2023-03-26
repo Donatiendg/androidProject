@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../Blocs/bloc_login.dart';
-import '../Blocs/bloc_user.dart';
+import '../Blocs/bloc_manager.dart';
 import '../validator.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -26,7 +26,7 @@ class RegisterPage extends StatelessWidget {
       child: BlocListener<TrueUserBloc, TrueUserState>(
         listener: (BuildContext context, TrueUserState state) {
           if(state is Success){
-            BlocProvider.of<UserBloc>(context).add(HomePageEvent(state.user));
+            BlocProvider.of<ManagerBloc>(context).add(HomePageEvent(state.user));
           }else if (state is ErrorState){
             ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

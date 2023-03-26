@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_svg/svg.dart';
 
-import '../Blocs/bloc_user.dart';
+import '../Blocs/bloc_manager.dart';
 import '../game_class.dart';
 import '../Widgets/game_card.dart';
 
@@ -27,7 +27,7 @@ class _InfoGamePresentation1State extends State<InfoGamePresentation1> {
   bool _bouton2Pressed = false;
   Widget build(BuildContext context) {
 
-    final UserBloc userBloc = UserBloc();
+    final ManagerBloc userBloc = ManagerBloc();
 
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../Blocs/bloc_user.dart';
+import '../Blocs/bloc_manager.dart';
 import '../Blocs/bloc_like_wish.dart';
 
 class ILiked extends StatefulWidget {
@@ -21,7 +21,7 @@ class _ILiked extends State<ILiked> with RouteAware{
     double screenWidth = MediaQuery.of(context).size.width;
 
     return BlocProvider<GameListBloc>(
-        create: (_) => GameListBloc(BlocProvider.of<UserBloc>(context).user!, true),
+        create: (_) => GameListBloc(BlocProvider.of<ManagerBloc>(context).user!, true),
          child: BlocBuilder<GameListBloc, GameListState>(
              builder: (context, snapshot) {
                 if (snapshot is GameListData) {

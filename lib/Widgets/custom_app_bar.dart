@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../Blocs/bloc_user.dart';
+import '../Blocs/bloc_manager.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -32,13 +32,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           IconButton(
             icon: SvgPicture.asset('assets/Icones/like.svg'),
             onPressed: () {
-              BlocProvider.of<UserBloc>(context).add(LikePageEvent());
+              BlocProvider.of<ManagerBloc>(context).add(LikePageEvent());
             },
           ),
           IconButton(
             icon: SvgPicture.asset('assets/Icones/whishlist.svg'),
             onPressed: () {
-              BlocProvider.of<UserBloc>(context).add(WishPageEvent());
+              BlocProvider.of<ManagerBloc>(context).add(WishPageEvent());
             },
           ),
         ],

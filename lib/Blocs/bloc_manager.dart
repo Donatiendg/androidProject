@@ -5,37 +5,37 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../game_class.dart';
 
-abstract class UserEvent{}
+abstract class ManagerEvent{}
 
-class LogInPageEvent extends UserEvent{}
+class LogInPageEvent extends ManagerEvent{}
 
-class RegisterPageEvent extends UserEvent{}
+class RegisterPageEvent extends ManagerEvent{}
 
-class ForgottenPageEvent extends UserEvent{}
+class ForgottenPageEvent extends ManagerEvent{}
 
-class HomePageEvent extends UserEvent{
+class HomePageEvent extends ManagerEvent{
   final User? user;
   HomePageEvent(this.user);
 }
 
-class LikePageEvent extends UserEvent{}
+class LikePageEvent extends ManagerEvent{}
 
-class WishPageEvent extends UserEvent{}
+class WishPageEvent extends ManagerEvent{}
 
-class GameDetailsPageEvent extends UserEvent{
+class GameDetailsPageEvent extends ManagerEvent{
   final Game game;
   GameDetailsPageEvent(this.game);
 }
 
-abstract class StateUser{}
+abstract class MangerUser{}
 
-class UserState extends StateUser{
+class PageState extends MangerUser{
   final Interface userState;
   final User? user;
-  UserState(this.userState, this.user);
+  PageState(this.userState, this.user);
 }
 
-class UserGameState extends StateUser{
+class UserGameState extends MangerUser{
   final Interface userState;
   final Game? game;
   UserGameState(this.userState, this.game);
@@ -51,12 +51,12 @@ enum Interface{
   wishPage,
 }
 
-class UserBloc extends Bloc<UserEvent,StateUser> {
+class ManagerBloc extends Bloc<ManagerEvent,MangerUser> {
 
   Interface userState = Interface.connectionPage;
   User? user;
 
-  UserBloc() : super(UserState(Interface.connectionPage, null)) {
+  ManagerBloc() : super(PageState(Interface.connectionPage, null)) {
     on<LogInPageEvent>(_logInPage);
     on<RegisterPageEvent>(_registerPage);
     on<ForgottenPageEvent>(_forgottenPage);
@@ -68,23 +68,23 @@ class UserBloc extends Bloc<UserEvent,StateUser> {
 
   Future<void> _logInPage(event, emit) async {
     userState = Interface.connectionPage;
-    emit(UserState(userState, null));
+    emit(PageState(userState, null));
   }
 
   Future<void> _registerPage(event, emit) async {
     userState = Interface.registerPage;
-    emit(UserState(userState, null));
+    emit(PageState(userState, null));
   }
 
   Future<void> _forgottenPage(event, emit) async {
     userState = Interface.forgottenPage;
-    emit(UserState(userState, null));
+    emit(PageState(userState, null));
   }
 
   Future<void> _homePage(event, emit) async {
     userState = Interface.homePage;
     user = event.user;
-    emit(UserState(userState, event.user));
+    emit(PageState(userState, event.user));
   }
 
   Future<void> _gameDetailsPage(event, emit) async {
@@ -94,11 +94,11 @@ class UserBloc extends Bloc<UserEvent,StateUser> {
 
   Future<void> _likePage(event, emit) async {
     userState = Interface.likePage;
-    emit(UserState(userState, null));
+    emit(PageState(userState, null));
   }
 
   Future<void> _wishPage(event, emit) async {
     userState = Interface.wishPage;
-    emit(UserState(userState, null));
+    emit(PageState(userState, null));
   }
 }

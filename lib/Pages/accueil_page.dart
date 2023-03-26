@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_svg/svg.dart';
 
-import '../Blocs/bloc_user.dart';
+import '../Blocs/bloc_manager.dart';
 import '../Widgets/game_card.dart';
 import '../Blocs/bloc_game.dart';
 
@@ -42,13 +42,13 @@ class AccueilPage extends StatelessWidget {
                   IconButton(
                     icon: SvgPicture.asset('assets/Icones/like.svg'),
                     onPressed: () {
-                      BlocProvider.of<UserBloc>(context).add(LikePageEvent());
+                      BlocProvider.of<ManagerBloc>(context).add(LikePageEvent());
                     },
                   ),
                   IconButton(
                     icon: SvgPicture.asset('assets/Icones/whishlist.svg'),
                     onPressed: () {
-                      BlocProvider.of<UserBloc>(context).add(WishPageEvent());
+                      BlocProvider.of<ManagerBloc>(context).add(WishPageEvent());
                     },
                   ),
                 ],
@@ -131,7 +131,7 @@ class AccueilPage extends StatelessWidget {
                                                           ),
                                                         ),
                                                         onPressed: ()  {
-                                                          BlocProvider.of<UserBloc>(context).add(GameDetailsPageEvent(state.gameState![0]));
+                                                          BlocProvider.of<ManagerBloc>(context).add(GameDetailsPageEvent(state.gameState![0]));
                                                         },
                                                         child: const Padding(
                                                           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),

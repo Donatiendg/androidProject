@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../Blocs/bloc_game_card.dart';
-import '../Blocs/bloc_user.dart';
+import '../Blocs/bloc_manager.dart';
 import '../game_class.dart';
 
 class GameCard extends StatefulWidget {
@@ -21,7 +21,7 @@ class _GameCardState extends State<GameCard> {
       create: (_) => GameBlocCard(),
       child: BlocBuilder<GameBlocCard, GameCardState>(
         builder: (context, snapshot) {
-          if (snapshot is Loading) {
+          if (snapshot is GameCardLoading) {
             const Center(child: CircularProgressIndicator());
           }
             return Padding(
@@ -88,7 +88,7 @@ class _GameCardState extends State<GameCard> {
                                       ),
                                     ),
                                     onPressed: () {
-                                      BlocProvider.of<UserBloc>(context).add(GameDetailsPageEvent(widget.game));
+                                      BlocProvider.of<ManagerBloc>(context).add(GameDetailsPageEvent(widget.game));
                                     },
                                     child: const Padding(
                                       padding: EdgeInsets.symmetric(vertical: 10),

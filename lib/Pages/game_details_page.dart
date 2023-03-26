@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 
 
 import '../Blocs/bloc_game_details.dart';
-import '../Blocs/bloc_user.dart';
+import '../Blocs/bloc_manager.dart';
 import '../Widgets/review_box.dart';
 import '../game_class.dart';
 
@@ -35,7 +35,7 @@ class _GameDetailsState extends State<GameDetails>{
     double screenWidth = MediaQuery.of(context).size.width;
 
     return BlocProvider<GameBlocDetails>(
-      create: (_) => GameBlocDetails(widget.game, BlocProvider.of<UserBloc>(context).user!),
+      create: (_) => GameBlocDetails(widget.game, BlocProvider.of<ManagerBloc>(context).user!),
         child: BlocListener<GameBlocDetails, GameDetailsState>(
         listener: (BuildContext context, GameDetailsState state) {
           if(state is SuccessUpdate){

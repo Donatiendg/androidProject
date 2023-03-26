@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../Blocs/bloc_like_wish.dart';
-import '../Blocs/bloc_user.dart';
+import '../Blocs/bloc_manager.dart';
 import '../Widgets/game_card.dart';
 
 class IWished extends StatelessWidget {
@@ -17,7 +17,7 @@ class IWished extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return BlocProvider<GameListBloc>(
-        create: (_) => GameListBloc(BlocProvider.of<UserBloc>(context).user!, false),
+        create: (_) => GameListBloc(BlocProvider.of<ManagerBloc>(context).user!, false),
         child: BlocBuilder<GameListBloc, GameListState>(
           builder: (context, snapshot) {
             if (snapshot is GameListData) {

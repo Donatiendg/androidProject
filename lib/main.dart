@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'Pages/info_game_page.dart';
 import 'Pages/game_details_page.dart';
-import 'Blocs/bloc_user.dart';
+import 'Blocs/bloc_manager.dart';
 import 'Pages/like_page.dart';
 import 'Pages/wish_page.dart';
 import 'Pages/login_page.dart';
@@ -32,46 +32,45 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<UserBloc>(
-      create: (_) => UserBloc(),
-      child: BlocListener<UserBloc, StateUser>(
-        listener: (BuildContext context, StateUser state) {
-          if(state is UserState){
+    return BlocProvider<ManagerBloc>(
+      create: (_) => ManagerBloc(),
+      child: BlocListener<ManagerBloc, MangerUser>(
+        listener: (BuildContext context, MangerUser state) {
+          if(state is PageState){
             if (state.userState == Interface.connectionPage) {
               _navigatorKey.currentState!.pushReplacement(
                 MaterialPageRoute(builder: (context) => LoginPage()),
               );
-              // Accueil
-            } else if(state.userState == Interface.registerPage){
-              // Connexion
+            }
+            else if(state.userState == Interface.registerPage){
               _navigatorKey.currentState!.push(
                 MaterialPageRoute(
                   builder: (context) => RegisterPage(),
                 ),
               );
-            }else if(state.userState == Interface.forgottenPage){
-              // Connexion
+            }
+            else if(state.userState == Interface.forgottenPage){
               _navigatorKey.currentState!.push(
                 MaterialPageRoute(
                   builder: (context) => ForgottenPage(),
                 ),
               );
-            }else if(state.userState == Interface.homePage){
-              // Connexion
+            }
+            else if(state.userState == Interface.homePage){
               _navigatorKey.currentState!.pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => const AccueilPage(),
                 ),
               );
-            }else if(state.userState == Interface.likePage){
-              // Connexion
+            }
+            else if(state.userState == Interface.likePage){
               _navigatorKey.currentState!.push(
                 MaterialPageRoute(
                   builder: (context) => ILiked(),
                 ),
               );
-            }else if(state.userState == Interface.wishPage){
-              // Connexion
+            }
+            else if(state.userState == Interface.wishPage){
               _navigatorKey.currentState!.push(
                 MaterialPageRoute(
                   builder: (context) => const IWished(),
@@ -79,7 +78,6 @@ class MyApp extends StatelessWidget {
               );
             }
           }else if(state is UserGameState){
-            // Connexion
             _navigatorKey.currentState!.push(
               MaterialPageRoute(
                 builder: (context) => GameDetails(game: state.game!),

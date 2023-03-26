@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../Blocs/bloc_login.dart';
-import '../Blocs/bloc_user.dart';
+import '../Blocs/bloc_manager.dart';
 import '../validator.dart';
 
 class LoginPage extends StatelessWidget {
@@ -24,7 +24,7 @@ class LoginPage extends StatelessWidget {
       child: BlocListener<TrueUserBloc, TrueUserState>(
       listener: (BuildContext context, TrueUserState state) {
         if(state is Success){
-          BlocProvider.of<UserBloc>(context).add(HomePageEvent(state.user));
+          BlocProvider.of<ManagerBloc>(context).add(HomePageEvent(state.user));
         }else if (state is ErrorState){
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.error)));
@@ -188,7 +188,7 @@ class LoginPage extends StatelessWidget {
                                   ),
                                 ),
                                 onPressed: () {
-                                  BlocProvider.of<UserBloc>(context).add(
+                                  BlocProvider.of<ManagerBloc>(context).add(
                                       RegisterPageEvent());
                                 },
                                 child: const Text('Créer un nouveau compte',
@@ -206,7 +206,7 @@ class LoginPage extends StatelessWidget {
                           padding: EdgeInsets.only(bottom: screenHeight * 0.015),
                           child: GestureDetector(
                             onTap: () {
-                              BlocProvider.of<UserBloc>(context).add(
+                              BlocProvider.of<ManagerBloc>(context).add(
                                   ForgottenPageEvent());
                             },
                             child: const Text(

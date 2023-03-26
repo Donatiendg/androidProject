@@ -2,7 +2,7 @@ import 'package:eceee/Widgets/review_box.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../Blocs/bloc_user.dart';
+import '../Blocs/bloc_manager.dart';
 import '../game_class.dart';
 
 class Test extends StatefulWidget {
