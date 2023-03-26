@@ -196,7 +196,7 @@ class AccueilPage extends StatelessWidget {
                           Text(state.error),
                           ElevatedButton(
                               onPressed: () {
-                                BlocProvider.of<GameBloc>(context).add(LoadGames());
+                                BlocProvider.of<GameBloc>(context).add(UpdateGames());
                               },
                               child: const Text("Cliquer pour recharger la page")
                           ),

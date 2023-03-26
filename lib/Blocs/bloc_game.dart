@@ -16,6 +16,8 @@ class InitGamesBDD extends GameEvent{}
 
 class LoadGames extends GameEvent{}
 
+class UpdateGames extends GameEvent{}
+
 class FindGames extends GameEvent{
   final TextEditingController searchController;
   FindGames(this.searchController);
@@ -48,6 +50,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   GameBloc() : super(Loading()){
     on<InitGamesBDD>(_fetchGames);
     on<LoadGames>(_initGames);
+    on<UpdateGames>(_updateGames);
     on<FindGames>(_findGames);
     add(LoadGames());
     add(InitGamesBDD());
@@ -192,5 +195,9 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     }else{
       emit(ErrorData("Aucun jeux trouvé"));
     }
+  }
+
+  Future<void> _updateGames (event, emit) async{
+    emit(GameData(_game));
   }
 }
