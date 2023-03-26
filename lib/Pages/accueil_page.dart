@@ -214,8 +214,8 @@ class AccueilPage extends StatelessWidget {
                                 width: 1080, height: 1920, fit: BoxFit.fill),
                             Center(
                                 child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
+                                SizedBox(height: 20),
                                 Text(
                                   state.error,
                                   style: TextStyle(
