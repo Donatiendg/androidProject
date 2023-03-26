@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -14,6 +15,11 @@ class FetchGamesEvent extends GameEvent{}
 class InitGamesBDD extends GameEvent{}
 
 class LoadGames extends GameEvent{}
+
+class FindGames extends GameEvent{
+  final TextEditingController searchController;
+  FindGames(this.searchController);
+}
 
 abstract class GameState{}
 
@@ -32,10 +38,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   static const String steamStoreComments = 'https://store.steampowered.com/appreviews/';
 
   final FirebaseFirestore db = FirebaseFirestore.instance;
+  List<Game> _game = [];
 
   GameBloc() : super(Loading()){
     on<InitGamesBDD>(_fetchGames);
     on<LoadGames>(_initGames);
+    on<FindGames>(_findGames);
     add(LoadGames());
     add(InitGamesBDD());
   }
@@ -143,8 +151,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     emit(Loading());
     final games = await db.collection("games").get();
 
-    List<Game> game = [];
-
     for (var element in games.docs) {
       final el = element.data();
       List<String> screenshots = [];
@@ -159,17 +165,23 @@ class GameBloc extends Bloc<GameEvent, GameState> {
           comments.add(Commentaires(comment["review"], comment["stars"]));
         }
       }
-      game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
+      _game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
           el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots, comments));
     }
 
-    game.sort((a,b) => a.rank.compareTo(b.rank));
+    _game.sort((a,b) => a.rank.compareTo(b.rank));
 
-    if(game.isEmpty){
+    if(_game.isEmpty){
       emit(Loading());
       add(LoadGames());
     }else{
-      emit(GameData(game));
+      emit(GameData(_game));
     }
+  }
+
+  Future<void> _findGames (event, emit) async{
+    final List<Game> _gameflitred = _game.where((game) =>
+        game.name.toLowerCase().contains(event.searchController.text.toLowerCase())).toList();
+    emit(GameData(_gameflitred));
   }
 }

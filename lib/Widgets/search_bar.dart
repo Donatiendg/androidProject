@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../Blocs/bloc_game.dart';
 
 class SearchBarWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -10,20 +13,20 @@ class SearchBarWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(3.5),
-        color: Color(0xFF1e262c),
+        color: const Color(0xFF1e262c),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: [
           Expanded(
             child: TextField(
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontFamily: 'ProximaNova-Regular',
                 fontSize: 16,
               ),
               controller: controller,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: "Rechercher un jeu...",
                 border: InputBorder.none,
                   filled: true,
@@ -34,13 +37,19 @@ class SearchBarWidget extends StatelessWidget {
                     fontSize: 16,
                   )
               ),
+              onChanged: (value) {
+                BlocProvider.of<GameBloc>(context).add(FindGames(controller));
+              }
             ),
           ),
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.search,
-            size: 28,
-            color: Color(0xFF636AF6)),
+            onPressed: () {
+              BlocProvider.of<GameBloc>(context).add(FindGames(controller));
+            },
+            icon: const Icon(Icons.search,
+              size: 28,
+              color: Color(0xFF636AF6)
+            ),
           ),
         ],
       ),
