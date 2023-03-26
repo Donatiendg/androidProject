@@ -166,6 +166,7 @@ class AccueilPage extends StatelessWidget {
                             children: [
                               ListView.builder(
                                   shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount: games.length,
                                   itemBuilder: (context, index) {
                                     final game = games[index];

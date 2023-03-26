@@ -32,13 +32,15 @@ class RefreshData extends GameState{}
 
 class Loading extends GameState{}
 
+class ErrorData extends GameState{}
+
 class GameBloc extends Bloc<GameEvent, GameState> {
   static const String steamChartsBaseUrl = 'https://api.steampowered.com/ISteamChartsService/GetMostPlayedGames/v1/';
   static const String steamStoreBaseUrl = 'https://store.steampowered.com/api/appdetails?appids=';
   static const String steamStoreComments = 'https://store.steampowered.com/appreviews/';
 
   final FirebaseFirestore db = FirebaseFirestore.instance;
-  List<Game> _game = [];
+  final List<Game> _game = [];
 
   GameBloc() : super(Loading()){
     on<InitGamesBDD>(_fetchGames);
@@ -180,8 +182,12 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   Future<void> _findGames (event, emit) async{
-    final List<Game> _gameflitred = _game.where((game) =>
+    final List<Game> gameflitred = _game.where((game) =>
         game.name.toLowerCase().contains(event.searchController.text.toLowerCase())).toList();
-    emit(GameData(_gameflitred));
+    if(gameflitred.isNotEmpty){
+      emit(GameData(gameflitred));
+    }else{
+      emit(ErrorData());
+    }
   }
 }
