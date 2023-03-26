@@ -22,9 +22,9 @@ class AccueilPage extends StatelessWidget {
     return BlocProvider<GameBloc>(
       create: (_) => GameBloc(),
       child: BlocBuilder<GameBloc, GameState>(
-        builder: (context, snapshot) {
-          if(snapshot is GameData){
-            final games = snapshot.gameState!.toList();
+        builder: (context, state) {
+          if(state is GameData){
+            final games = state.gameState!.toList();
             games.removeAt(0);
             return Scaffold(
               resizeToAvoidBottomInset: false,
@@ -82,7 +82,7 @@ class AccueilPage extends StatelessWidget {
                                   children: [
                                     Expanded(
                                       child: Image.network(
-                                        snapshot.gameState![0].backgroundImage,
+                                        state.gameState![0].backgroundImage,
                                         fit: BoxFit.fill,
                                       )
                                     ),
@@ -100,13 +100,13 @@ class AccueilPage extends StatelessWidget {
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(snapshot.gameState![0].name,
+                                                  Text(state.gameState![0].name,
                                                     style: const TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 23,
                                                         fontFamily: 'ProximaNova-Bold'
                                                     ),),
-                                                  Text(snapshot.gameState![0].editor,
+                                                  Text(state.gameState![0].editor,
                                                     style: const TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 23,
@@ -115,7 +115,7 @@ class AccueilPage extends StatelessWidget {
                                                   const SizedBox(height: 10,),
                                                     SizedBox(
                                                       height: 50,
-                                                      child: Text("${snapshot.gameState![0].shortDesc.substring(0,100)}...",
+                                                      child: Text("${state.gameState![0].shortDesc.substring(0,100)}...",
                                                         style: const TextStyle(
                                                             color: Colors.white,
                                                             fontSize: 14,
@@ -131,7 +131,7 @@ class AccueilPage extends StatelessWidget {
                                                           ),
                                                         ),
                                                         onPressed: ()  {
-                                                          BlocProvider.of<UserBloc>(context).add(GameDetailsPageEvent(snapshot.gameState![0]));
+                                                          BlocProvider.of<UserBloc>(context).add(GameDetailsPageEvent(state.gameState![0]));
                                                         },
                                                         child: const Padding(
                                                           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -146,7 +146,7 @@ class AccueilPage extends StatelessWidget {
                                                       Expanded(child: Container()),
                                                       Align(
                                                         alignment: Alignment.bottomRight,
-                                                        child: Image.network(snapshot.gameState![0].frontImage,
+                                                        child: Image.network(state.gameState![0].frontImage,
                                                           width: 130,),
                                                       ),
                                                     ],
@@ -184,6 +184,27 @@ class AccueilPage extends StatelessWidget {
                   )
                 ]
               )
+            );
+          }else if(state is ErrorData){
+            return Column(
+              children: [
+                Expanded(
+                    child: Container(
+                      color: const Color(0xFF1A2025),
+                      child: Column(
+                        children: [
+                          Text(state.error),
+                          ElevatedButton(
+                              onPressed: () {
+                                BlocProvider.of<GameBloc>(context).add(LoadGames());
+                              },
+                              child: const Text("Cliquer pour recharger la page")
+                          ),
+                        ]
+                      ),
+                    )
+                ),
+              ],
             );
           }
           else{

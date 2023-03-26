@@ -32,7 +32,10 @@ class RefreshData extends GameState{}
 
 class Loading extends GameState{}
 
-class ErrorData extends GameState{}
+class ErrorData extends GameState{
+  final String error;
+  ErrorData(this.error);
+}
 
 class GameBloc extends Bloc<GameEvent, GameState> {
   static const String steamChartsBaseUrl = 'https://api.steampowered.com/ISteamChartsService/GetMostPlayedGames/v1/';
@@ -187,7 +190,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     if(gameflitred.isNotEmpty){
       emit(GameData(gameflitred));
     }else{
-      emit(ErrorData());
+      emit(ErrorData("Aucun jeux trouvé"));
     }
   }
 }
