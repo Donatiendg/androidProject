@@ -96,8 +96,7 @@ class _GameDetailsState extends State<GameDetails>{
                     height: 1920,
                     fit: BoxFit.fill),
                 SingleChildScrollView(
-                  child: Expanded(
-                    child: Column(
+                  child: Column(
                       children: [
                         Stack(
                           children: [
@@ -123,9 +122,13 @@ class _GameDetailsState extends State<GameDetails>{
                                   SizedBox(
                                     height: 130,
                                     width: double.infinity,
-                                    child: Expanded(
-                                      child: Image.network(
-                                          snapshot.game.backgroundImage, fit: BoxFit.fill),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Image.network(
+                                              snapshot.game.backgroundImage, fit: BoxFit.fill),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   SizedBox(
@@ -241,23 +244,28 @@ class _GameDetailsState extends State<GameDetails>{
                             )
                         )else
                           Container(
-                            height: screenHeight * 0.5,
                             margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
-                              child: ListView.builder(
+                            child: Column(
+                              children: [
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount: snapshot.game.comments.length,
                                   itemBuilder: (context, index) {
                                     final comment = snapshot.game.comments[index]!;
-                                    return (
-                                        ReviewBox(userName: 'visiteur',
-                                            userComment: comment.review,
-                                            userGrade: comment.stars)
-                                    );
-                                  }
-                              ),
+                                    return
+                                        ReviewBox(
+                                          userName: 'visiteur',
+                                          userComment: comment.review,
+                                          userGrade: comment.stars,
+                                      );
+                                    }
+                                  ),
+                              ],
                             ),
+                          ),
                       ],
                     ),
-                  ),
                 ),
               ],
             ),

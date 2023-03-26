@@ -84,7 +84,16 @@ class AccueilPage extends StatelessWidget {
                                       ),
                                       child: Stack(
                                         children: [
-                                          Expanded(child: Image.network(snapshot.gameState![0].backgroundImage, fit: BoxFit.fill,)),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Image.network(
+                                                  snapshot.gameState![0].backgroundImage,
+                                                  fit: BoxFit.fill,
+                                                )
+                                              ),
+                                            ],
+                                          ),
                                           Container(
                                             margin: const EdgeInsets.only(left: 15, right: 15, bottom: 20, top: 10),
                                             child: Column(
@@ -174,15 +183,19 @@ class AccueilPage extends StatelessWidget {
               ),
             );
           }else{
-            return Expanded(
-                child: Container(
-                  color:const Color(0xFF1A2025),
-                  child: const Center(
-                      child: CircularProgressIndicator(
-                        color: Color(0xFF636AF6),
-                      )
-                  ),
-                )
+            return Column(
+              children: [
+                Expanded(
+                    child: Container(
+                      color:const Color(0xFF1A2025),
+                      child: const Center(
+                          child: CircularProgressIndicator(
+                            color: Color(0xFF636AF6),
+                          )
+                      ),
+                    )
+                ),
+              ],
             );
           }
           }

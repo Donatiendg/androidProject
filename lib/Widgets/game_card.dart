@@ -42,8 +42,7 @@ class _GameCardState extends State<GameCard> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50)
                     ),
-                    child: Expanded(
-                      child: Row(
+                    child: Row(
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
@@ -76,15 +75,15 @@ class _GameCardState extends State<GameCard> {
                               ],
                             ),
                           ),
-                            Container(
-                              decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
-                                color: Color(0xFF636AF6),
-                              ),
-                              child: Align(
+                          
+                          Container(
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
+                              color: Color(0xFF636AF6),
+                            ),
+                            child: Align(
                                 alignment: Alignment.center,
-                                child: Expanded(
-                                  child: ElevatedButton(
+                                child: ElevatedButton(
                                     style: ButtonStyle(
                                       backgroundColor: MaterialStateColor.resolveWith(
                                             (states) => const Color(0xFF636AF6),
@@ -108,12 +107,10 @@ class _GameCardState extends State<GameCard> {
                                       ),
                                     ),
                                   ),
-                                ),
                               ),
-                            )
+                          )
                         ],
                       ),
-                    ),
                   )
                 ],
               )
