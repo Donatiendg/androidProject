@@ -138,8 +138,7 @@ class _GameDetailsState extends State<GameDetails>{
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 10),
-                                          child: Container(
-                                            color: Colors.red,
+                                          child: SizedBox(
                                             width: 80,
                                             height: 100,
                                             child: Image.network(

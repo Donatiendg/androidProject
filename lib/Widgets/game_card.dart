@@ -8,9 +8,7 @@ import '../game_class.dart';
 class GameCard extends StatefulWidget {
   final Game game;
 
-  const GameCard({super.key,
-    required this.game,
-  });
+  const GameCard({super.key, required this.game});
 
   @override
   _GameCardState createState() => _GameCardState();
