@@ -16,14 +16,8 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    double screenHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
-    double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
 
     return BlocProvider<TrueUserBloc>(
       create: (_) => TrueUserBloc(),
@@ -43,15 +37,17 @@ class LoginPage extends StatelessWidget {
             body: Stack(
                 children: <Widget>[
                   SvgPicture.asset('assets/Images&SVG/Bg Pattern.svg',
-                      width: 1080,
-                      height: 1920,
-                      fit: BoxFit.fill),
+                    width: 1080,
+                    height: 1920,
+                    fit: BoxFit.fill
+                  ),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Flexible(child: ListView(
+                        Flexible(
+                          child: ListView(
                           children: [
                             SizedBox(height: screenHeight * 0.05),
 
@@ -97,8 +93,7 @@ class LoginPage extends StatelessWidget {
                                     textAlign: TextAlign.center,
                                     keyboardType: TextInputType.emailAddress,
                                     decoration: const InputDecoration(
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 20),
+                                        contentPadding: EdgeInsets.symmetric(vertical: 20),
                                         hintText: 'E-mail',
                                         filled: true,
                                         fillColor: Color(0xFF1e262c),
@@ -108,8 +103,7 @@ class LoginPage extends StatelessWidget {
                                           fontSize: 18,
                                         )
                                     ),
-                                    validator: (value) =>
-                                        Validator.validateEmail(email: value),
+                                    validator: (value) => Validator.validateEmail(email: value),
                                   ),
                                   SizedBox(height: screenHeight * 0.015),
                                   //Mot de passe

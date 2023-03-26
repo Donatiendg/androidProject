@@ -179,8 +179,8 @@ class AccueilPage extends StatelessWidget {
                               ),
                             ],
                           )
-                            ]
-                          ),
+                        ]
+                    ),
                   )
                 ]
               )

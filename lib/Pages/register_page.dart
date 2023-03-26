@@ -10,16 +10,16 @@ class RegisterPage extends StatelessWidget {
   RegisterPage({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
 
+  final TextEditingController nameTextController = TextEditingController();
+  final TextEditingController emailTextController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
 
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-
-    final TextEditingController nameTextController = TextEditingController();
-    final TextEditingController emailTextController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final TextEditingController confirmPasswordController = TextEditingController();
 
     return BlocProvider<TrueUserBloc>(
       create: (_) => TrueUserBloc(),
@@ -40,16 +40,18 @@ class RegisterPage extends StatelessWidget {
             backgroundColor: const Color(0xFF1A2025),
             body: Stack(
               children: <Widget>[
-                Positioned.fill(
-                  child: SvgPicture.asset('assets/Images&SVG/Bg Pattern.svg',
-                  ),
+                SvgPicture.asset('assets/Images&SVG/Bg Pattern.svg',
+                  width: 1080,
+                  height: 1920,
+                  fit: BoxFit.fill
                 ),
                 Container(
                 margin:EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Flexible(child: ListView(
+                    Flexible(
+                      child: ListView(
                       children: [
                         SizedBox(height: screenHeight * 0.05),
 
@@ -80,7 +82,6 @@ class RegisterPage extends StatelessWidget {
 
                         SizedBox(height: screenHeight * 0.04),
 
-                        //Nom d'utilisateur
                         Form(
                           key: _formKey,
                           child: Column(
@@ -199,7 +200,7 @@ class RegisterPage extends StatelessWidget {
                                     ),
                                   ),
                                   onPressed: () async {
-                                    if(passwordController.text == confirmPasswordController.text && _formKey.currentState!.validate()){
+                                    if(passwordController.text == confirmPasswordController.text){
                                       BlocProvider.of<TrueUserBloc>(context).add(RegisterEvent(nameTextController.text, emailTextController.text, passwordController.text));
                                     }
                                   },
