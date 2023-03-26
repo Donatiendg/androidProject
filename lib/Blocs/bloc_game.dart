@@ -23,7 +23,9 @@ class FindGames extends GameEvent{
   FindGames(this.searchController);
 }
 
-abstract class GameState{}
+abstract class GameState{
+  get gameState => null;
+}
 
 class GameData extends GameState{
   final List<Game>? gameState;
@@ -196,7 +198,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     if(gameflitred.isNotEmpty){
       emit(GameData(gameflitred));
     }else{
-      emit(ErrorData("Aucun jeux trouvé"));
+      emit(ErrorData("Aucun jeu trouvé :("));
     }
   }
 

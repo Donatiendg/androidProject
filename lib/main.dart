@@ -9,6 +9,7 @@ import 'Pages/info_game_page.dart';
 import 'Pages/game_details_page.dart';
 import 'Blocs/bloc_manager.dart';
 import 'Pages/like_page.dart';
+import 'Pages/test.dart';
 import 'Pages/wish_page.dart';
 import 'Pages/login_page.dart';
 import 'Pages/forgotten_page.dart';
