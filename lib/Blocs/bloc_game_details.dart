@@ -26,17 +26,16 @@ class GameUnWishedEvent extends GameDetailsEvent{}
 abstract class GameDetailsState{}
 
 class Data extends GameDetailsState{
-  late final Game game;
+  final Game game;
   Data(this.game);
 }
 
 class GameLoading extends GameDetailsState{}
 
-class GameLiked extends GameDetailsState{}
-
-class GameDisliked extends GameDetailsState{}
-
-class SuccessUpdate extends GameDetailsState{}
+class SuccessUpdate extends GameDetailsState{
+  final String update;
+  SuccessUpdate(this.update);
+}
 
 class DetailsError extends GameDetailsState{
   final String error;
@@ -104,7 +103,7 @@ class GameBlocDetails extends Bloc<GameDetailsEvent, GameDetailsState> {
                 emit(Data(_game));
               }
         }
-    ).catchError((e) => print(e.toString()));//emit(DetailsError(e.toString())));
+    ).catchError((e) => emit(DetailsError(e.toString())));
   }
 
   Future<void> _gameLiked(event, emit) async {
@@ -116,7 +115,6 @@ class GameBlocDetails extends Bloc<GameDetailsEvent, GameDetailsState> {
       "likes": likes,
     });
     _game.liked = true;
-    emit(SuccessUpdate());
     emit(Data(_game));
   }
 
@@ -130,7 +128,6 @@ class GameBlocDetails extends Bloc<GameDetailsEvent, GameDetailsState> {
     });
 
     _game.liked = false;
-    emit(SuccessUpdate());
     emit(Data(_game));
   }
 
@@ -143,7 +140,6 @@ class GameBlocDetails extends Bloc<GameDetailsEvent, GameDetailsState> {
       "likes": likes,
     });
     _game.wish = true;
-    emit(SuccessUpdate());
     emit(Data(_game));
   }
 
@@ -157,7 +153,6 @@ class GameBlocDetails extends Bloc<GameDetailsEvent, GameDetailsState> {
     });
 
     _game.wish = false;
-    emit(SuccessUpdate());
     emit(Data(_game));
   }
 }

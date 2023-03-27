@@ -21,10 +21,10 @@ class RegisterPage extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return BlocProvider<TrueUserBloc>(
-      create: (_) => TrueUserBloc(),
-      child: BlocListener<TrueUserBloc, TrueUserState>(
-        listener: (BuildContext context, TrueUserState state) {
+    return BlocProvider<UserBloc>(
+      create: (_) => UserBloc(),
+      child: BlocListener<UserBloc, UserState>(
+        listener: (BuildContext context, UserState state) {
           if(state is Success){
             BlocProvider.of<ManagerBloc>(context).add(HomePageEvent(state.user));
           }else if (state is ErrorState){
@@ -33,7 +33,7 @@ class RegisterPage extends StatelessWidget {
               content: Text(state.error),
             ));
           }
-        }, child: BlocBuilder<TrueUserBloc, TrueUserState>(
+        }, child: BlocBuilder<UserBloc, UserState>(
         builder: (context, snapshot) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
@@ -201,7 +201,7 @@ class RegisterPage extends StatelessWidget {
                                     ),
                                     onPressed: () async {
                                       if(_formKey.currentState!.validate()){
-                                        BlocProvider.of<TrueUserBloc>(context).add(RegisterEvent(nameTextController.text, emailTextController.text, passwordController.text));
+                                        BlocProvider.of<UserBloc>(context).add(RegisterEvent(nameTextController.text, emailTextController.text, passwordController.text));
                                       }
                                     },
                                     child: const Text('S\'inscrire',

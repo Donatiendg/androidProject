@@ -38,9 +38,7 @@ class _GameDetailsState extends State<GameDetails>{
       create: (_) => GameBlocDetails(widget.game, BlocProvider.of<ManagerBloc>(context).user!),
         child: BlocListener<GameBlocDetails, GameDetailsState>(
         listener: (BuildContext context, GameDetailsState state) {
-          if(state is SuccessUpdate){
-
-          }else if (state is DetailsError){
+          if (state is DetailsError){
             ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.error),

@@ -13,10 +13,10 @@ class ForgottenPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<TrueUserBloc>(
-      create: (_) => TrueUserBloc(),
-      child: BlocListener<TrueUserBloc, TrueUserState>(
-        listener: (BuildContext context, TrueUserState state) {
+    return BlocProvider<UserBloc>(
+      create: (_) => UserBloc(),
+      child: BlocListener<UserBloc, UserState>(
+        listener: (BuildContext context, UserState state) {
           if(state is Success){
             BlocProvider.of<ManagerBloc>(context).add(LogInPageEvent());
           }else if (state is ErrorState){
@@ -24,7 +24,7 @@ class ForgottenPage extends StatelessWidget {
             SnackBar(content: Text(state.error)));
           }
         },
-        child: BlocBuilder<TrueUserBloc, TrueUserState>(
+        child: BlocBuilder<UserBloc, UserState>(
           builder: (context, snapshot) {
             return Scaffold(
               backgroundColor: Colors.grey[900],
@@ -83,7 +83,7 @@ class ForgottenPage extends StatelessWidget {
                       const SizedBox(height: 50.0),
                       ElevatedButton(
                         onPressed: () async {
-                          BlocProvider.of<TrueUserBloc>(context).add(ForgottenUserEvent(emailTextController.text));
+                          BlocProvider.of<UserBloc>(context).add(ForgottenUserEvent(emailTextController.text));
                         },
                         child: const Text('Renvoyer mon mot de passe'),
                       ),

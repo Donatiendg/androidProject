@@ -32,13 +32,11 @@ class _ReviewBoxState extends State<ReviewBox> {
             children: [
               Row(
                 children: [
-                  Text(widget.userName,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontFamily: '',
-                        decoration: TextDecoration.underline),
+                  CircleAvatar(
+                    backgroundColor: Colors.grey[800],
+                    child: const Icon(Icons.person, color: Colors.white),
                   ),
+                  Expanded(child: Container()),
                   for (int j = 5; j - widget.userGrade > 0; j--)
                     SvgPicture.asset(
                       'assets/Icones/star_empty.svg',

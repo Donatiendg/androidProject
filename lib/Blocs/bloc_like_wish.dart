@@ -51,70 +51,52 @@ class GameListBloc extends Bloc<GameListEvent, GameListState> {
           String jsonData = json.encode(data);
           Map<String, dynamic> userData = json.decode(jsonData);
 
+          List<int> like = [];
+          List<int> wish = [];
           if(isLike){
-            List<int> like = [];
             if(userData["likes"] != null){
               userData["likes"].forEach((doc) {
                 int entier = doc;
                 like.add(entier);
               });
             }
-            for (var element in games.docs) {
-              final el = element.data();
-              List<String> screenshots = [];
-              if(el["imgScreen"] != null){
-                for(final screenshot in el["imgScreen"]){
-                  screenshots.add(screenshot);
-                }
-              }
-              List<Commentaires?> comments = [];
-              if(el["comments"] != null){
-                for(final comment in el["comments"]){
-                  final String review = comment['review'];
-                  final int stars = comment['stars'];
-                  comments.add(Commentaires(review, stars));
-                }
-              }
-              if(like.contains(el["id"])){
-                game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
-                    el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots, comments));
-              }
-            }
-          }else{
-            List<int> wish = [];
 
+          }else{
             if(userData["wishlist"] != null){
               userData["wishlist"].forEach((doc) {
                 int entier = doc;
                 wish.add(entier);
               });
             }
-            for (var element in games.docs) {
-              final el = element.data();
-              List<String> screenshots = [];
-              if(el["imgScreen"] != null){
-                for(final screenshot in el["imgScreen"]){
-                  screenshots.add(screenshot);
-                }
+          }
+
+          for (var element in games.docs) {
+            final el = element.data();
+
+            List<String> screenshots = [];
+            if(el["imgScreen"] != null){
+              for(final screenshot in el["imgScreen"]){
+                screenshots.add(screenshot);
               }
-              List<Commentaires?> comments = [];
-              if(el["comments"] != null){
-                for(final comment in el["comments"]){
-                  final String review = comment['review'];
-                  final int stars = comment['stars'];
-                  comments.add(Commentaires(review, stars));
-                }
+            }
+
+            List<Commentaires?> comments = [];
+            if(el["comments"] != null){
+              for(final comment in el["comments"]){
+                final String review = comment['review'];
+                final int stars = comment['stars'];
+                comments.add(Commentaires(review, stars));
               }
-              if(wish.contains(el["id"])){
-                game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
-                    el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots, comments));
-              }
+            }
+            if(like.contains(el["id"])){
+              game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
+                  el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots, comments));
             }
           }
           emit(GameListData(game));
         }
       }
-    ).catchError((e) => print(e.toString()));//em
+    ).catchError((e) => print(e.toString()));//emit
 
     if(game.isEmpty){
       emit(NoData());
