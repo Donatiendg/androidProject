@@ -52,7 +52,7 @@ class RegisterPage extends StatelessWidget {
                   children: [
                     Flexible(
                       child: ListView(
-                      children: [
+                        children: [
                         SizedBox(height: screenHeight * 0.05),
 
                         const Text(
@@ -94,7 +94,7 @@ class RegisterPage extends StatelessWidget {
                                   fontSize: 18,
                                 ),
                                 textAlign: TextAlign.center,
-                                keyboardType: TextInputType.emailAddress,
+                                keyboardType: TextInputType.name,
                                 decoration: const InputDecoration(
                                     contentPadding: EdgeInsets.symmetric(vertical: 20),
                                     hintText: 'Nom d\'utilisateur',
@@ -185,38 +185,38 @@ class RegisterPage extends StatelessWidget {
                                     )
                                 ),
                                 obscureText: true,
-                                validator: (value) => Validator.validatePassword(password: value),
+                                validator: (value) => Validator.validateConfirmPassword(password: passwordController.text, confirmPassword: value)
                               ),
 
                               SizedBox(height: screenHeight * 0.15),
                               //S'inscrire
                               SizedBox(
-                                width: double.infinity,
-                                height: 60,
-                                child: ElevatedButton(
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateColor.resolveWith(
-                                          (states) => const Color(0xFF636AF6),
+                                  width: double.infinity,
+                                  height: 60,
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateColor.resolveWith(
+                                            (states) => const Color(0xFF636AF6),
+                                      ),
                                     ),
+                                    onPressed: () async {
+                                      if(_formKey.currentState!.validate()){
+                                        BlocProvider.of<TrueUserBloc>(context).add(RegisterEvent(nameTextController.text, emailTextController.text, passwordController.text));
+                                      }
+                                    },
+                                    child: const Text('S\'inscrire',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'ProximaNova-Regular'
+                                      ),),
                                   ),
-                                  onPressed: () async {
-                                    if(passwordController.text == confirmPasswordController.text){
-                                      BlocProvider.of<TrueUserBloc>(context).add(RegisterEvent(nameTextController.text, emailTextController.text, passwordController.text));
-                                    }
-                                  },
-                                  child: const Text('S\'inscrire',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontFamily: 'ProximaNova-Regular'
-                                    ),),
                                 ),
-                              ),
                               SizedBox(height: screenHeight * 0.015),
                             ],
                           ),
                         ),
                       ],
-                    )
+                      )
                     ),
                   ],
                 ),
