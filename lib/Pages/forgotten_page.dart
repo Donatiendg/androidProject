@@ -11,8 +11,11 @@ class ForgottenPage extends StatelessWidget {
 
   TextEditingController emailTextController = TextEditingController();
 
+
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return BlocProvider<UserBloc>(
       create: (_) => UserBloc(),
       child: BlocListener<UserBloc, UserState>(
@@ -32,36 +35,25 @@ class ForgottenPage extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const SizedBox(height: 80.0),
                       const Text(
                         'Mot de passe oublié',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 30.0,
                             color: Colors.white,
-                            fontFamily: 'GoogleSans'
+                            fontFamily: 'GoogleSans-Bold'
                         ),
                       ),
                       const SizedBox(height: 15.0),
                       const Text(
-                        'Veuillez saisir votre email',
+                        'Veuillez saisir votre email \n afin de réinitialiser votre mot de passe',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 14.0,
+                            fontSize: 15.265845,
                             color: Colors.white,
-                            fontFamily: 'Proxima'
-                        ),
-                      ),
-                      const Text(
-                        'afin de réinitialiser votre mot de passe',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.white,
-                            fontFamily: 'Proxima'
+                            fontFamily: 'ProximaNova-Regular'
                         ),
                       ),
                       const SizedBox(height: 16.0),
@@ -70,22 +62,40 @@ class ForgottenPage extends StatelessWidget {
                         textAlign: TextAlign.center,
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 20),
                             hintText: 'E-mail',
                             filled: true,
-                            fillColor: Colors.grey,
+                            fillColor: Color(0xFF1e262c),
                             hintStyle: TextStyle(
                               color: Colors.white,
+                              fontFamily: 'ProximaNova-Regular',
+                              fontSize: 18,
                             )
                         ),
                         validator: (value) =>
                             Validator.validateEmail(email: value),
                       ),
                       const SizedBox(height: 50.0),
-                      ElevatedButton(
-                        onPressed: () async {
-                          BlocProvider.of<UserBloc>(context).add(ForgottenUserEvent(emailTextController.text));
-                        },
-                        child: const Text('Renvoyer mon mot de passe'),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 60,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateColor
+                                .resolveWith(
+                                  (states) => const Color(0xFF636AF6),
+                            ),
+                          ),
+                          onPressed: () async {
+                            BlocProvider.of<UserBloc>(context).add(ForgottenUserEvent(emailTextController.text));
+                          },
+                          child: const Text('Renvoyer mon mot de passe',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: 'ProximaNova-Regular'
+                            )),
+                        ),
                       ),
                       const Spacer(),
                     ],
