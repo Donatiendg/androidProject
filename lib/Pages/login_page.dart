@@ -19,17 +19,17 @@ class LoginPage extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return BlocProvider<TrueUserBloc>(
-      create: (_) => TrueUserBloc(),
-      child: BlocListener<TrueUserBloc, TrueUserState>(
-      listener: (BuildContext context, TrueUserState state) {
+    return BlocProvider<UserBloc>(
+      create: (_) => UserBloc(),
+      child: BlocListener<UserBloc, UserState>(
+      listener: (BuildContext context, UserState state) {
         if(state is Success){
           BlocProvider.of<ManagerBloc>(context).add(HomePageEvent(state.user));
         }else if (state is ErrorState){
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.error)));
         }
-      }, child: BlocBuilder<TrueUserBloc, TrueUserState>(
+      }, child: BlocBuilder<UserBloc, UserState>(
         builder: (context, snapshot) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
@@ -146,7 +146,7 @@ class LoginPage extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
-                                          BlocProvider.of<TrueUserBloc>(context).add(
+                                          BlocProvider.of<UserBloc>(context).add(
                                               LogInEvent(emailTextController.text,
                                                   passwordTextController.text));
                                         }

@@ -4,16 +4,16 @@ import 'package:firebase_database/firebase_database.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-abstract class TrueUserEvent{}
+abstract class UserEvent{}
 
-class LogInEvent extends TrueUserEvent{
+class LogInEvent extends UserEvent{
   final String mail;
   final String password;
 
   LogInEvent(this.mail, this.password);
 }
 
-class RegisterEvent extends TrueUserEvent{
+class RegisterEvent extends UserEvent{
   final String name;
   final String mail;
   final String password;
@@ -21,38 +21,38 @@ class RegisterEvent extends TrueUserEvent{
   RegisterEvent(this.name, this.mail, this.password);
 }
 
-class ForgottenUserEvent extends TrueUserEvent{
+class ForgottenUserEvent extends UserEvent{
   final String mail;
 
   ForgottenUserEvent(this.mail);
 }
 
-class LogOutEvent extends TrueUserEvent{}
+class LogOutEvent extends UserEvent{}
 
-abstract class TrueUserState{}
+abstract class UserState{}
 
-class Loading extends TrueUserState{}
+class Loading extends UserState{}
 
-class Success extends TrueUserState{
+class Success extends UserState{
   final User? user;
 
   Success(this.user);
 }
 
-class ErrorState extends TrueUserState{
+class ErrorState extends UserState{
   final String error;
   ErrorState(this.error);
 }
 
-class SuccessLogOut extends TrueUserState{}
+class SuccessLogOut extends UserState{}
 
-class TrueUserBloc extends Bloc<TrueUserEvent, TrueUserState> {
+class UserBloc extends Bloc<UserEvent, UserState> {
   User? user;
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  TrueUserBloc() : super(Loading()){
+  UserBloc() : super(Loading()){
     on<LogInEvent>(_connectionUser);
     on<RegisterEvent>(_registerUser);
     on<ForgottenUserEvent>(_forgottenUser);

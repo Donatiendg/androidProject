@@ -5,16 +5,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'Pages/info_game_page.dart';
 import 'Pages/game_details_page.dart';
 import 'Blocs/bloc_manager.dart';
 import 'Pages/like_page.dart';
-import 'Pages/test.dart';
 import 'Pages/wish_page.dart';
 import 'Pages/login_page.dart';
 import 'Pages/forgotten_page.dart';
 
-import 'Widgets/game_presentation.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {

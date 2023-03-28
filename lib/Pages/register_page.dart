@@ -21,10 +21,10 @@ class RegisterPage extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return BlocProvider<TrueUserBloc>(
-      create: (_) => TrueUserBloc(),
-      child: BlocListener<TrueUserBloc, TrueUserState>(
-        listener: (BuildContext context, TrueUserState state) {
+    return BlocProvider<UserBloc>(
+      create: (_) => UserBloc(),
+      child: BlocListener<UserBloc, UserState>(
+        listener: (BuildContext context, UserState state) {
           if(state is Success){
             BlocProvider.of<ManagerBloc>(context).add(HomePageEvent(state.user));
           }else if (state is ErrorState){
@@ -33,7 +33,7 @@ class RegisterPage extends StatelessWidget {
               content: Text(state.error),
             ));
           }
-        }, child: BlocBuilder<TrueUserBloc, TrueUserState>(
+        }, child: BlocBuilder<UserBloc, UserState>(
         builder: (context, snapshot) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
@@ -52,7 +52,7 @@ class RegisterPage extends StatelessWidget {
                   children: [
                     Flexible(
                       child: ListView(
-                      children: [
+                        children: [
                         SizedBox(height: screenHeight * 0.05),
 
                         const Text(
@@ -94,7 +94,7 @@ class RegisterPage extends StatelessWidget {
                                   fontSize: 18,
                                 ),
                                 textAlign: TextAlign.center,
-                                keyboardType: TextInputType.emailAddress,
+                                keyboardType: TextInputType.name,
                                 decoration: const InputDecoration(
                                     contentPadding: EdgeInsets.symmetric(vertical: 20),
                                     hintText: 'Nom d\'utilisateur',
@@ -185,38 +185,38 @@ class RegisterPage extends StatelessWidget {
                                     )
                                 ),
                                 obscureText: true,
-                                validator: (value) => Validator.validatePassword(password: value),
+                                validator: (value) => Validator.validateConfirmPassword(password: passwordController.text, confirmPassword: value)
                               ),
 
                               SizedBox(height: screenHeight * 0.15),
                               //S'inscrire
                               SizedBox(
-                                width: double.infinity,
-                                height: 60,
-                                child: ElevatedButton(
-                                  style: ButtonStyle(
-                                    backgroundColor: MaterialStateColor.resolveWith(
-                                          (states) => const Color(0xFF636AF6),
+                                  width: double.infinity,
+                                  height: 60,
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor: MaterialStateColor.resolveWith(
+                                            (states) => const Color(0xFF636AF6),
+                                      ),
                                     ),
+                                    onPressed: () async {
+                                      if(_formKey.currentState!.validate()){
+                                        BlocProvider.of<UserBloc>(context).add(RegisterEvent(nameTextController.text, emailTextController.text, passwordController.text));
+                                      }
+                                    },
+                                    child: const Text('S\'inscrire',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'ProximaNova-Regular'
+                                      ),),
                                   ),
-                                  onPressed: () async {
-                                    if(passwordController.text == confirmPasswordController.text){
-                                      BlocProvider.of<TrueUserBloc>(context).add(RegisterEvent(nameTextController.text, emailTextController.text, passwordController.text));
-                                    }
-                                  },
-                                  child: const Text('S\'inscrire',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontFamily: 'ProximaNova-Regular'
-                                    ),),
                                 ),
-                              ),
                               SizedBox(height: screenHeight * 0.015),
                             ],
                           ),
                         ),
                       ],
-                    )
+                      )
                     ),
                   ],
                 ),
