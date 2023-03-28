@@ -44,12 +44,15 @@ class SearchBarWidget extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              BlocProvider.of<GameBloc>(context).add(FindGames(controller));
+              controller.text.isEmpty ?
+                BlocProvider.of<GameBloc>(context).add(FindGames(controller))
+                : {controller.text = "", BlocProvider.of<GameBloc>(context).add(FindGames(controller))};
             },
-            icon: const Icon(Icons.search,
+            icon: controller.text.isEmpty ? const Icon(Icons.search,
               size: 28,
-              color: Color(0xFF636AF6)
-            ),
+              color: Color(0xFF636AF6)) : const Icon(Icons.close,
+                size: 28,
+                color: Color(0xFF636AF6)),
           ),
         ],
       ),

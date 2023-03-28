@@ -10,13 +10,13 @@ import '../Widgets/game_card.dart';
 import '../Blocs/bloc_game.dart';
 
 class AccueilPage extends StatelessWidget {
-  const AccueilPage({Key? key}) : super(key: key);
+  AccueilPage({Key? key}) : super(key: key);
 
+  TextEditingController searchTextController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    TextEditingController searchTextController = TextEditingController();
 
     return BlocProvider<GameBloc>(
         create: (_) => GameBloc(),

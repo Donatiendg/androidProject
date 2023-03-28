@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
             else if(state.userState == Interface.homePage){
               _navigatorKey.currentState!.pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => const AccueilPage(),
+                  builder: (context) => AccueilPage(),
                 ),
               );
             }
