@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.eceee">
    <application
-        android:label="eceee"
+        android:label="SteamApp"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
