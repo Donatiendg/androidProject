@@ -27,6 +27,11 @@ class LoadingList extends GameListState{}
 
 class NoData extends GameListState{}
 
+class ErrorData extends GameListState{
+  final String error;
+  ErrorData(this.error);
+}
+
 class GameListBloc extends Bloc<GameListEvent, GameListState> {
   final User user;
   final bool isLike;
@@ -53,22 +58,7 @@ class GameListBloc extends Bloc<GameListEvent, GameListState> {
 
           List<int> like = [];
           List<int> wish = [];
-          if(isLike){
-            if(userData["likes"] != null){
-              userData["likes"].forEach((doc) {
-                int entier = doc;
-                like.add(entier);
-              });
-            }
 
-          }else{
-            if(userData["wishlist"] != null){
-              userData["wishlist"].forEach((doc) {
-                int entier = doc;
-                wish.add(entier);
-              });
-            }
-          }
 
           for (var element in games.docs) {
             final el = element.data();
@@ -88,15 +78,36 @@ class GameListBloc extends Bloc<GameListEvent, GameListState> {
                 comments.add(Commentaires(review, stars));
               }
             }
-            if(like.contains(el["id"])){
-              game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
-                  el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots, comments));
+
+            if(isLike){
+              if(userData["likes"] != null){
+                userData["likes"].forEach((doc) {
+                  int entier = doc;
+                  like.add(entier);
+                });
+              }
+              if(like.contains(el["id"])){
+                game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
+                    el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots, comments));
+              }
             }
+            else{
+              if(userData["wishlist"] != null){
+                userData["wishlist"].forEach((doc) {
+                  int entier = doc;
+                  wish.add(entier);
+                });
+              }
+              if(wish.contains(el["id"])){
+                game.add(Game(el["id"], el["rank"], el["name"], el["editor"],
+                    el["price"], el["shortDesc"], el["desc"], el["imgBack"], el["imgHeader"], screenshots, comments));
+              }
+            }
+
           }
-          emit(GameListData(game));
         }
       }
-    ).catchError((e) => print(e.toString()));//emit
+    ).catchError((e) => emit(ErrorData(e.toString())));
 
     if(game.isEmpty){
       emit(NoData());

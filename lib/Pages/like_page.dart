@@ -7,12 +7,8 @@ import 'package:flutter_svg/svg.dart';
 import '../Blocs/bloc_manager.dart';
 import '../Blocs/bloc_like_wish.dart';
 
-class ILiked extends StatefulWidget {
-  @override
-  _ILiked createState() => _ILiked();
-}
-
-class _ILiked extends State<ILiked> with RouteAware{
+class ILiked extends StatelessWidget{
+  const ILiked({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +55,8 @@ class _ILiked extends State<ILiked> with RouteAware{
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Flexible(child: ListView(
+                                Flexible(
+                                    child: ListView(
                                   children: [
                                     SizedBox(height: screenHeight * 0.3),
 
