@@ -50,53 +50,53 @@ class IWished extends StatelessWidget {
                         fit: BoxFit.fill),
     
                     Container(
-                  margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Flexible(
-                          child: ListView(
-                            children: [
+                      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Flexible(
+                              child: ListView(
+                                children: [
 
-                            SizedBox(height: screenHeight * 0.3),
+                                SizedBox(height: screenHeight * 0.3),
 
-                            SvgPicture.asset(
-                              'assets/Icones/empty_whishlist.svg',
-                              width: 120,
-                              height: 120,
-                            ),
+                                SvgPicture.asset(
+                                  'assets/Icones/empty_whishlist.svg',
+                                  width: 120,
+                                  height: 120,
+                                ),
 
-                            SizedBox(height: screenHeight * 0.10),
+                                SizedBox(height: screenHeight * 0.10),
 
-                            const Text(
-                              'Vous n\'avez encore pas liké de contenu.',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: Colors.white,
-                                  fontFamily: 'GoogleSans-Bold'
-                              ),
-                            ),
+                                const Text(
+                                  'Vous n\'avez encore pas liké de contenu.',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.white,
+                                      fontFamily: 'GoogleSans-Bold'
+                                  ),
+                                ),
 
-                            SizedBox(height: screenHeight * 0.02),
+                                SizedBox(height: screenHeight * 0.02),
 
-                            const Text(
-                              'Cliquez sur l\'étoile pour en rajouter.',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: Colors.white,
-                                  fontFamily: 'GoogleSans-Bold'
-                              ),
-                            ),
+                                const Text(
+                                  'Cliquez sur l\'étoile pour en rajouter.',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.white,
+                                      fontFamily: 'GoogleSans-Bold'
+                                  ),
+                                ),
 
-                            SizedBox(height: screenHeight * 0.015),
-                          ],
-                        )
+                                SizedBox(height: screenHeight * 0.015),
+                              ],
+                            )
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
                   ]
                 ),
               );
