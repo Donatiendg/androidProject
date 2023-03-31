@@ -50,7 +50,7 @@ class IWished extends StatelessWidget {
                         fit: BoxFit.fill),
     
                     Container(
-                      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
+                      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -74,7 +74,7 @@ class IWished extends StatelessWidget {
                                   style: TextStyle(
                                       fontSize: 20.0,
                                       color: Colors.white,
-                                      fontFamily: 'GoogleSans-Bold'
+                                      fontFamily: 'ProximaNova-Regular'
                                   ),
                                 ),
 
@@ -86,7 +86,7 @@ class IWished extends StatelessWidget {
                                   style: TextStyle(
                                       fontSize: 20.0,
                                       color: Colors.white,
-                                      fontFamily: 'GoogleSans-Bold'
+                                      fontFamily: 'ProximaNova-Regular'
                                   ),
                                 ),
 

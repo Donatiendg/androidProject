@@ -27,7 +27,7 @@ class _GameCardState extends State<GameCard> {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: SizedBox(
-                height: 80,
+                height: 100,
                 child: Stack(
                 children: [
                   Positioned.fill(
@@ -44,7 +44,10 @@ class _GameCardState extends State<GameCard> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-                            child: Image.network(widget.game.frontImage, width: 110),
+                            child: Container(
+                              height: 90,
+                                width: 100,
+                                child: Image.network(widget.game.frontImage, width: 90, fit: BoxFit.cover)),
                           ),
 
                           Expanded(
@@ -52,24 +55,52 @@ class _GameCardState extends State<GameCard> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(widget.game.name,
+                                Text(
+                                  widget.game.name.length >= 20
+                                      ? widget.game.name.substring(0, 20) + "..."
+                                      : widget.game.name,
                                   textAlign: TextAlign.left,
                                   style: const TextStyle(
-                                      color: Colors.white
+                                    color: Colors.white,
+                                    fontFamily: 'ProximaNova-Regular',
+                                    fontSize: 18,
                                   ),
                                 ),
-                                Text(widget.game.editor,
+                                Text(
+                                  widget.game.editor.length >= 15
+                                      ? "${widget.game.editor.substring(0, 15)}..."
+                                      : widget.game.editor,
                                   textAlign: TextAlign.left,
                                   style: const TextStyle(
-                                      color: Colors.white
+                                    color: Colors.white,
+                                    fontFamily: 'ProximaNova-Regular',
+                                    fontSize: 15,
                                   ),
                                 ),
-                                Text("Prix : ${widget.game.price}",
+                                RichText(
                                   textAlign: TextAlign.left,
-                                  style: const TextStyle(
-                                    color: Colors.white
+                                  text: TextSpan(
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'ProximaNova-Regular',
+                                      fontSize: 15,
+                                    ),
+                                    children: <TextSpan>[
+                                      const TextSpan(
+                                        text: 'Prix',
+                                        style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                      const TextSpan(text: ' : '),
+                                      TextSpan(
+                                        text: widget.game.price.length >= 15
+                                            ? "${widget.game.price.substring(0, 15)}..."
+                                            : widget.game.price,
+                                      ),
+                                    ],
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),

@@ -2,6 +2,7 @@ import 'package:eceee/validator.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../Blocs/bloc_login.dart';
 import '../Blocs/bloc_manager.dart';
@@ -33,76 +34,84 @@ class ForgottenPage extends StatelessWidget {
               onTap: () => FocusScope.of(context).unfocus(),
               child: Scaffold(
                 backgroundColor: Colors.grey[900],
-                body: Form(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 80.0),
-                        const Text(
-                          'Mot de passe oublié',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 30.0,
-                              color: Colors.white,
-                              fontFamily: 'GoogleSans-Bold'
-                          ),
-                        ),
-                        const SizedBox(height: 15.0),
-                        const Text(
-                          'Veuillez saisir votre email \n afin de réinitialiser votre mot de passe',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 15.265845,
-                              color: Colors.white,
-                              fontFamily: 'ProximaNova-Regular'
-                          ),
-                        ),
-                        const SizedBox(height: 16.0),
-                        TextFormField(
-                          controller: emailTextController,
-                          textAlign: TextAlign.center,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: const InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 20),
-                              hintText: 'E-mail',
-                              filled: true,
-                              fillColor: Color(0xFF1e262c),
-                              hintStyle: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'ProximaNova-Regular',
-                                fontSize: 18,
-                              )
-                          ),
-                          validator: (value) =>
-                              Validator.validateEmail(email: value),
-                        ),
-                        const SizedBox(height: 50.0),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 60,
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateColor
-                                  .resolveWith(
-                                    (states) => const Color(0xFF636AF6),
+                body: Stack(
+                  children: [
+                    SvgPicture.asset('assets/Images&SVG/Bg Pattern.svg',
+                        width: 1080,
+                        height: 1920,
+                        fit: BoxFit.fill),
+                    Form(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 80.0),
+                            const Text(
+                              'Mot de passe oublié',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 30.0,
+                                  color: Colors.white,
+                                  fontFamily: 'GoogleSans-Bold'
                               ),
                             ),
-                            onPressed: () async {
-                              BlocProvider.of<UserBloc>(context).add(ForgottenUserEvent(emailTextController.text));
-                            },
-                            child: const Text('Renvoyer mon mot de passe',
+                            const SizedBox(height: 15.0),
+                            const Text(
+                              'Veuillez saisir votre email \n afin de réinitialiser votre mot de passe',
+                              textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 15,
+                                  color: Colors.white,
                                   fontFamily: 'ProximaNova-Regular'
-                              )),
-                          ),
+                              ),
+                            ),
+                            const SizedBox(height: 16.0),
+                            TextFormField(
+                              controller: emailTextController,
+                              textAlign: TextAlign.center,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: const InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 20),
+                                  hintText: 'E-mail',
+                                  filled: true,
+                                  fillColor: Color(0xFF1e262c),
+                                  hintStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'ProximaNova-Regular',
+                                    fontSize: 18,
+                                  )
+                              ),
+                              validator: (value) =>
+                                  Validator.validateEmail(email: value),
+                            ),
+                            const SizedBox(height: 50.0),
+                            SizedBox(
+                              width: double.infinity,
+                              height: 60,
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                  backgroundColor: MaterialStateColor
+                                      .resolveWith(
+                                        (states) => const Color(0xFF636AF6),
+                                  ),
+                                ),
+                                onPressed: () async {
+                                  BlocProvider.of<UserBloc>(context).add(ForgottenUserEvent(emailTextController.text));
+                                },
+                                child: const Text('Renvoyer mon mot de passe',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: 'ProximaNova-Regular'
+                                  )),
+                              ),
+                            ),
+                            const Spacer(),
+                          ],
                         ),
-                        const Spacer(),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             );

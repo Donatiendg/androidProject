@@ -100,6 +100,9 @@ class RegisterPage extends StatelessWidget {
                                   decoration: const InputDecoration(
                                       contentPadding: EdgeInsets.symmetric(vertical: 20),
                                       hintText: 'Nom d\'utilisateur',
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: Color(0xFF636AF6)),
+                                      ),
                                       filled: true,
                                       fillColor:Color(0xFF1e262c),
                                       hintStyle: TextStyle(
@@ -125,6 +128,9 @@ class RegisterPage extends StatelessWidget {
                                   decoration: const InputDecoration(
                                       contentPadding: EdgeInsets.symmetric(vertical: 20),
                                       hintText: 'E-Mail',
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: Color(0xFF636AF6)),
+                                      ),
                                       filled: true,
                                       fillColor:Color(0xFF1e262c),
                                       hintStyle: TextStyle(
@@ -149,6 +155,9 @@ class RegisterPage extends StatelessWidget {
                                   decoration: const InputDecoration(
                                       contentPadding: EdgeInsets.symmetric(vertical: 20),
                                       hintText: 'Mot de passe',
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: Color(0xFF636AF6)),
+                                      ),
                                       filled: true,
                                       fillColor:Color(0xFF1e262c),
                                       hintStyle: TextStyle(
@@ -174,6 +183,9 @@ class RegisterPage extends StatelessWidget {
                                   decoration: const InputDecoration(
                                       contentPadding: EdgeInsets.symmetric(vertical: 20),
                                       hintText: 'Vérification du mot de passe',
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: Color(0xFF636AF6)),
+                                      ),
                                       filled: true,
                                       fillColor: Color(0xFF1e262c),
                                       hintStyle: TextStyle(

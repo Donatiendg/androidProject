@@ -182,6 +182,17 @@ class AccueilPage extends StatelessWidget {
                               )),
                             Column(
                               children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 10,top:5, left:20),
+                                  child: Expanded(child: Align(alignment: Alignment.centerLeft,
+                                      child: searchTextController.text.isEmpty ? Text("Les meilleures ventes",
+                                          style: TextStyle(color: Colors.white,
+                                              fontFamily: 'ProximaNova-Regular',
+                                              fontSize: 18, decoration: TextDecoration.underline)) : Text("Nombre de résultats : " + state.gameState!.toList().length.toString() ,
+                                          style: TextStyle(color: Colors.white,
+                                              fontFamily: 'ProximaNova-Regular',
+                                              fontSize: 18, decoration: TextDecoration.underline)))),
+                                ),
                                 ListView.builder(
                                     shrinkWrap: true,
                                     physics: const NeverScrollableScrollPhysics(),

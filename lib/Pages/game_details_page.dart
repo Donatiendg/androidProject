@@ -102,15 +102,12 @@ class _GameDetailsState extends State<GameDetails>{
                               color: Colors.black,
                               width: double.infinity,
                               height: 300,
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
                                 child: PageView.builder(
                                   itemCount: snapshot.game.screenImage.length,
                                   itemBuilder: (BuildContext context, int index) {
-                                    return Image.network(snapshot.game.screenImage[index]);
+                                    return Image.network(snapshot.game.screenImage[index], fit: BoxFit.cover,);
                                   },
                                 ),
-                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
@@ -137,7 +134,7 @@ class _GameDetailsState extends State<GameDetails>{
                                         Padding(
                                           padding: const EdgeInsets.symmetric(horizontal: 10),
                                           child: SizedBox(
-                                            width: 80,
+                                            width: 120,
                                             height: 100,
                                             child: Image.network(
                                                 snapshot.game.frontImage),

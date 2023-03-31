@@ -96,6 +96,9 @@ class LoginPage extends StatelessWidget {
                                       keyboardType: TextInputType.emailAddress,
                                       decoration: const InputDecoration(
                                           contentPadding: EdgeInsets.symmetric(vertical: 20),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Color(0xFF636AF6)),
+                                          ),
                                           hintText: 'E-mail',
                                           filled: true,
                                           fillColor: Color(0xFF1e262c),
@@ -122,6 +125,9 @@ class LoginPage extends StatelessWidget {
                                           contentPadding: EdgeInsets.symmetric(
                                               vertical: 20),
                                           hintText: 'Mot de passe',
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Color(0xFF636AF6)),
+                                          ),
                                           filled: true,
                                           fillColor: Color(0xFF1e262c),
                                           hintStyle: TextStyle(
