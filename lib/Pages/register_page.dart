@@ -10,6 +10,10 @@ class RegisterPage extends StatelessWidget {
   RegisterPage({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
 
+  bool _isSend = false;
+  bool _hasEmailError = false;
+  bool _hasPasswordError = false;
+
   final TextEditingController nameTextController = TextEditingController();
   final TextEditingController emailTextController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -28,10 +32,26 @@ class RegisterPage extends StatelessWidget {
           if(state is Success){
             BlocProvider.of<ManagerBloc>(context).add(HomePageEvent(state.user));
           }else if (state is ErrorState){
-            ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.error),
-            ));
+            if(state.error == "invalid-email"){
+              _hasEmailError = true;
+              _hasPasswordError = false;
+            }else if(state.error == "weak-password"){
+              _hasEmailError = false;
+              _hasPasswordError = true;
+            }else if(state.error == "les mots de passe ne sont pas identiques"){
+              _hasEmailError = false;
+              _hasPasswordError = true;
+            }else if (state.error == "email-already-in-use"){
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.error),
+                  ));
+              _hasEmailError = true;
+              _hasPasswordError = false;
+            }else{
+              _hasEmailError = true;
+              _hasPasswordError = true;
+            }
           }
         }, child: BlocBuilder<UserBloc, UserState>(
         builder: (context, snapshot) {
@@ -111,7 +131,7 @@ class RegisterPage extends StatelessWidget {
                                         fontSize: 18,
                                       )
                                   ),
-                                  validator: (value) => Validator.validateName(name: value),
+                                  validator: (value) => Validator.validateName(value),
                                 ),
 
                                 SizedBox(height: screenHeight * 0.015),
@@ -125,21 +145,24 @@ class RegisterPage extends StatelessWidget {
                                   ),
                                   textAlign: TextAlign.center,
                                   keyboardType: TextInputType.emailAddress,
-                                  decoration: const InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(vertical: 20),
+                                  decoration: InputDecoration(
+                                      contentPadding: const EdgeInsets.symmetric(vertical: 20),
                                       hintText: 'E-Mail',
-                                      focusedBorder: UnderlineInputBorder(
+                                      focusedBorder: const UnderlineInputBorder(
                                         borderSide: BorderSide(color: Color(0xFF636AF6)),
                                       ),
                                       filled: true,
-                                      fillColor:Color(0xFF1e262c),
-                                      hintStyle: TextStyle(
+                                      fillColor: const Color(0xFF1e262c),
+                                      hintStyle: const TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'ProximaNova-Regular',
                                         fontSize: 18,
-                                      )
+                                      ),
+                                      suffixIcon: _isSend && _hasEmailError
+                                          ? const Icon(Icons.error, color: Colors.red)
+                                          : null
                                   ),
-                                  validator: (value) => Validator.validateEmail(email: value),
+                                  validator: (value) => Validator.validateEmail(value),
                                 ),
 
                                 SizedBox(height: screenHeight * 0.015),
@@ -152,22 +175,25 @@ class RegisterPage extends StatelessWidget {
                                   ),
                                   controller: passwordController,
                                   textAlign: TextAlign.center,
-                                  decoration: const InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(vertical: 20),
+                                  decoration: InputDecoration(
+                                      contentPadding: const EdgeInsets.symmetric(vertical: 20),
                                       hintText: 'Mot de passe',
-                                      focusedBorder: UnderlineInputBorder(
+                                      focusedBorder: const UnderlineInputBorder(
                                         borderSide: BorderSide(color: Color(0xFF636AF6)),
                                       ),
                                       filled: true,
-                                      fillColor:Color(0xFF1e262c),
-                                      hintStyle: TextStyle(
+                                      fillColor: const Color(0xFF1e262c),
+                                      hintStyle: const TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'ProximaNova-Regular',
                                         fontSize: 18,
-                                      )
+                                      ),
+                                      suffixIcon: _isSend && _hasPasswordError
+                                          ? const Icon(Icons.error, color: Colors.red)
+                                          : null
                                   ),
                                   obscureText: true,
-                                  validator: (value) => Validator.validatePassword(password: value),
+                                  validator: (value) => Validator.validatePassword(value),
                                 ),
 
                                 const SizedBox(height:10),
@@ -180,26 +206,25 @@ class RegisterPage extends StatelessWidget {
                                   ),
                                   textAlign: TextAlign.center,
                                   controller: confirmPasswordController,
-                                  decoration: const InputDecoration(
-                                      contentPadding: EdgeInsets.symmetric(vertical: 20),
+                                  decoration: InputDecoration(
+                                      contentPadding: const EdgeInsets.symmetric(vertical: 20),
                                       hintText: 'Vérification du mot de passe',
-                                      focusedBorder: UnderlineInputBorder(
+                                      focusedBorder: const UnderlineInputBorder(
                                         borderSide: BorderSide(color: Color(0xFF636AF6)),
                                       ),
                                       filled: true,
-                                      fillColor: Color(0xFF1e262c),
-                                      hintStyle: TextStyle(
+                                      fillColor: const Color(0xFF1e262c),
+                                      hintStyle: const TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'ProximaNova-Regular',
                                         fontSize: 18,
                                       ),
-                                      suffixIconConstraints: BoxConstraints(
-                                        maxHeight: 50,
-                                        maxWidth: 50,
-                                      )
+                                      suffixIcon: _isSend && _hasPasswordError
+                                        ? const Icon(Icons.error, color: Colors.red)
+                                        : null
                                   ),
                                   obscureText: true,
-                                  validator: (value) => Validator.validateConfirmPassword(password: passwordController.text, confirmPassword: value)
+                                  validator: (value) => Validator.validateConfirmPassword(passwordController.text, value)
                                 ),
 
                                 SizedBox(height: screenHeight * 0.15),
@@ -214,9 +239,9 @@ class RegisterPage extends StatelessWidget {
                                         ),
                                       ),
                                       onPressed: () async {
-                                        if(_formKey.currentState!.validate()){
-                                          BlocProvider.of<UserBloc>(context).add(RegisterEvent(nameTextController.text, emailTextController.text, passwordController.text));
-                                        }
+                                        _isSend = true;
+                                        BlocProvider.of<UserBloc>(context).add(RegisterEvent(nameTextController.text, emailTextController.text, passwordController.text, confirmPasswordController.text));
+                                        _formKey.currentState!.validate();
                                       },
                                       child: const Text('S\'inscrire',
                                         style: TextStyle(

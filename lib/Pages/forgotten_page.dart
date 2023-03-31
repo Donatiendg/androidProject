@@ -15,8 +15,6 @@ class ForgottenPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
     return BlocProvider<UserBloc>(
       create: (_) => UserBloc(),
       child: BlocListener<UserBloc, UserState>(
@@ -83,7 +81,7 @@ class ForgottenPage extends StatelessWidget {
                                   )
                               ),
                               validator: (value) =>
-                                  Validator.validateEmail(email: value),
+                                  Validator.validateEmail(value),
                             ),
                             const SizedBox(height: 50.0),
                             SizedBox(

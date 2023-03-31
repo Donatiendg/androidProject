@@ -8,7 +8,12 @@ import '../validator.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
+
   final _formKey = GlobalKey<FormState>();
+
+  bool _isSend = false;
+  bool _hasEmailError = false;
+  bool _hasPasswordError = false;
 
   final TextEditingController emailTextController = TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
@@ -26,11 +31,19 @@ class LoginPage extends StatelessWidget {
         if(state is Success){
           BlocProvider.of<ManagerBloc>(context).add(HomePageEvent(state.user));
         }else if (state is ErrorState){
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.error)));
+          if(state.error == "invalid-email"){
+            _hasEmailError = true;
+            _hasPasswordError = false;
+          }else if(state.error == "wrong-password"){
+            _hasEmailError = false;
+            _hasPasswordError = true;
+          }else{
+            _hasEmailError = true;
+            _hasPasswordError = true;
+          }
         }
       }, child: BlocBuilder<UserBloc, UserState>(
-        builder: (context, snapshot) {
+        builder: (context, state) {
           return GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: Scaffold(
@@ -80,11 +93,11 @@ class LoginPage extends StatelessWidget {
 
                               SizedBox(height: screenHeight * 0.04),
 
-                              //Email
                               Form(
                                 key: _formKey,
                                 child: Column(
                                   children: [
+                                    //Mail
                                     TextFormField(
                                       controller: emailTextController,
                                       style: const TextStyle(
@@ -94,22 +107,26 @@ class LoginPage extends StatelessWidget {
                                       ),
                                       textAlign: TextAlign.center,
                                       keyboardType: TextInputType.emailAddress,
-                                      decoration: const InputDecoration(
-                                          contentPadding: EdgeInsets.symmetric(vertical: 20),
-                                          focusedBorder: UnderlineInputBorder(
+                                      decoration: InputDecoration(
+                                          contentPadding: const EdgeInsets.symmetric(vertical: 20),
+                                          focusedBorder: const UnderlineInputBorder(
                                             borderSide: BorderSide(color: Color(0xFF636AF6)),
                                           ),
                                           hintText: 'E-mail',
                                           filled: true,
-                                          fillColor: Color(0xFF1e262c),
-                                          hintStyle: TextStyle(
+                                          fillColor: const Color(0xFF1e262c),
+                                          hintStyle: const TextStyle(
                                             color: Colors.white,
                                             fontFamily: 'ProximaNova-Regular',
                                             fontSize: 18,
-                                          )
+                                          ),
+                                          suffixIcon: _isSend && _hasEmailError
+                                              ? const Icon(Icons.error, color: Colors.red)
+                                              : null
                                       ),
-                                      validator: (value) => Validator.validateEmail(email: value),
+                                      validator: (value) => Validator.validateEmail(value),
                                     ),
+
                                     SizedBox(height: screenHeight * 0.015),
                                     //Mot de passe
                                     TextFormField(
@@ -121,23 +138,26 @@ class LoginPage extends StatelessWidget {
                                       ),
                                       textAlign: TextAlign.center,
                                       obscureText: true,
-                                      decoration: const InputDecoration(
-                                          contentPadding: EdgeInsets.symmetric(
+                                      decoration: InputDecoration(
+                                          contentPadding: const EdgeInsets.symmetric(
                                               vertical: 20),
                                           hintText: 'Mot de passe',
-                                          focusedBorder: UnderlineInputBorder(
+                                          focusedBorder: const UnderlineInputBorder(
                                             borderSide: BorderSide(color: Color(0xFF636AF6)),
                                           ),
                                           filled: true,
-                                          fillColor: Color(0xFF1e262c),
-                                          hintStyle: TextStyle(
+                                          fillColor: const Color(0xFF1e262c),
+                                          hintStyle: const TextStyle(
                                             color: Colors.white,
                                             fontFamily: 'ProximaNova-Regular',
                                             fontSize: 18,
-                                          )
+                                          ),
+                                          suffixIcon: _isSend && _hasPasswordError
+                                              ? const Icon(Icons.error, color: Colors.red)
+                                              : null
                                       ),
                                       validator: (value) =>
-                                          Validator.validatePassword(password: value),
+                                          Validator.validatePassword(value),
                                     ),
 
                                     SizedBox(height: screenHeight * 0.15),
@@ -153,11 +173,11 @@ class LoginPage extends StatelessWidget {
                                           ),
                                         ),
                                         onPressed: () {
-                                          if (_formKey.currentState!.validate()) {
-                                            BlocProvider.of<UserBloc>(context).add(
+                                          _isSend = true;
+                                          BlocProvider.of<UserBloc>(context).add(
                                                 LogInEvent(emailTextController.text,
                                                     passwordTextController.text));
-                                          }
+                                          _formKey.currentState!.validate();
                                         },
                                         child: const Text('Se connecter',
                                           style: TextStyle(

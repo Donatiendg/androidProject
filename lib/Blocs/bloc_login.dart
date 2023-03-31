@@ -17,8 +17,9 @@ class RegisterEvent extends UserEvent{
   final String name;
   final String mail;
   final String password;
+  final String confirmPassword;
 
-  RegisterEvent(this.name, this.mail, this.password);
+  RegisterEvent(this.name, this.mail, this.password, this.confirmPassword);
 }
 
 class ForgottenUserEvent extends UserEvent{
@@ -75,21 +76,25 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   Future<void> _registerUser(event, emit) async {
     emit(Loading());
-    try{
-      final userCredential = await auth.createUserWithEmailAndPassword(
-        email: event.mail,
-        password: event.password,
-      );
-      final databaseReference = FirebaseDatabase.instance.reference();
-      await databaseReference.child('users').child(userCredential.user!.uid).set({
-        "ID": userCredential.user?.email,
-        "wishlist": [],
-        "likes": [],
-      });
-      user = userCredential.user;
-      emit(Success(user));
-    } on FirebaseAuthException catch (e) {
-      emit(ErrorState(e.code));
+    if(event.password != event.confirmPassword){
+      emit(ErrorState("les mots de passe ne sont pas identiques"));
+    }else{
+      try{
+        final userCredential = await auth.createUserWithEmailAndPassword(
+          email: event.mail,
+          password: event.password,
+        );
+        final databaseReference = FirebaseDatabase.instance.reference();
+        await databaseReference.child('users').child(userCredential.user!.uid).set({
+          "ID": userCredential.user?.email,
+          "wishlist": [],
+          "likes": [],
+        });
+        user = userCredential.user;
+        emit(Success(user));
+      } on FirebaseAuthException catch (e) {
+        emit(ErrorState(e.code));
+      }
     }
   }
 
